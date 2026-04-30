@@ -1,0 +1,4052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Operator Package Portal — Construction 95 LLC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- ============================================================ -->
+<!-- CONFIG BLOCK — EDIT EVERYTHING IN HERE TO REBRAND TO A NEW    -->
+<!-- CLIENT. NOTHING ELSE IN THE FILE NEEDS TO CHANGE.             -->
+<!-- ============================================================ -->
+<script>
+const CONFIG = {
+
+  // ---------- CLIENT IDENTITY ----------
+  client: {
+    legalName: "Construction 95 LLC",
+    displayName: "Construction 95",
+    dba: null,
+    license: "CGC1524891",
+    taxIdType: "W-9",
+    address: {
+      street: "1900 N. State Road 7, Suite 312",
+      city: "Lauderhill",
+      state: "FL",
+      zip: "33319"
+    },
+    serviceArea: "Broward, Miami-Dade, Palm Beach",
+    trade: "General Contractor",
+    revenueRange: "$1M – $2M",
+    employeeCount: 3,
+    fieldOfficeSplit: "1 office, 2 field",
+    yearsInBusiness: 7,
+    primaryContact: {
+      name: "Mendel Ezagui",
+      role: "Founder & CEO",
+      email: "mendel@construction95.com",
+      phone: "(954) 555-0142"
+    },
+    operatorContact: {
+      name: "Levi Ezagui",
+      role: "Director of Business Development",
+      email: "levi@construction95.com",
+      phone: "(347) 295-5105"
+    },
+    accountingPlatform: "QuickBooks Online",
+    pmPlatform: "None (Drive + Email)",
+    fileStorage: "Google Drive",
+    primaryComm: "Email + WhatsApp"
+  },
+
+  // ---------- VRL (THE SERVICE PROVIDER — DO NOT EDIT) ----------
+  provider: {
+    name: "Venture Research Lab",
+    short: "VRL",
+    tagline: "Operator Package",
+    operator: "Levi Ezagui",
+    operatorEmail: "levi@vrl.studio",
+    supportSlack: "#vrl-support",
+    supportText: "(347) 295-5105"
+  },
+
+  // ---------- ENGAGEMENT ----------
+  package: {
+    tier: "Operator Package",
+    quarterlyFee: 15000,
+    monthlyEffective: 5000,
+    activatedDate: "2026-04-01",
+    nextQuarterlyReview: "2026-07-15",
+    automationsActive: [1, 4, 8, 10],
+    automationsAllowedThisQuarter: 4,
+    slaHours: 24,
+    // Per-automation deployment progress. Set the current day (0-14) for each.
+    // 14 = fully deployed and live. Anything less = mid-deployment.
+    deploymentProgress: {
+      1:  14,   // Lead Intake — live since Apr 8
+      4:  14,   // RFI Engine — live since Apr 15
+      8:  14,   // AP Extract — live since Apr 22
+      10: 14    // Lien Tracker — live since Apr 29
+    }
+  },
+
+  // ---------- PROJECTS (REAL, EDITABLE) ----------
+  projects: [
+    { id: "C95-2401", name: "Pembroke Pines Kitchen Renovation", value: 87000,  status: "Active",  phase: "Mid-construction", firstWorkDate: "2026-02-12", county: "Broward",  noc: true,  bonded: false },
+    { id: "C95-2402", name: "Hollywood Condo Full Gut",          value: 245000, status: "Active",  phase: "Demo",              firstWorkDate: "2026-03-04", county: "Broward",  noc: true,  bonded: false },
+    { id: "C95-2403", name: "Sunrise Commercial Buildout",        value: 412000, status: "Active",  phase: "Permit",            firstWorkDate: "2026-04-22", county: "Broward",  noc: true,  bonded: true  },
+    { id: "C95-2404", name: "Plantation Residential Addition",    value: 156000, status: "Closeout",phase: "Punch list",        firstWorkDate: "2025-11-08", county: "Broward",  noc: true,  bonded: false },
+    { id: "C95-2405", name: "Coral Springs Office TI",            value: 98000,  status: "Bidding", phase: "Pre-award",         firstWorkDate: null,         county: "Broward",  noc: false, bonded: false }
+  ],
+
+  // ---------- KPI BASELINE & CURRENT (ROLLING 30 DAYS) ----------
+  kpis: {
+    hoursSavedThisWeek: 41,
+    hoursSavedYTD: 612,
+    dollarValueSavedYTD: 39400,
+    avgItemProcessingSec: 38,
+    successRate: 0.94,
+    operatorEditRate: 0.08,
+    activeRFIs: 7,
+    avgRFITurnDays: 2.1,
+    apItemsThisMonth: 38,
+    apReviewedAutoApproved: 0.79,
+    leadResponseAvgSec: 47,
+    leadsThisMonth: 14,
+    leadsClassifiedCommercial: 6,
+    leadsClassifiedResidential: 7,
+    leadsClassifiedSpam: 1
+  },
+
+  // ---------- LOADED LABOR RATES (USED FOR ROI MATH) ----------
+  loadedRates: {
+    owner: 120,
+    pm: 85,
+    estimator: 65,
+    admin: 45,
+    super: 75
+  }
+};
+</script>
+<!-- ============================================================ -->
+<!-- END CONFIG. EVERYTHING BELOW RENDERS FROM THE OBJECT ABOVE.   -->
+<!-- ============================================================ -->
+
+<style>
+  :root {
+    --green-deepest: #0d1f15;
+    --green-deep: #15301f;
+    --green-primary: #1e4232;
+    --green-mid: #2a5a44;
+    --green-soft: #3d7256;
+    --gold: #c9a961;
+    --gold-bright: #d9bb74;
+    --gold-soft: #a78a48;
+    --cream: #f5ede0;
+    --cream-deep: #ebe1cf;
+    --parchment: #faf6ed;
+    --rust: #8b3a1f;
+    --rust-soft: #a85539;
+    --ink: #1a1a17;
+    --ink-soft: #4a4a45;
+    --ink-faint: #8a8a82;
+    --line: rgba(201, 169, 97, 0.18);
+    --line-strong: rgba(201, 169, 97, 0.35);
+    --bg-card: rgba(245, 237, 224, 0.04);
+
+    /* === HI-VIS STATUS TOKENS (semantic; not brand) === */
+    /* Green = on track / healthy. Amber = at risk / needs attention. */
+    /* Red = overdue / critical. Blue = neutral information / in-progress. */
+    --status-ontrack: #4ade80;
+    --status-ontrack-bg: rgba(74, 222, 128, 0.14);
+    --status-ontrack-border: rgba(74, 222, 128, 0.35);
+    --status-atrisk: #fbbf24;
+    --status-atrisk-bg: rgba(251, 191, 36, 0.14);
+    --status-atrisk-border: rgba(251, 191, 36, 0.4);
+    --status-overdue: #f87171;
+    --status-overdue-bg: rgba(248, 113, 113, 0.14);
+    --status-overdue-border: rgba(248, 113, 113, 0.4);
+    --status-info: #60a5fa;
+    --status-info-bg: rgba(96, 165, 250, 0.14);
+    --status-info-border: rgba(96, 165, 250, 0.4);
+
+    /* Surface tokens for theme switching */
+    --surface-base: var(--green-deepest);
+    --surface-elev: var(--green-deep);
+    --surface-card: var(--green-primary);
+    --text-primary: var(--cream);
+    --text-secondary: rgba(245, 237, 224, 0.78);
+    --text-faint: var(--ink-faint);
+    --doc-paper: var(--parchment);
+    --doc-ink: var(--ink);
+  }
+
+  /* === LIGHT THEME === */
+  [data-theme="light"] {
+    --green-deepest: #faf6ed;
+    --green-deep: #ffffff;
+    --green-primary: #fbf7ee;
+    --green-mid: #f0e8d6;
+    --green-soft: #d9cfb8;
+    --gold: #8b6f2e;          /* AA-passing on cream */
+    --gold-bright: #6b551f;   /* AAA on cream for emphasis */
+    --gold-soft: #a78a48;
+    --cream: #1a1a17;         /* primary text becomes near-black */
+    --cream-deep: #2a2a25;
+    --parchment: #faf6ed;
+    --rust: #b91c1c;
+    --rust-soft: #b91c1c;
+    --ink: #1a1a17;
+    --ink-soft: #4a4a45;
+    --ink-faint: #6b6b62;     /* AA-passing on cream */
+    --line: rgba(139, 111, 46, 0.22);
+    --line-strong: rgba(139, 111, 46, 0.4);
+    --bg-card: rgba(26, 26, 23, 0.03);
+
+    /* Hi-vis status colors retuned for light bg */
+    --status-ontrack: #15803d;
+    --status-ontrack-bg: rgba(21, 128, 61, 0.12);
+    --status-ontrack-border: rgba(21, 128, 61, 0.4);
+    --status-atrisk: #b45309;
+    --status-atrisk-bg: rgba(180, 83, 9, 0.12);
+    --status-atrisk-border: rgba(180, 83, 9, 0.4);
+    --status-overdue: #b91c1c;
+    --status-overdue-bg: rgba(185, 28, 28, 0.1);
+    --status-overdue-border: rgba(185, 28, 28, 0.4);
+    --status-info: #1d4ed8;
+    --status-info-bg: rgba(29, 78, 216, 0.1);
+    --status-info-border: rgba(29, 78, 216, 0.4);
+
+    --surface-base: #faf6ed;
+    --surface-elev: #ffffff;
+    --surface-card: #fbf7ee;
+    --text-primary: #1a1a17;
+    --text-secondary: #4a4a45;
+    --text-faint: #6b6b62;
+    --doc-paper: #ffffff;
+    --doc-ink: #1a1a17;
+  }
+  [data-theme="light"] body {
+    background: var(--surface-base) !important;
+  }
+
+  /* Tabular figures across all numeric content */
+  body, .kpi-value, .mono, .deadline-date, .timeline-day,
+  .timeline-progress-pct, .field-value {
+    font-feature-settings: "tnum" 1, "lnum" 1;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--green-deepest);
+    color: var(--cream);
+    font-family: 'Jost', -apple-system, sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.55;
+    letter-spacing: 0.01em;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background:
+      radial-gradient(ellipse at top right, rgba(201, 169, 97, 0.06), transparent 60%),
+      radial-gradient(ellipse at bottom left, rgba(30, 66, 50, 0.4), transparent 50%),
+      var(--green-deepest);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, .display {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    line-height: 1.15;
+  }
+
+  .mono { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; letter-spacing: 0; }
+
+  /* ============ LAYOUT ============ */
+  .app {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+  }
+
+  /* ============ SIDEBAR ============ */
+  .sidebar {
+    background: var(--green-deep);
+    border-right: 1px solid var(--line);
+    padding: 32px 24px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .brand {
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 28px;
+  }
+  .brand-mark {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .brand-v {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+    font-style: italic;
+  }
+  .brand-name {
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--cream);
+    font-weight: 400;
+  }
+  .brand-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-faint);
+    margin-top: 6px;
+  }
+
+  .client-card {
+    margin-bottom: 28px;
+    padding: 16px 14px;
+    background: rgba(245, 237, 224, 0.03);
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--gold);
+  }
+  .client-card .label {
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+  }
+  .client-card .name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    color: var(--cream);
+    font-weight: 500;
+    line-height: 1.1;
+  }
+  .client-card .meta {
+    font-size: 11px;
+    color: var(--ink-faint);
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  .nav-section {
+    margin-bottom: 22px;
+  }
+  .nav-label {
+    font-size: 9px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 10px;
+    padding-left: 4px;
+  }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--cream);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    margin-bottom: 2px;
+    border-left: 2px solid transparent;
+  }
+  .nav-link:hover {
+    background: rgba(201, 169, 97, 0.08);
+    color: var(--gold-bright);
+  }
+  .nav-link.active {
+    background: rgba(201, 169, 97, 0.1);
+    color: var(--gold-bright);
+    border-left-color: var(--gold);
+  }
+  .nav-link .badge {
+    font-size: 9px;
+    background: var(--gold);
+    color: var(--green-deepest);
+    padding: 1px 6px;
+    border-radius: 1px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  .sidebar-footer {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 10px;
+    color: var(--ink-faint);
+    line-height: 1.6;
+  }
+  .sidebar-footer strong { color: var(--cream); font-weight: 400; }
+
+  /* ============ MAIN ============ */
+  .main {
+    padding: 0;
+  }
+
+  .topbar {
+    padding: 18px 48px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(13, 31, 21, 0.7);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .topbar-left .crumb {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .topbar-left .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--cream);
+    margin-top: 2px;
+  }
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .status-pill {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--status-ontrack);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .status-pill::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--status-ontrack);
+    box-shadow: 0 0 8px var(--status-ontrack-bg);
+  }
+  .topbar-action {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    cursor: pointer;
+    padding: 6px 14px;
+    border: 1px solid var(--line-strong);
+    transition: all 0.15s;
+  }
+  .topbar-action:hover {
+    background: var(--gold);
+    color: var(--green-deepest);
+  }
+
+  .page {
+    padding: 40px 48px 80px;
+    max-width: 1400px;
+    display: none;
+  }
+  .page.active { display: block; }
+
+  /* ============ HEADERS ============ */
+  .section-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    color: var(--cream);
+    line-height: 1.1;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .section-title .italic { font-style: italic; color: var(--gold-bright); }
+  .section-sub {
+    font-size: 14px;
+    color: var(--ink-faint);
+    max-width: 640px;
+    margin-bottom: 36px;
+  }
+
+  /* ============ KPI GRID ============ */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-bottom: 32px;
+  }
+  .kpi {
+    padding: 22px 24px;
+    background: var(--green-deep);
+  }
+  .kpi-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+  }
+  .kpi-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    color: var(--gold-bright);
+    line-height: 1;
+    font-weight: 500;
+  }
+  .kpi-value .unit {
+    font-size: 14px;
+    color: var(--ink-faint);
+    font-style: italic;
+    margin-left: 4px;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .kpi-trend {
+    font-size: 11px;
+    color: var(--status-ontrack);
+    margin-top: 8px;
+    letter-spacing: 0.04em;
+  }
+  .kpi-trend.warn { color: var(--status-atrisk); }
+  .kpi-trend.neutral { color: var(--text-faint); }
+
+  /* ============ CARDS ============ */
+  .card {
+    background: var(--green-deep);
+    border: 1px solid var(--line);
+    padding: 28px;
+    margin-bottom: 24px;
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+  }
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    color: var(--cream);
+    font-weight: 500;
+  }
+  .card-title .num {
+    color: var(--gold);
+    font-style: italic;
+    margin-right: 8px;
+  }
+  .card-meta {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* ============ TWO-COL ============ */
+  .two-col {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  /* ============ ACTIVITY FEED ============ */
+  .feed-item {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: 20px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+  .feed-item:last-child { border-bottom: none; }
+  .feed-time {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding-top: 2px;
+  }
+  .feed-text {
+    font-size: 13px;
+    color: var(--cream);
+    line-height: 1.5;
+  }
+  .feed-text .auto {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--gold);
+    font-size: 14px;
+  }
+  .feed-status {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--line-strong);
+    color: var(--gold);
+    border-radius: 1px;
+  }
+  .feed-status.ok {
+    color: var(--status-ontrack);
+    border-color: var(--status-ontrack-border);
+    background: var(--status-ontrack-bg);
+  }
+  .feed-status.flag {
+    color: var(--status-atrisk);
+    border-color: var(--status-atrisk-border);
+    background: var(--status-atrisk-bg);
+  }
+
+  /* ============ DEADLINE TABLE ============ */
+  .deadline-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: center;
+  }
+  .deadline-row:last-child { border-bottom: none; }
+  .deadline-project {
+    font-size: 13px;
+    color: var(--cream);
+  }
+  .deadline-project .small {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: block;
+    margin-top: 2px;
+  }
+  .deadline-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--cream);
+  }
+  .deadline-days {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 1px;
+    font-weight: 500;
+    min-width: 80px;
+    text-align: center;
+  }
+  .days-safe {
+    background: var(--status-ontrack-bg);
+    color: var(--status-ontrack);
+    border: 1px solid var(--status-ontrack-border);
+  }
+  .days-soon {
+    background: var(--status-atrisk-bg);
+    color: var(--status-atrisk);
+    border: 1px solid var(--status-atrisk-border);
+  }
+  .days-urgent {
+    background: var(--status-overdue-bg);
+    color: var(--status-overdue);
+    border: 1px solid var(--status-overdue-border);
+  }
+
+  /* ============ AUTOMATION CARDS ============ */
+  .auto-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .auto-card {
+    background: var(--green-deep);
+    border: 1px solid var(--line);
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .auto-card:hover {
+    border-color: var(--gold-soft);
+    background: rgba(30, 66, 50, 0.5);
+  }
+  .auto-card.active::before {
+    content: 'ACTIVE';
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    color: var(--green-deepest);
+    background: var(--gold);
+    padding: 2px 8px;
+    font-weight: 500;
+  }
+  .auto-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .auto-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--cream);
+    margin-bottom: 10px;
+    line-height: 1.15;
+    font-weight: 500;
+    padding-right: 70px;
+  }
+  .auto-pain {
+    font-size: 12px;
+    color: var(--ink-faint);
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+  .auto-tier {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+  }
+
+  /* ============ CATALOG GRID ============ */
+  .catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .catalog-item {
+    background: var(--green-deep);
+    border: 1px solid var(--line);
+    padding: 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .catalog-item:hover {
+    border-color: var(--gold-soft);
+  }
+  .catalog-item.active {
+    border-left: 3px solid var(--gold);
+  }
+  .catalog-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .catalog-name {
+    font-size: 13px;
+    color: var(--cream);
+    line-height: 1.3;
+    margin-bottom: 8px;
+    font-weight: 400;
+  }
+  .catalog-tier {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* ============ BUILD PACK DETAIL ============ */
+  .buildpack {
+    margin-top: 32px;
+    background: var(--green-deep);
+    border: 1px solid var(--line);
+  }
+  .buildpack-header {
+    padding: 32px 40px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(201, 169, 97, 0.05) 0%, transparent 100%);
+  }
+  .buildpack-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .buildpack-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    color: var(--cream);
+    line-height: 1.1;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .buildpack-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--gold-soft);
+  }
+
+  .bp-section {
+    padding: 28px 40px;
+    border-bottom: 1px solid var(--line);
+  }
+  .bp-section:last-child { border-bottom: none; }
+  .bp-section-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .bp-section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--cream);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .bp-section p {
+    font-size: 14px;
+    color: var(--cream);
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+  .bp-section ol, .bp-section ul {
+    padding-left: 20px;
+    margin-bottom: 12px;
+  }
+  .bp-section li {
+    font-size: 13px;
+    color: var(--cream);
+    margin-bottom: 8px;
+    line-height: 1.55;
+  }
+  .bp-section li strong {
+    color: var(--gold-bright);
+    font-weight: 500;
+  }
+
+  /* ============ ARCHITECTURE DIAGRAM ============ */
+  .arch-diagram {
+    background: var(--green-deepest);
+    border: 1px solid var(--line);
+    padding: 32px;
+    margin: 16px 0;
+    overflow-x: auto;
+  }
+
+  /* ============ PROMPT BLOCK ============ */
+  .prompt-block {
+    background: var(--green-deepest);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--gold);
+    padding: 20px 24px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--cream);
+    white-space: pre-wrap;
+    overflow-x: auto;
+    max-height: 480px;
+    overflow-y: auto;
+  }
+  .prompt-block .key { color: var(--gold-bright); }
+  .prompt-block .var { color: var(--rust-soft); font-style: italic; }
+  .prompt-block .comment { color: var(--ink-faint); font-style: italic; }
+
+  /* ============ DOC LIBRARY ============ */
+  .doc-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .doc-card {
+    background: var(--green-deep);
+    border: 1px solid var(--line);
+    padding: 24px;
+  }
+  .doc-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  .doc-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--cream);
+  }
+  .doc-meta {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .doc-body {
+    background: var(--parchment);
+    color: var(--ink);
+    padding: 24px 28px;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 0;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  .doc-body h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    color: var(--green-primary);
+    margin: 14px 0 6px;
+    font-weight: 600;
+  }
+  .doc-body h4:first-child { margin-top: 0; }
+  .doc-body strong { color: var(--green-deep); font-weight: 500; }
+  .doc-body .field-row {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 8px;
+    margin-bottom: 4px;
+    font-size: 11px;
+  }
+  .doc-body .field-row .label {
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 10px;
+  }
+  .doc-body hr {
+    border: none;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    margin: 12px 0;
+  }
+  .doc-body p { margin-bottom: 8px; font-size: 12px; }
+
+  /* ============ SETTINGS PANEL ============ */
+  .settings-block {
+    background: var(--green-deepest);
+    border: 1px solid var(--line);
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .settings-block h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--gold-bright);
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 10px;
+  }
+  .field-grid {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 12px 24px;
+    margin-bottom: 8px;
+  }
+  .field-grid .field-label {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding-top: 4px;
+  }
+  .field-grid .field-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--cream);
+    background: rgba(245, 237, 224, 0.04);
+    padding: 6px 12px;
+    border-left: 1px solid var(--line-strong);
+    word-break: break-all;
+  }
+  .config-note {
+    font-size: 12px;
+    color: var(--gold-bright);
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    padding: 16px 20px;
+    background: rgba(201, 169, 97, 0.06);
+    border-left: 2px solid var(--gold);
+    margin-bottom: 24px;
+  }
+
+  /* ============ GUARDRAIL CALLOUTS ============ */
+  .guardrail {
+    background: rgba(139, 58, 31, 0.08);
+    border-left: 3px solid var(--rust);
+    padding: 14px 20px;
+    margin: 12px 0;
+    font-size: 12px;
+    color: var(--cream);
+  }
+  .guardrail-label {
+    font-size: 9px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--rust-soft);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .florida-flag {
+    background: rgba(201, 169, 97, 0.06);
+    border-left: 3px solid var(--gold);
+    padding: 14px 20px;
+    margin: 12px 0;
+    font-size: 12px;
+    color: var(--cream);
+  }
+  .florida-flag-label {
+    font-size: 9px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  /* ============ TABS WITHIN BUILDPACK ============ */
+  .bp-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--line);
+    background: rgba(13, 31, 21, 0.5);
+  }
+  .bp-tab {
+    padding: 14px 22px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  .bp-tab.active {
+    color: var(--gold-bright);
+    border-bottom-color: var(--gold);
+  }
+  .bp-tab:hover { color: var(--cream); }
+  .bp-tab-content { display: none; }
+  .bp-tab-content.active { display: block; }
+
+  /* Modal-style overlay close */
+  .close-pack {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    width: 36px;
+    height: 36px;
+    background: var(--green-deep);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    cursor: pointer;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    display: none;
+  }
+  .buildpack.open + .close-pack,
+  .buildpack[style*="block"] + .close-pack { display: flex; }
+
+  /* ============ BUNDLE STRIP ============ */
+  .bundle-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-bottom: 32px;
+  }
+  .bundle-cell {
+    background: var(--green-deep);
+    padding: 20px 22px;
+  }
+  .bundle-cell .label {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 6px;
+  }
+  .bundle-cell .value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--gold-bright);
+    line-height: 1.15;
+    font-weight: 500;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--green-deepest); }
+  ::-webkit-scrollbar-thumb { background: var(--line-strong); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--gold-soft); }
+
+  /* ============ SETUP / INTAKE FORM ============ */
+  .setup-section {
+    margin-bottom: 28px;
+    padding: 28px 32px;
+    background: var(--surface-elev);
+    border: 1px solid var(--line);
+  }
+  .setup-section h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--text-primary);
+    font-weight: 500;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 12px;
+  }
+  .setup-help {
+    font-size: 12px;
+    color: var(--text-faint);
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    margin: 12px 0 16px;
+  }
+  .setup-field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 20px;
+    margin-top: 18px;
+  }
+  .setup-field-grid label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 500;
+  }
+  .setup-field-grid label.full {
+    grid-column: 1 / -1;
+  }
+  .setup-field-grid input,
+  .setup-field-grid select {
+    background: var(--surface-base);
+    border: 1px solid var(--line);
+    color: var(--text-primary);
+    padding: 12px 14px;
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0;
+    text-transform: none;
+    font-weight: 400;
+    min-height: 48px;
+    border-radius: 0;
+    transition: border-color 0.15s, background-color 0.15s;
+  }
+  .setup-field-grid input:focus,
+  .setup-field-grid select:focus {
+    outline: none;
+    border-color: var(--gold);
+    background: var(--surface-elev);
+  }
+  .setup-field-grid input::placeholder {
+    color: var(--text-faint);
+    opacity: 0.6;
+  }
+  .setup-block-label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 500;
+    margin-top: 24px;
+    margin-bottom: 12px;
+  }
+  .setup-checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 16px;
+  }
+  .setup-checkbox-grid label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--surface-base);
+    border: 1px solid var(--line);
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-primary);
+    min-height: 48px;
+    transition: border-color 0.15s;
+    line-height: 1.35;
+  }
+  .setup-checkbox-grid label:hover {
+    border-color: var(--gold-soft);
+  }
+  .setup-checkbox-grid input[type="checkbox"] {
+    margin-top: 3px;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--gold);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .setup-checkbox-grid label .auto-num {
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    margin-right: 4px;
+  }
+
+  .setup-project-row {
+    background: var(--surface-base);
+    border: 1px solid var(--line);
+    padding: 18px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .setup-project-row .setup-project-remove {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    color: var(--status-overdue);
+    cursor: pointer;
+    padding: 6px 12px;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-family: inherit;
+    min-height: 36px;
+  }
+  .setup-project-row .setup-project-remove:hover {
+    background: var(--status-overdue-bg);
+    border-color: var(--status-overdue-border);
+  }
+  .setup-project-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px 16px;
+  }
+  .setup-project-grid label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .setup-project-grid label.full { grid-column: 1 / -1; }
+  .setup-project-grid input,
+  .setup-project-grid select {
+    background: var(--surface-elev);
+    border: 1px solid var(--line);
+    color: var(--text-primary);
+    padding: 10px 12px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+    min-height: 44px;
+  }
+  .setup-project-grid input:focus,
+  .setup-project-grid select:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
+  .setup-project-checkboxes {
+    display: flex;
+    gap: 18px;
+    grid-column: 1 / -1;
+    padding: 4px 0;
+  }
+  .setup-project-checkboxes label {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    font-size: 10px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    letter-spacing: 0.14em;
+  }
+  .setup-project-checkboxes input {
+    width: 16px; height: 16px;
+    accent-color: var(--gold);
+    min-height: auto;
+    padding: 0;
+  }
+
+  .setup-actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+  }
+  .setup-btn-primary,
+  .setup-btn-secondary {
+    padding: 14px 22px;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 0;
+    min-height: 48px;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  .setup-btn-primary {
+    background: var(--gold);
+    color: var(--surface-base);
+    border: 1px solid var(--gold);
+  }
+  .setup-btn-primary:hover {
+    background: var(--gold-bright);
+    border-color: var(--gold-bright);
+  }
+  .setup-btn-secondary {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--line-strong);
+  }
+  .setup-btn-secondary:hover {
+    background: var(--gold);
+    color: var(--surface-base);
+    border-color: var(--gold);
+  }
+
+  .setup-banner {
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    border-left: 3px solid;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .setup-banner.success {
+    border-left-color: var(--status-ontrack);
+    background: var(--status-ontrack-bg);
+    color: var(--text-primary);
+  }
+  .setup-banner.error {
+    border-left-color: var(--status-overdue);
+    background: var(--status-overdue-bg);
+    color: var(--text-primary);
+  }
+  .setup-banner.info {
+    border-left-color: var(--status-info);
+    background: var(--status-info-bg);
+    color: var(--text-primary);
+  }
+
+  .first-time-banner {
+    background: var(--status-info-bg);
+    border-left: 3px solid var(--status-info);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .first-time-banner .ftb-text {
+    font-size: 13px;
+    color: var(--text-primary);
+    flex: 1;
+  }
+  .first-time-banner .ftb-text strong {
+    color: var(--status-info);
+    font-weight: 500;
+  }
+  .first-time-banner .ftb-action {
+    background: var(--status-info);
+    color: var(--surface-base);
+    padding: 12px 18px;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    font-weight: 500;
+    min-height: 48px;
+  }
+
+  .config-export-block {
+    background: var(--surface-base);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--gold);
+    padding: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    white-space: pre;
+    overflow-x: auto;
+    max-height: 480px;
+    overflow-y: auto;
+  }
+
+  @media (max-width: 900px) {
+    .setup-section { padding: 22px 18px; }
+    .setup-field-grid { grid-template-columns: 1fr; gap: 14px; }
+    .setup-checkbox-grid { grid-template-columns: 1fr; }
+    .setup-project-grid { grid-template-columns: 1fr; }
+    .setup-actions { flex-direction: column; }
+    .setup-btn-primary, .setup-btn-secondary { width: 100%; }
+  }
+  
+  .timeline-wrap {
+    margin-top: 8px;
+  }
+  .timeline-progress {
+    background: var(--green-deepest);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--gold);
+    padding: 18px 22px;
+    margin-bottom: 28px;
+  }
+  .timeline-progress-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+  }
+  .timeline-progress-label {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .timeline-progress-pct {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--gold-bright);
+  }
+  .timeline-progress-pct .small {
+    font-size: 12px;
+    color: var(--ink-faint);
+    font-style: italic;
+    margin-left: 6px;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .timeline-bar {
+    height: 5px;
+    background: rgba(245, 237, 224, 0.06);
+    position: relative;
+    overflow: hidden;
+  }
+  .timeline-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--status-ontrack) 0%, var(--status-ontrack) 100%);
+    transition: width 0.2s ease;
+    box-shadow: 0 0 8px var(--status-ontrack-bg);
+  }
+  .timeline-summary-row {
+    display: flex;
+    gap: 24px;
+    margin-top: 14px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+  .timeline-summary-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--ink-faint);
+  }
+  .timeline-summary-item strong {
+    color: var(--cream);
+    font-weight: 500;
+  }
+  .timeline-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .timeline-dot.complete { background: var(--status-ontrack); }
+  .timeline-dot.in-progress { background: var(--status-info); box-shadow: 0 0 6px var(--status-info); }
+  .timeline-dot.pending { background: rgba(201, 169, 97, 0.25); }
+
+  .timeline-list {
+    position: relative;
+    list-style: none;
+    padding: 8px 0 8px 0;
+    margin: 0;
+  }
+  .timeline-list::before {
+    content: '';
+    position: absolute;
+    left: 17px;
+    top: 18px;
+    bottom: 18px;
+    width: 2px;
+    background:
+      linear-gradient(180deg,
+        var(--status-ontrack) 0%,
+        var(--status-ontrack) var(--progress-pct, 0%),
+        var(--line-strong) var(--progress-pct, 0%),
+        var(--line-strong) 100%);
+    border-radius: 1px;
+  }
+  .timeline-node {
+    position: relative;
+    padding: 0 0 12px 50px;
+    list-style: none;
+  }
+  .timeline-marker {
+    position: absolute;
+    left: 6px;
+    top: 6px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--status-ontrack);
+    background: var(--surface-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    z-index: 2;
+    transition: all 0.18s;
+  }
+  .timeline-node.complete .timeline-marker {
+    background: var(--status-ontrack);
+    color: var(--surface-base);
+    border-color: var(--status-ontrack);
+  }
+  .timeline-node.in-progress .timeline-marker {
+    background: var(--surface-base);
+    border-color: var(--status-info);
+    color: var(--status-info);
+    box-shadow: 0 0 0 4px var(--status-info-bg);
+    animation: pulseRing 2s ease-in-out infinite;
+  }
+  .timeline-node.pending .timeline-marker {
+    border-color: var(--text-faint);
+    color: var(--text-faint);
+    background: var(--surface-base);
+    opacity: 0.6;
+  }
+  @keyframes pulseRing {
+    0%, 100% { box-shadow: 0 0 0 4px var(--status-info-bg); }
+    50%      { box-shadow: 0 0 0 8px rgba(96, 165, 250, 0.04); }
+  }
+
+  .timeline-summary {
+    display: grid;
+    grid-template-columns: 60px 1fr auto auto;
+    gap: 14px;
+    align-items: center;
+    padding: 10px 16px;
+    background: rgba(245, 237, 224, 0.02);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .timeline-summary:hover {
+    background: rgba(245, 237, 224, 0.05);
+    border-color: var(--line-strong);
+  }
+  .timeline-node.expanded .timeline-summary {
+    background: rgba(201, 169, 97, 0.06);
+    border-color: var(--gold-soft);
+  }
+  .timeline-day {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .timeline-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    color: var(--cream);
+    line-height: 1.2;
+    font-weight: 500;
+  }
+  .timeline-status {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 1px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .timeline-node.complete .timeline-status {
+    color: var(--status-ontrack);
+    background: var(--status-ontrack-bg);
+  }
+  .timeline-node.in-progress .timeline-status {
+    color: var(--status-info);
+    background: var(--status-info-bg);
+    border: 1px solid var(--status-info-border);
+  }
+  .timeline-node.pending .timeline-status {
+    color: var(--text-faint);
+    border: 1px solid var(--line);
+  }
+  .timeline-chevron {
+    font-size: 14px;
+    color: var(--gold-soft);
+    transition: transform 0.2s;
+    margin-left: 4px;
+  }
+  .timeline-node.expanded .timeline-chevron {
+    transform: rotate(90deg);
+  }
+
+  .timeline-detail {
+    margin: 8px 0 4px 0;
+    padding: 18px 22px;
+    background: var(--green-deepest);
+    border-left: 2px solid var(--gold);
+    display: none;
+    animation: slideDown 0.2s ease;
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .timeline-node.expanded .timeline-detail {
+    display: block;
+  }
+  .timeline-detail .detail-row {
+    margin-bottom: 14px;
+  }
+  .timeline-detail .detail-row:last-child {
+    margin-bottom: 0;
+  }
+  .timeline-detail .detail-label {
+    font-size: 9px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    margin-bottom: 6px;
+    display: block;
+    font-weight: 500;
+  }
+  .timeline-detail .detail-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .timeline-detail .detail-list li {
+    font-size: 12.5px;
+    color: var(--cream);
+    padding: 3px 0 3px 16px;
+    position: relative;
+    line-height: 1.5;
+    margin-bottom: 0;
+  }
+  .timeline-detail .detail-list li::before {
+    content: '·';
+    position: absolute;
+    left: 4px;
+    color: var(--gold);
+    font-weight: 700;
+  }
+  .timeline-detail .tool-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tool-pill {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--gold-bright);
+    background: rgba(201, 169, 97, 0.08);
+    border: 1px solid var(--line-strong);
+    padding: 3px 9px;
+    border-radius: 1px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .timeline-detail .detail-output {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--cream);
+    line-height: 1.4;
+  }
+
+  /* Theme toggle button */
+  .theme-toggle {
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    color: var(--gold);
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    line-height: 1;
+    transition: all 0.18s;
+    font-family: inherit;
+    padding: 0;
+  }
+  .theme-toggle:hover {
+    background: var(--gold);
+    color: var(--surface-base);
+  }
+  .theme-toggle .theme-icon-light { display: none; }
+  [data-theme="light"] .theme-toggle .theme-icon-dark { display: none; }
+  [data-theme="light"] .theme-toggle .theme-icon-light { display: inline; }
+  @media (max-width: 900px) {
+    .theme-toggle {
+      width: 48px;
+      height: 48px;
+      font-size: 18px;
+    }
+  }
+
+  
+  .menu-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    color: var(--gold);
+    padding: 8px 12px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 18px;
+    line-height: 1;
+    margin-right: 12px;
+    align-items: center;
+    justify-content: center;
+  }
+  .menu-toggle:hover { background: var(--gold); color: var(--surface-base); }
+  .menu-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(13, 31, 21, 0.7);
+    backdrop-filter: blur(2px);
+    z-index: 99;
+  }
+  .menu-overlay.show { display: block; }
+
+  /* ===================== RESPONSIVE ===================== */
+  @media (max-width: 900px) {
+    .app {
+      grid-template-columns: 1fr;
+    }
+
+    /* Sidebar becomes a slide-in drawer */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 280px;
+      max-width: 85vw;
+      height: 100vh;
+      z-index: 100;
+      transform: translateX(-100%);
+      transition: transform 0.25s ease;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar.open { transform: translateX(0); }
+    .sidebar nav { flex: 1; }
+
+    .menu-toggle { display: inline-flex; min-height: 48px; min-width: 48px; padding: 12px 14px; font-size: 22px; }
+
+    /* Topbar adjustments */
+    .topbar {
+      padding: 14px 20px;
+      min-height: 64px;
+    }
+    .topbar-left .page-title { font-size: 18px; }
+    .topbar-right { gap: 10px; }
+    .topbar-action {
+      padding: 14px 18px;
+      font-size: 11px;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    /* Page padding & headings */
+    .page { padding: 28px 20px 60px; }
+    .section-title { font-size: 30px; line-height: 1.15; }
+    .section-sub { margin-bottom: 24px; }
+
+    /* Grids collapse */
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .auto-grid, .doc-grid, .two-col, .bundle-strip { grid-template-columns: 1fr; }
+    .catalog-grid { grid-template-columns: 1fr 1fr; }
+    .field-grid {
+      grid-template-columns: 1fr;
+      gap: 4px 0;
+    }
+    .field-grid .field-label { padding-top: 0; }
+
+    /* Dashboard tables */
+    .deadline-row { grid-template-columns: 1fr auto; row-gap: 6px; }
+    .deadline-row .deadline-date {
+      grid-column: 1; font-size: 11px; color: var(--ink-faint);
+    }
+    .feed-item { grid-template-columns: 1fr; gap: 4px; }
+    .feed-time { font-size: 9px; }
+    .feed-status { justify-self: start; margin-top: 4px; }
+
+    /* Cards & build pack */
+    .card { padding: 20px; }
+    .card-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+    .auto-card .auto-name { padding-right: 64px; font-size: 18px; }
+    .buildpack-header { padding: 24px 22px; }
+    .buildpack-title { font-size: 28px; }
+    .buildpack-subtitle { font-size: 15px; }
+    .bp-section { padding: 22px; }
+    .bp-tabs { overflow-x: auto; scrollbar-width: thin; }
+    .bp-tab {
+      white-space: nowrap;
+      padding: 18px 16px;
+      font-size: 11px;
+      min-height: 48px;
+    }
+
+    /* Sidebar nav links — bump to 48px touch targets */
+    .nav-link {
+      padding: 14px 14px;
+      font-size: 14px;
+      min-height: 48px;
+    }
+
+    /* Timeline interactions — 48px touch */
+    .timeline-summary {
+      padding: 14px 16px;
+      min-height: 56px;
+    }
+
+    /* Project list — make rows wrap */
+    #project-list > div {
+      grid-template-columns: 1fr auto !important;
+      row-gap: 4px !important;
+    }
+    #project-list > div > span:nth-child(1) {
+      grid-column: 1; font-size: 10px;
+    }
+    #project-list > div > span:nth-child(2) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .kpi-grid { grid-template-columns: 1fr; }
+    .catalog-grid { grid-template-columns: 1fr; }
+    .section-title { font-size: 26px; }
+    .topbar-right .status-pill { font-size: 9px; letter-spacing: 0.14em; }
+    .topbar-action { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- =========== SIDEBAR =========== -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">
+        <span class="brand-v">V</span>
+        <span class="brand-name">Venture Research Lab</span>
+      </div>
+      <div class="brand-tagline">Operator Package · Live</div>
+    </div>
+
+    <div class="client-card">
+      <div class="label">Client</div>
+      <div class="name" id="cl-name"></div>
+      <div class="meta" id="cl-meta"></div>
+    </div>
+
+    <nav>
+      <div class="nav-section">
+        <div class="nav-label">Operations</div>
+        <div class="nav-link active" data-page="dashboard">
+          <span>Dashboard</span>
+          <span class="badge">Live</span>
+        </div>
+        <div class="nav-link" data-page="active">
+          <span>Active Automations</span>
+          <span class="badge" id="active-count"></span>
+        </div>
+        <div class="nav-link" data-page="compliance">
+          <span>FL Compliance</span>
+        </div>
+        <div class="nav-link" data-page="documents">
+          <span>Document Library</span>
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-label">Catalog</div>
+        <div class="nav-link" data-page="catalog">
+          <span>All Automations</span>
+          <span class="badge">25</span>
+        </div>
+        <div class="nav-link" data-page="bundles">
+          <span>Bundles & Roadmap</span>
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-label">Account</div>
+        <div class="nav-link" data-page="setup">
+          <span>Setup &amp; Intake</span>
+          <span class="badge" id="setup-badge" style="display:none;">New</span>
+        </div>
+        <div class="nav-link" data-page="settings">
+          <span>Settings &amp; Config</span>
+        </div>
+        <div class="nav-link" data-page="support">
+          <span>Support &amp; SLA</span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <strong>Operator</strong><br/>
+      <span id="ft-operator"></span><br/>
+      <span id="ft-email"></span><br/><br/>
+      <strong>Quarterly Review</strong><br/>
+      <span id="ft-review"></span>
+    </div>
+  </aside>
+
+  <!-- =========== MAIN =========== -->
+  <main class="main">
+
+    <header class="topbar">
+      <div class="topbar-left" style="display: flex; align-items: center;">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Open menu">≡</button>
+        <div>
+          <div class="crumb" id="tb-crumb">Operator Package</div>
+          <div class="page-title" id="tb-title">Live Operations</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <span class="status-pill">All Systems Operational</span>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" title="Toggle dark/light mode">
+          <span class="theme-icon-dark">☾</span>
+          <span class="theme-icon-light">☀</span>
+        </button>
+        <span class="topbar-action" data-action="open-settings">Edit Config</span>
+      </div>
+    </header>
+
+    <!-- =========================================== -->
+    <!-- DASHBOARD                                     -->
+    <!-- =========================================== -->
+    <section class="page active" id="page-dashboard">
+
+      <div id="first-time-banner-container"></div>
+
+      <div class="section-eyebrow">Rolling 30 Days · <span id="dash-date"></span></div>
+      <h1 class="section-title">Operations <span class="italic">at a glance</span></h1>
+      <p class="section-sub">Four automations running across five active projects. Numbers update as workflows complete. Italics indicate AI-assisted output.</p>
+
+      <div class="kpi-grid" id="kpi-grid"></div>
+
+      <div class="bundle-strip" id="bundle-strip"></div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Recent activity</div>
+            <div class="card-meta">Auto-logged · last 24 hours</div>
+          </div>
+          <div id="activity-feed"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Florida deadlines</div>
+            <div class="card-meta">Statute 713</div>
+          </div>
+          <div id="deadline-list"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Active projects</div>
+          <div class="card-meta">Pipeline · <span id="proj-count"></span> jobs</div>
+        </div>
+        <div id="project-list"></div>
+      </div>
+
+    </section>
+
+    <!-- =========================================== -->
+    <!-- ACTIVE AUTOMATIONS                            -->
+    <!-- =========================================== -->
+    <section class="page" id="page-active">
+      <div class="section-eyebrow">This Quarter · <span id="active-quarter"></span></div>
+      <h1 class="section-title">Four automations <span class="italic">running</span></h1>
+      <p class="section-sub">Each one shipped within a 14-day window. Tap any card to open the full Build Pack: architecture, no-code instructions, embedded Claude prompts, deployment checklist, and failure modes.</p>
+
+      <div class="auto-grid" id="active-grid"></div>
+
+      <div id="buildpack-target"></div>
+    </section>
+
+    <!-- =========================================== -->
+    <!-- COMPLIANCE                                    -->
+    <!-- =========================================== -->
+    <section class="page" id="page-compliance">
+      <div class="section-eyebrow">Florida Statute Chapter 713</div>
+      <h1 class="section-title">Lien <span class="italic">deadlines</span></h1>
+      <p class="section-sub">Every active project mapped to its statutory dates. NTO at 45 days from first work, Claim of Lien at 90 days from last work, enforcement at 1 year from recording (or 60 days if Notice of Contest, 20 days if show-cause). Sworn Statement of Account response window is 30 days.</p>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Active project deadlines</div>
+          <div class="card-meta">Auto-tracked daily</div>
+        </div>
+        <div id="full-deadline-list"></div>
+      </div>
+
+      <div class="florida-flag">
+        <div class="florida-flag-label">Florida Guardrail</div>
+        Statutory deadlines are strictly enforced by Florida courts. The automation drafts and tracks. A licensed sworn agent or construction attorney must review and sign every Notice to Owner, Claim of Lien, Sworn Statement of Account, and Notice of Termination of NOC before recording or service. This system is a tracker, not legal counsel.
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Standard waiver forms on file</div>
+          <div class="card-meta">FL Statute 713.20</div>
+        </div>
+        <ul style="list-style: none; padding: 0;">
+          <li style="padding: 12px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr auto; gap: 16px;">
+            <span>Conditional Waiver and Release Upon Progress Payment</span>
+            <span style="font-size: 10px; letter-spacing: 0.18em; color: var(--gold);">REVIEWED · ATTORNEY APPROVED</span>
+          </li>
+          <li style="padding: 12px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr auto; gap: 16px;">
+            <span>Unconditional Waiver and Release Upon Progress Payment</span>
+            <span style="font-size: 10px; letter-spacing: 0.18em; color: var(--gold);">REVIEWED · ATTORNEY APPROVED</span>
+          </li>
+          <li style="padding: 12px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr auto; gap: 16px;">
+            <span>Conditional Waiver and Release Upon Final Payment</span>
+            <span style="font-size: 10px; letter-spacing: 0.18em; color: var(--gold);">REVIEWED · ATTORNEY APPROVED</span>
+          </li>
+          <li style="padding: 12px 0; display: grid; grid-template-columns: 1fr auto; gap: 16px;">
+            <span>Unconditional Waiver and Release Upon Final Payment</span>
+            <span style="font-size: 10px; letter-spacing: 0.18em; color: var(--gold);">REVIEWED · ATTORNEY APPROVED</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- =========================================== -->
+    <!-- DOCUMENT LIBRARY                              -->
+    <!-- =========================================== -->
+    <section class="page" id="page-documents">
+      <div class="section-eyebrow">Generated Output Samples</div>
+      <h1 class="section-title">Document <span class="italic">library</span></h1>
+      <p class="section-sub">Real artifacts the automations produce. Every document below was drafted by Claude, reviewed by the operator, and sent under the firm's signature.</p>
+
+      <div class="doc-grid" id="doc-grid"></div>
+    </section>
+
+    <!-- =========================================== -->
+    <!-- CATALOG                                       -->
+    <!-- =========================================== -->
+    <section class="page" id="page-catalog">
+      <div class="section-eyebrow">VRL Automation Catalog</div>
+      <h1 class="section-title">Twenty-five <span class="italic">automations</span></h1>
+      <p class="section-sub">Every workflow VRL has shipped or scoped. The four marked Active are running for this firm right now. The remaining twenty-one are available within the Operator Package over the next four quarters.</p>
+
+      <div class="catalog-grid" id="catalog-grid"></div>
+    </section>
+
+    <!-- =========================================== -->
+    <!-- BUNDLES                                       -->
+    <!-- =========================================== -->
+    <section class="page" id="page-bundles">
+      <div class="section-eyebrow">Two-Year Roadmap</div>
+      <h1 class="section-title">Bundles <span class="italic">and the path forward</span></h1>
+      <p class="section-sub">Six named bundles. Each pre-packages four automations that solve a specific operating problem. Pick the bundle, ship in fourteen days each, run them in parallel.</p>
+
+      <div id="bundle-cards"></div>
+    </section>
+
+    <!-- =========================================== -->
+    <!-- SETTINGS                                      -->
+    <!-- =========================================== -->
+    <section class="page" id="page-settings">
+      <div class="section-eyebrow">White-Label Configuration</div>
+      <h1 class="section-title">Settings <span class="italic">&amp; CONFIG</span></h1>
+      <p class="section-sub">Every value below is editable in the CONFIG block at the top of this file. Change once, the entire portal re-renders to the new client. Below shows what is currently loaded.</p>
+
+      <div class="config-note">
+        To rebrand this portal for a new contractor: open this file in any text editor, scroll to the CONFIG block at the top, edit the client object, save, refresh. Nothing else needs to change. The provider object (VRL identity) stays fixed across deployments.
+      </div>
+
+      <div class="settings-block">
+        <h3>Client Identity</h3>
+        <div id="cfg-client"></div>
+      </div>
+
+      <div class="settings-block">
+        <h3>Engagement</h3>
+        <div id="cfg-package"></div>
+      </div>
+
+      <div class="settings-block">
+        <h3>Active Projects</h3>
+        <div id="cfg-projects"></div>
+      </div>
+
+      <div class="settings-block">
+        <h3>Loaded Labor Rates · ROI Math</h3>
+        <div id="cfg-rates"></div>
+      </div>
+
+      <div class="settings-block">
+        <h3>Provider · VRL (Fixed)</h3>
+        <div id="cfg-provider"></div>
+      </div>
+    </section>
+
+    <!-- =========================================== -->
+    <!-- SETUP / INTAKE                                -->
+    <!-- =========================================== -->
+    <section class="page" id="page-setup">
+      <div class="section-eyebrow" id="setup-eyebrow">First-time Setup</div>
+      <h1 class="section-title">Welcome — let's <span class="italic">configure your firm</span></h1>
+      <p class="section-sub" id="setup-sub">Fill this in once. The dashboard, document library, lien tracker, automations, and KPIs will all read from these values. Everything saves to your browser, so you can come back to this page anytime to edit. No data leaves your device.</p>
+
+      <div id="setup-status-banner"></div>
+
+      <form id="setup-form" autocomplete="off" onsubmit="return false;">
+
+        <div class="setup-section">
+          <h3>Client identity</h3>
+          <div class="setup-field-grid">
+            <label>Legal name<input name="client.legalName" type="text" required /></label>
+            <label>Display name<input name="client.displayName" type="text" /></label>
+            <label>License #<input name="client.license" type="text" /></label>
+            <label>Trade<input name="client.trade" type="text" placeholder="General Contractor" /></label>
+            <label>Years in business<input name="client.yearsInBusiness" type="number" min="0" /></label>
+            <label>Employees<input name="client.employeeCount" type="number" min="1" /></label>
+            <label>Revenue range<input name="client.revenueRange" type="text" placeholder="$1M – $2M" /></label>
+            <label>Service area<input name="client.serviceArea" type="text" placeholder="Broward, Miami-Dade, Palm Beach" /></label>
+          </div>
+          <div class="setup-field-grid">
+            <label class="full">Street address<input name="client.address.street" type="text" /></label>
+            <label>City<input name="client.address.city" type="text" /></label>
+            <label>State<input name="client.address.state" type="text" maxlength="2" placeholder="FL" /></label>
+            <label>ZIP<input name="client.address.zip" type="text" /></label>
+          </div>
+        </div>
+
+        <div class="setup-section">
+          <h3>Primary contact (firm owner / CEO)</h3>
+          <div class="setup-field-grid">
+            <label>Name<input name="client.primaryContact.name" type="text" /></label>
+            <label>Role<input name="client.primaryContact.role" type="text" /></label>
+            <label>Email<input name="client.primaryContact.email" type="email" /></label>
+            <label>Phone<input name="client.primaryContact.phone" type="tel" /></label>
+          </div>
+        </div>
+
+        <div class="setup-section">
+          <h3>Operator contact (day-to-day operator)</h3>
+          <div class="setup-field-grid">
+            <label>Name<input name="client.operatorContact.name" type="text" /></label>
+            <label>Role<input name="client.operatorContact.role" type="text" /></label>
+            <label>Email<input name="client.operatorContact.email" type="email" /></label>
+            <label>Phone<input name="client.operatorContact.phone" type="tel" /></label>
+          </div>
+        </div>
+
+        <div class="setup-section">
+          <h3>Tech stack</h3>
+          <div class="setup-field-grid">
+            <label>Accounting<input name="client.accountingPlatform" type="text" placeholder="QuickBooks Online" /></label>
+            <label>PM platform<input name="client.pmPlatform" type="text" placeholder="None / Procore / Buildertrend" /></label>
+            <label>File storage<input name="client.fileStorage" type="text" placeholder="Google Drive" /></label>
+            <label>Primary comm<input name="client.primaryComm" type="text" placeholder="Email + WhatsApp" /></label>
+          </div>
+        </div>
+
+        <div class="setup-section">
+          <h3>Engagement</h3>
+          <div class="setup-field-grid">
+            <label>Tier<input name="package.tier" type="text" placeholder="Operator Package" /></label>
+            <label>Quarterly fee<input name="package.quarterlyFee" type="number" min="0" /></label>
+            <label>Activated date<input name="package.activatedDate" type="date" /></label>
+            <label>Next quarterly review<input name="package.nextQuarterlyReview" type="date" /></label>
+          </div>
+          <label class="setup-block-label">Active automations this quarter (pick up to 4)</label>
+          <div class="setup-checkbox-grid" id="setup-automations"></div>
+        </div>
+
+        <div class="setup-section">
+          <h3>Active projects</h3>
+          <p class="setup-help">Add the jobs the firm is currently running. Lien tracker and dashboards read from here.</p>
+          <div id="setup-projects-list"></div>
+          <button type="button" class="setup-btn-secondary" data-action="setup-add-project">+ Add project</button>
+        </div>
+
+        <div class="setup-section">
+          <h3>Loaded labor rates · ROI math</h3>
+          <p class="setup-help">Used by the dashboard to compute hours-saved dollar value. Loaded means base + benefits + overhead.</p>
+          <div class="setup-field-grid">
+            <label>Owner $/hr<input name="loadedRates.owner" type="number" min="0" /></label>
+            <label>PM $/hr<input name="loadedRates.pm" type="number" min="0" /></label>
+            <label>Estimator $/hr<input name="loadedRates.estimator" type="number" min="0" /></label>
+            <label>Admin $/hr<input name="loadedRates.admin" type="number" min="0" /></label>
+            <label>Field super $/hr<input name="loadedRates.super" type="number" min="0" /></label>
+          </div>
+        </div>
+
+        <div class="setup-actions">
+          <button type="button" class="setup-btn-primary" data-action="setup-save">Save configuration</button>
+          <button type="button" class="setup-btn-secondary" data-action="setup-reset">Reset to demo data</button>
+          <button type="button" class="setup-btn-secondary" data-action="setup-export">Export CONFIG block</button>
+        </div>
+
+        <div id="setup-export-output" style="display:none; margin-top: 24px;"></div>
+
+      </form>
+    </section>
+
+    <!-- =========================================== -->
+    <!-- SUPPORT                                       -->
+    <!-- =========================================== -->
+    <section class="page" id="page-support">
+      <div class="section-eyebrow">Service Level Agreement</div>
+      <h1 class="section-title">Support <span class="italic">&amp; escalation</span></h1>
+      <p class="section-sub">Operator Package includes priority support with a 24-hour SLA, a dedicated Slack channel, and a quarterly optimization review.</p>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">How to reach us</div>
+          <div class="card-meta">SLA · 24h response</div>
+        </div>
+        <ul style="list-style: none; padding: 0;">
+          <li style="padding: 12px 0; border-bottom: 1px solid var(--line);">
+            <strong style="color: var(--gold-bright); font-weight: 500;">Fast questions:</strong> Slack <span class="mono" id="sup-slack"></span>
+          </li>
+          <li style="padding: 12px 0; border-bottom: 1px solid var(--line);">
+            <strong style="color: var(--gold-bright); font-weight: 500;">System down:</strong> Text <span class="mono" id="sup-text"></span>
+          </li>
+          <li style="padding: 12px 0; border-bottom: 1px solid var(--line);">
+            <strong style="color: var(--gold-bright); font-weight: 500;">Billing:</strong> <span class="mono">invoices@vrl.studio</span>
+          </li>
+          <li style="padding: 12px 0;">
+            <strong style="color: var(--gold-bright); font-weight: 500;">Operator:</strong> <span id="sup-operator"></span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Quarterly optimization review</div>
+          <div class="card-meta">Included in package</div>
+        </div>
+        <p style="font-size: 13px; color: var(--cream); margin-bottom: 12px;">Every quarter we review the four active automations against their KPI baselines, surface any drift, retune prompts on real samples from the past 90 days, and propose the next four for the upcoming quarter.</p>
+        <p style="font-size: 13px; color: var(--cream);">Next scheduled review: <strong style="color: var(--gold-bright); font-weight: 500;" id="sup-review-date"></strong></p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">What's included</div>
+          <div class="card-meta">Operator Package</div>
+        </div>
+        <ul style="padding-left: 20px;">
+          <li style="font-size: 13px; padding: 6px 0;">Up to four automations built and maintained per quarter</li>
+          <li style="font-size: 13px; padding: 6px 0;">Dedicated Slack channel with 24-hour SLA</li>
+          <li style="font-size: 13px; padding: 6px 0;">Monthly KPI dashboard and rolling 30-day report</li>
+          <li style="font-size: 13px; padding: 6px 0;">Priority bug fixes and prompt tuning at no extra cost</li>
+          <li style="font-size: 13px; padding: 6px 0;">Quarterly optimization review with full retune</li>
+          <li style="font-size: 13px; padding: 6px 0;">Fractional AI Operator role inside the firm</li>
+          <li style="font-size: 13px; padding: 6px 0;">Stage-2 guarantee: every build saving measurable time within 14 days or full setup refund</li>
+        </ul>
+      </div>
+    </section>
+
+</div>
+
+<div class="menu-overlay" id="menu-overlay"></div>
+
+<!-- ============================================================ -->
+<!-- DATA LAYER — AUTOMATION CATALOG (ALL 25)                      -->
+<!-- ============================================================ -->
+<script>
+
+const AUTOMATIONS = [
+  { n: 1,  name: "Lead Intake & 60-Second Auto-Response", pain: "Leads die in 5 minutes. Most contractors take 4 to 6 hours. Companies that respond inside 5 minutes are 21x more likely to qualify the lead.", tier: "Core Build" },
+  { n: 2,  name: "RFP / Bid Invitation Triage", pain: "Estimator gets 30+ ITBs a week, bids the wrong ones, misses the right ones. Bid prep is 2 to 8 hours each.", tier: "Core Build" },
+  { n: 3,  name: "Estimate & Proposal Draft Generator", pain: "Estimator spends 4 to 8 hours per bid writing the proposal letter, scope, exclusions, and assumptions even after takeoff is done.", tier: "Core Build" },
+  { n: 4,  name: "RFI Drafting, Logging & Follow-Up", pain: "RFIs sit unanswered in email. Open RFI count is the number one leading indicator of schedule slippage.", tier: "Core Build" },
+  { n: 5,  name: "Submittal Log & Status Tracker", pain: "Submittals live in email. Specs go unread. Six weeks later the GC asks why product is not on site.", tier: "Operator Package" },
+  { n: 6,  name: "Daily Field Report from Voice + Photos", pain: "Supers either skip daily reports or write them at 8pm in their truck. Reports are inconsistent and useless during disputes.", tier: "Core Build" },
+  { n: 7,  name: "Job-Site Photo Set to Weekly Owner Update", pain: "Owners feel ignored. They text Sunday night asking for an update. PM scrambles Monday. Relationship strains.", tier: "Core Build" },
+  { n: 8,  name: "Subcontractor Invoice Extraction & Job-Cost Coding", pain: "AP clerk spends 10 to 15 hours a week opening PDFs, typing fields, mapping to jobs and cost codes.", tier: "Core Build" },
+  { n: 9,  name: "Change Order Drafting from Email Threads", pain: "Change happens in the field. Owner verbally agrees. Three weeks later nobody has paper and the firm is out $18,000.", tier: "Core Build" },
+  { n: 10, name: "Lien Waiver & Florida NTO Deadline Tracker", pain: "Florida lien law is unforgiving. Miss the 45-day NTO or 90-day Claim of Lien and you lose lien rights. Subs lose tens of thousands per year.", tier: "Core Build" },
+  { n: 11, name: "Permit Application Drafting & Submission", pain: "Permitting is the number one schedule killer in South Florida. Different portals for Broward, Miami-Dade, Palm Beach. 6 hours per permit in data entry.", tier: "Core Build" },
+  { n: 12, name: "Material Takeoff Assist from Drawings", pain: "Takeoff is 40% of estimating time. Counting outlets, doors, square footage by hand.", tier: "Operator Package" },
+  { n: 13, name: "Punch List Manager from Photo Walk", pain: "Punch lists live in spreadsheets, emails, and phone photos. Closeout drags. Final 10% retainage stays held.", tier: "Core Build" },
+  { n: 14, name: "Toolbox Talk & OSHA Safety Doc Generator", pain: "OSHA requires documented hazard-specific training. Most subs do toolbox talks inconsistently and barely document them.", tier: "Core Build" },
+  { n: 15, name: "Subcontractor COI & Compliance Tracker", pain: "Sub COIs expire mid-project. Without auto-reminders, payment goes out and a claim hits while the sub was uninsured.", tier: "Core Build" },
+  { n: 16, name: "Equipment Maintenance & Tool Tracking", pain: "Maintenance schedules ignored. Equipment fails on Tuesday on a critical pour. Tools walk off.", tier: "Core Build" },
+  { n: 17, name: "Project Closeout Document Compiler", pain: "Closeout assembly takes 40 to 80 hours per project. O&M manuals, warranties, as-builts, attic stock, lien waivers, final pay app.", tier: "Operator Package" },
+  { n: 18, name: "Contract & Subcontract Risk Review", pain: "Sub signs a 60-page subcontract. Buried inside: flow-down clauses, no-damage-for-delay, pay-when-paid disguised as pay-if-paid.", tier: "Operator Package" },
+  { n: 19, name: "Vendor Outreach & Quote Comparison", pain: "Estimator emails 8 suppliers for a $200K material package. Three respond. Comparing quotes is a manual spreadsheet task.", tier: "Core Build" },
+  { n: 20, name: "Estimating Cost Database from Past Jobs", pain: "Pricing memory lives in the head of one estimator. When that estimator quits, the firm bids blind.", tier: "Operator Package" },
+  { n: 21, name: "Marketing Content Engine", pain: "Subs and small GCs have no marketing function. When the referral pipe slows, they have nothing.", tier: "Core Build" },
+  { n: 22, name: "Customer Review & Reputation Manager", pain: "Firms forget to ask for reviews. They ask at the wrong moment. Bad reviews go unanswered for weeks.", tier: "Core Build" },
+  { n: 23, name: "Internal SOP Generator from Existing Workflows", pain: "All firm process knowledge lives in the head of two people. New hires take 6 months to ramp.", tier: "Core Build" },
+  { n: 24, name: "Meeting Transcript to Action Items", pain: "Project meetings, OAC meetings, internal standups. Notes get lost. Action items get forgotten.", tier: "Core Build" },
+  { n: 25, name: "Resume Screening & Trade Hiring Pipeline", pain: "Trade firms drown in low-quality applicants on Indeed. Office staff spends 5 hours a week on resume triage.", tier: "Core Build" }
+];
+
+const BUNDLES = [
+  { name: "Bid-to-Cash", subtitle: "For subs and small GCs running tight cash flow", items: [2, 3, 8, 10] },
+  { name: "Project Execution", subtitle: "For PMs drowning in field-to-office translation", items: [4, 5, 6, 9] },
+  { name: "Owner-Facing", subtitle: "For firms that win on relationship and reputation", items: [7, 21, 22, 1] },
+  { name: "Compliance & Risk", subtitle: "For firms operating in Florida lien country", items: [10, 15, 18, 14] },
+  { name: "Closeout", subtitle: "For firms with retainage stuck and punch lists open", items: [13, 17, 10, 20] },
+  { name: "Founder's OS", subtitle: "For owners building toward a sale or succession", items: [23, 24, 25, 20] }
+];
+
+</script>
+
+<!-- ============================================================ -->
+<!-- BUILD PACKS — FULL DETAIL FOR THE 4 ACTIVE AUTOMATIONS        -->
+<!-- ============================================================ -->
+<script>
+
+const BUILD_PACKS = {
+
+  // =====================================================
+  // #1 LEAD INTAKE
+  // =====================================================
+  1: {
+    n: 1,
+    name: "Lead Intake & 60-Second Auto-Response",
+    valueProp: "Every new lead gets a personalized reply inside 60 seconds, the right person on the team gets pinged, and the lead is logged for tracking — automatically, around the clock.",
+    pain: `For a small Florida GC running on referrals plus the occasional Google lead, the cost of a slow response is brutal. Lead comes in at 9pm Tuesday. Owner sees it Wednesday morning. Calls Wednesday afternoon. Lead already hired the next contractor. Industry research shows responding inside 5 minutes versus 30 minutes increases qualification odds by 21x. One missed lead per week at an average $40K job value equals $2M of lost annual pipeline. For ${CONFIG.client.displayName}, where every project matters and the team is three people, this is the single highest-leverage automation in the catalog.`,
+    trigger: "New email to leads@construction95.com, new web form submission on the site, or missed call to the main line (Twilio).",
+    architecture: `[ Web Form / Gmail / Twilio ]
+        ↓ trigger
+[ Make.com scenario "C95-Lead-Intake" ]
+        ↓
+[ Claude (Anthropic module) ]
+   • Classifies: residential / commercial / spam
+   • Extracts: project type, budget tier, timeline
+   • Drafts: 4-sentence personalized reply
+   • Writes: 1-line Slack alert
+        ↓ fan-out
+[ Gmail send ]  ←  auto-reply to lead
+[ Slack post ]  ←  alert in #leads-c95
+[ Airtable row ] ←  Lead Pipeline base
+[ Twilio SMS ]  ←  to owner if budget tier ≥ $100K`,
+    steps: [
+      "<strong>Make.com scenario name:</strong> C95-Lead-Intake. Connect three trigger modules (Email · Watch Emails for leads@construction95.com, Webhook · Custom for web form, Twilio · Watch Calls for missed-call detection). Use a Router immediately after the trigger to handle each path.",
+      "<strong>Anthropic Claude module · Step 1 (Classifier):</strong> Add the Anthropic Claude · Create a Message module. Model: claude-sonnet-4-5. Max tokens: 800. Paste the Classifier Prompt (see Prompts tab). Map the lead body to the {{lead_text}} variable.",
+      "<strong>Filter module:</strong> If classification === 'spam', stop the scenario and log to Airtable Spam_Log table. Otherwise continue.",
+      "<strong>Anthropic Claude module · Step 2 (Reply Drafter):</strong> Same module type. Paste the Reply Drafter Prompt. Map firm-voice variables: {{firm_name}} = Construction 95, {{operator_name}} = Levi Ezagui, {{operator_phone}} = (347) 295-5105.",
+      "<strong>Gmail · Send Email module:</strong> From leads@construction95.com. To {{lead.email}}. Subject: 'Re: your inquiry — Construction 95'. Body: the Claude-drafted reply. Always BCC levi@construction95.com.",
+      "<strong>Slack · Create Message module:</strong> Channel #leads-c95. Text: the 1-line alert Claude produced, plus a link to the Airtable record.",
+      "<strong>Airtable · Create Record module:</strong> Base 'C95 Operations', table 'Lead Pipeline'. Map fields: Name, Email, Phone, Project Type, Classification, Budget Tier, Source, Inbound Date, Reply Sent At, Status='New'.",
+      "<strong>Conditional SMS:</strong> If Budget Tier === 'Above $100K' OR project_type === 'commercial', add a Twilio · Send SMS module to (954) 555-0142 (Mendel). Body: lead name + project + 'Levi has the auto-reply, calling within 2 hours.'",
+      "<strong>Error handler:</strong> Add an Error Handler route on the Anthropic module. On failure, send a fallback email ('Thanks, we received your inquiry, will follow up shortly') and post #vrl-support 'C95 lead intake AI failed at {{timestamp}}'.",
+      "<strong>Schedule:</strong> Run instantly (no schedule). Test with 5 sample emails before going live."
+    ],
+    prompts: [
+      {
+        title: "Classifier Prompt (Step 1)",
+        body: `You are the lead intake analyst for Construction 95, a Florida general contractor in Broward County serving residential and small commercial projects between $40K and $500K.
+
+Classify the inquiry below and extract structured fields. Return ONLY valid JSON in the schema specified. Do not produce prose.
+
+Inquiry:
+{{lead_text}}
+
+Schema:
+{
+  "classification": "residential" | "commercial" | "spam",
+  "project_type": string,
+  "budget_tier": "Under $40K" | "$40K-$100K" | "Above $100K" | "Unclear",
+  "timeline_signal": "ASAP" | "Within 30 days" | "Within 90 days" | "Exploring" | "Unclear",
+  "location": string or null,
+  "name": string or null,
+  "email": string or null,
+  "phone": string or null,
+  "spam_reason": string or null
+}
+
+Rules:
+- "spam" only for clear cases: SEO outreach, mass scrapers, marketing pitches, irrelevant industries.
+- If budget is not stated but project scope implies it (e.g. "full kitchen reno"), infer the tier conservatively.
+- Florida cities to recognize: Pembroke Pines, Hollywood, Plantation, Sunrise, Coral Springs, Davie, Weston, Miami, Aventura, Hialeah, Fort Lauderdale.
+- Do not infer fields that are not present. Use null.`
+      },
+      {
+        title: "Reply Drafter Prompt (Step 2)",
+        body: `You are the Director of Business Development at Construction 95, a Florida general contractor based in Lauderhill. Your name is Levi Ezagui. You write like a real person, not a marketing bot.
+
+Draft a 4-sentence reply to the inbound lead below. Tone: confident, direct, helpful, age-appropriate (Levi is 21 but credible). No corporate fluff. No "thank you for reaching out." No em dashes. No "we are excited."
+
+Lead summary:
+- Name: {{name}}
+- Project: {{project_type}}
+- Budget tier: {{budget_tier}}
+- Timeline: {{timeline_signal}}
+- Their original message: {{lead_text}}
+
+Output format:
+- Sentence 1: acknowledge what they're trying to do, specifically.
+- Sentence 2: one concrete thing Construction 95 has done that maps to their project.
+- Sentence 3: propose the next step (15-min call or site walk, depending on timeline).
+- Sentence 4: signature line offer ("Reply with a time that works or text me at (347) 295-5105").
+
+Sign: Levi Ezagui · Construction 95
+
+Rules:
+- Plain English. No jargon.
+- No em dashes anywhere.
+- Maximum 4 sentences in the body, plus the signature.
+- If timeline is "ASAP", offer a same-day call.
+- If commercial and budget is high, mention insurance and licensing on first contact.`
+      }
+    ],
+    inputs: [
+      "Gmail or Workspace admin access to enable forwarding from leads@construction95.com",
+      "Web form access (current site contact form) — Make webhook URL pasted into form action",
+      "Twilio account or porting of main line for missed-call detection",
+      "Slack workspace with #leads-c95 channel created",
+      "Airtable workspace invite to Levi for the C95 Operations base",
+      "10 historical leads (text + outcome) for prompt tuning"
+    ],
+    sampleOutput: `<strong>Subject:</strong> Re: your inquiry — Construction 95<br/><br/>
+Hey Marcus,<br/><br/>
+Sounds like you're looking at a full master bath gut in Pembroke Pines, mid-tier finishes, ready to start in the next 30 days. We just wrapped a similar scope two miles from you — 10 days door to door, kept the family in the house the whole time. I'd want 15 minutes on the phone to walk through your scope and your timeline before quoting anything. Reply with a time that works or text me at (347) 295-5105.<br/><br/>
+Levi Ezagui · Construction 95`,
+    hoursSaved: "Reclaims roughly 4 to 6 hours per week of after-hours scrambling. More importantly, recovers an estimated 1 to 2 leads per month that would have otherwise gone cold — at an average $40K job value, that is $40K to $80K of monthly recovered pipeline.",
+    tier: "Core Build (recommended as automation #1 for any small GC)",
+    deployment: [
+      { day: 0,  title: "Kickoff call",                subtasks: ["Confirm leads@construction95.com is the canonical inbox", "Walk through current lead handling pain points", "Schedule day-7 mid-build checkpoint"], tools: ["Google Meet", "Notion intake doc"],            output: "Signed kickoff brief, canonical inbox confirmed" },
+      { day: 1,  title: "Intake form completed",       subtasks: ["Mendel and Levi fill the VRL intake form", "Capture firm voice samples and signature lines", "Document existing lead source breakdown"],          tools: ["Notion form"],                                 output: "Filled intake doc with current lead handling baseline" },
+      { day: 2,  title: "Collect 10 historical leads", subtasks: ["Pull 10 representative leads from Gmail archive", "Tag each: residential / commercial / spam", "Note original response time and conversion outcome"], tools: ["Gmail export", "Airtable test base"],          output: "Ten labeled training samples with outcome data" },
+      { day: 3,  title: "Architecture and prompts v1", subtasks: ["Draft Make.com scenario diagram", "Write classifier prompt v1", "Write reply drafter prompt v1"],                                                  tools: ["Make.com", "Anthropic Console"],               output: "v1 scenario diagram and two prompt files committed" },
+      { day: 4,  title: "Build scenario skeleton",     subtasks: ["Create C95-Lead-Intake scenario", "Wire Gmail and webhook triggers", "Connect Anthropic Claude module with sonnet-4-5"],                            tools: ["Make.com", "Gmail OAuth"],                     output: "End-to-end scenario with mock data flowing" },
+      { day: 5,  title: "Test against 10 samples",     subtasks: ["Run all 10 historical leads through classifier", "Score classification accuracy field-by-field", "Score reply quality on 1-5 scale"],              tools: ["Airtable test base"],                          output: "Accuracy report card with per-sample breakdown" },
+      { day: 6,  title: "Tune prompts to 90%",         subtasks: ["Adjust classifier with edge-case examples", "Add three few-shot examples to reply drafter", "Add error handler routing"],                          tools: ["Anthropic Console"],                           output: "Prompt v2 hitting 90%+ on the test set" },
+      { day: 7,  title: "Mid-build review with Levi",  subtasks: ["Walk through 5 sample auto-replies live", "Approve voice and signature block", "Lock branding language across templates"],                          tools: ["Google Meet"],                                 output: "Approved tone, final signature block locked" },
+      { day: 8,  title: "Add Slack and SMS branching", subtasks: ["Configure #leads-c95 Slack channel", "Add Twilio SMS module for high-budget leads", "Test escalation logic with mock $250K lead"],                  tools: ["Slack", "Twilio"],                             output: "Branching tested end to end with mock lead" },
+      { day: 9,  title: "Build Airtable Lead Pipeline",subtasks: ["Create Lead Pipeline table schema", "Add status views: New / Replied / Qualified / Lost", "Wire Make to Airtable Create Record"],                  tools: ["Airtable"],                                    output: "Lead Pipeline base with test records flowing" },
+      { day: 10, title: "SOP doc and training video",  subtasks: ["Write 2-page SOP for Levi", "Record 5-minute Loom training video", "Document the 4 known failure modes and recoveries"],                            tools: ["Notion", "Loom"],                              output: "SOP doc and video link archived in Drive" },
+      { day: 11, title: "Train operator (Levi)",       subtasks: ["Walk Levi through Airtable views", "Practice handling 3 edge cases together", "Confirm escalation path to Mendel"],                                  tools: ["Google Meet"],                                 output: "Operator certified, can run system unattended" },
+      { day: 12, title: "Soft launch on 1 inbox",      subtasks: ["Route the canonical inbox to scenario", "Watch first 5 live leads in real time", "Collect immediate feedback over Slack"],                          tools: ["Make.com monitor"],                            output: "5 live leads handled with no operator edits" },
+      { day: 13, title: "Tune on first 24 hours",      subtasks: ["Review every reply Claude sent in the window", "Adjust any tone misses found in the wild", "Retighten classifier on real-world misses"],            tools: ["Airtable", "Anthropic Console"],               output: "v3 prompts deployed, 95%+ live accuracy" },
+      { day: 14, title: "Handoff and KPI lock",        subtasks: ["Final walkthrough with Mendel and Levi", "Lock baseline KPIs in dashboard", "Schedule day-30 and day-90 check-ins"],                                tools: ["Notion dashboard"],                            output: "Live system, baseline KPIs locked, reviews scheduled" }
+    ],
+    failures: [
+      "<strong>AI replies sound generic:</strong> Tune the firm-voice variables in the Reply Drafter prompt with 5 actual replies Levi has written historically. Add them as few-shot examples.",
+      "<strong>Classifier flags real leads as spam:</strong> Add the borderline cases to a 'review queue' in Airtable. Tighten the spam definition in the prompt.",
+      "<strong>Gmail rate limits:</strong> If lead volume spikes (say from a paid campaign), throttle to 1 message per 6 seconds. Already handled by Make's default rate.",
+      "<strong>Lead replies to the auto-reply with new info:</strong> Add a Gmail watch on the original thread. Re-trigger the classifier on reply; if budget or timeline changed, re-route."
+    ],
+    upsell: "Pairs with #2 RFP triage (next quarter) and #22 Customer review manager (the back end of the same relationship)."
+  },
+
+  // =====================================================
+  // #4 RFI ENGINE
+  // =====================================================
+  4: {
+    n: 4,
+    name: "RFI Drafting, Logging & Follow-Up",
+    valueProp: "Field super sends a voice note. Two minutes later a properly formatted, drawing-referenced RFI is in the architect's inbox, logged, and on a 5-day follow-up timer.",
+    pain: `On every active project, the open RFI count is the leading indicator of schedule slippage. RFIs sit unanswered in email threads. The super sees a conflict on a Wednesday, calls the PM, the PM tries to remember, eventually emails the architect on Friday. Architect responds the following Tuesday. By then the trade has burned a week of float and the GC is asking about delay claims. Construction Dive reports each RFI eats 6 to 8 minutes of administrative time even when handled cleanly. ${CONFIG.client.displayName} runs ${CONFIG.kpis.activeRFIs} open RFIs across active projects today, and historically the average turnaround was 4 to 6 days. With this automation it is now ${CONFIG.kpis.avgRFITurnDays} days.`,
+    trigger: "Field super sends a voice memo or photo to a designated WhatsApp number, or PM types a quick note in a Notion form titled 'New RFI'.",
+    architecture: `[ WhatsApp via Twilio / Notion form / Email ]
+        ↓ trigger
+[ Make.com scenario "C95-RFI-Engine" ]
+        ↓
+[ Whisper transcription (if voice) ]
+        ↓
+[ Claude · RFI Drafter ]
+   • Reads field input + drawing index
+   • Detects: is this an RFI or actually a CO request?
+   • Generates: AIA G716-style RFI markdown
+   • Assigns: RFI number from project log
+        ↓ branch
+[ Google Docs ]    ←  formatted RFI doc
+[ Gmail send ]     ←  to architect, CC PM
+[ Airtable ]       ←  RFI Log entry, status=Sent
+[ Calendar event ] ←  follow-up at +5 business days`,
+    steps: [
+      "<strong>Make.com scenario name:</strong> C95-RFI-Engine. Three triggers behind a Router: Twilio (WhatsApp inbound), Notion (database item created in 'RFI Intake'), Gmail (email to rfi@construction95.com).",
+      "<strong>Branch on input type:</strong> If voice memo, route through Whisper transcription (use Make's HTTP module to OpenAI Whisper, or replace with Otter.ai's native module if no-code-only is required). If photo, route through Anthropic Claude vision module to extract any visible text and describe what's shown.",
+      "<strong>Anthropic Claude module · Step 1 (CO Detector):</strong> Run the field input through the CO Detector Prompt. If output is FLAG_CO, stop the RFI flow and route to the Change Order workflow (#9) instead. Notify Levi.",
+      "<strong>Airtable · Search Records:</strong> Look up the active project from the project name mentioned in the input. Pull current_rfi_number and add 1.",
+      "<strong>Anthropic Claude module · Step 2 (RFI Drafter):</strong> Paste the RFI Drafter Prompt. Map: {{voice_or_text_input}}, {{next_rfi_number}}, {{drawing_index}}, {{pm_name}}.",
+      "<strong>Google Docs · Create from Template:</strong> Use the C95 RFI template doc. Inject the markdown Claude produced. Save to Drive folder /C95/{{project_id}}/RFIs/.",
+      "<strong>Gmail · Send Email:</strong> To architect on file (pull from Airtable Project record). CC PM. Subject: '[C95-{{project_id}}] RFI #{{rfi_number}} — {{topic_short}}'. Attach the Google Doc as PDF.",
+      "<strong>Airtable · Create Record:</strong> RFI Log entry with status='Sent', sent_at=now, follow_up_due=now+5 business days, project link, Google Doc link.",
+      "<strong>Google Calendar · Create Event:</strong> 5 business days out. Title: 'Follow up RFI #{{rfi_number}} with {{architect_name}}'. Attendees: Levi.",
+      "<strong>Scheduled side-flow (every weekday at 7am):</strong> Query Airtable for RFIs with follow_up_due <= today AND status='Sent'. For each, draft a polite follow-up email via Claude and queue for Levi review.",
+      "<strong>Human-in-the-loop:</strong> RFI emails to architects always require Levi's one-click approval before sending. Use Slack-approved-via-Make pattern."
+    ],
+    prompts: [
+      {
+        title: "CO Detector Prompt",
+        body: `You are a senior construction administrator. Determine whether the field observation below is a genuine Request for Information (clarification needed) or a Change Order request (scope addition or modification).
+
+Field observation:
+{{voice_or_text_input}}
+
+An RFI seeks clarification on existing scope. A CO request adds, removes, or modifies scope.
+
+Return ONLY one of:
+RFI
+FLAG_CO
+
+If FLAG_CO, follow with a one-sentence reason.
+
+Examples:
+"What size rebar in the footers, the plan and the structural don't match" → RFI
+"Owner wants us to add a half bath next to the laundry" → FLAG_CO (added scope)
+"Drawing shows 2x6 framing but spec calls for 2x4" → RFI
+"The architect changed his mind on the door swing" → FLAG_CO (scope change)`
+      },
+      {
+        title: "RFI Drafter Prompt",
+        body: `You are a senior project manager at Construction 95, a Florida general contractor. Convert the following field observation into a properly formatted RFI using AIA G716 conventions.
+
+Field observation (already transcribed):
+{{voice_or_text_input}}
+
+Drawing set summary for this project:
+{{drawing_index}}
+
+Project context:
+- Project: {{project_name}}
+- RFI Number: {{next_rfi_number}}
+- PM on file: {{pm_name}}
+- Architect: {{architect_name}}
+
+Output the RFI in markdown with these sections exactly:
+
+# Request for Information
+
+**Project:** {{project_name}}
+**RFI Number:** {{next_rfi_number}}
+**Date:** [today's date]
+**From:** {{pm_name}}, Construction 95
+**To:** {{architect_name}}
+
+## Drawing References
+[List specific sheets and details, e.g. "A-201, Detail 3" or "S-101, Note 4". If no drawing reference can be determined from the field input, write "TBD — verifying on plan set."]
+
+## Specification References
+[Section number and title if applicable, otherwise "N/A"]
+
+## Question
+[A SINGLE answerable question. Be specific. If the field observation describes multiple issues, write the most pressing as the question and note the others under "Related observations".]
+
+## Suggested Resolution
+[One short paragraph proposing what the field believes the answer should be, framed as a recommendation, not a demand.]
+
+## Required Response Date
+[5 business days from today, formatted as ISO date]
+
+## Related Observations
+[Any secondary issues from the input that should be tracked separately]
+
+Rules:
+- The Question must be a single answerable question.
+- If the input describes a change rather than a clarification, do not draft an RFI. Instead respond ONLY with: "FLAG: This appears to be a Change Order Request, not an RFI. Recommend routing to Change Order workflow."
+- No em dashes anywhere.
+- Sign in plain English under the document, not with marketing fluff.`
+      },
+      {
+        title: "Follow-Up Drafter Prompt (scheduled)",
+        body: `You are the project manager following up on an open RFI. Write a brief, professional, no-pressure follow-up email to the architect.
+
+Original RFI:
+{{rfi_subject}}
+Sent: {{sent_date}} ({{days_open}} business days ago)
+Question: {{rfi_question}}
+
+Output a 3-sentence email body. Tone: respectful of their time, clear about urgency, no passive-aggression.
+
+Rules:
+- Open with a concrete reference to the RFI number and date sent.
+- Middle sentence: state the field impact if known (waiting on this to proceed with X trade).
+- Close with: "Happy to jump on a quick call if easier than a written response."
+- No em dashes. No "Just checking in." No "I hope this finds you well."
+- Sign: {{pm_name}}, Construction 95.`
+      }
+    ],
+    inputs: [
+      "Drawing index per active project (sheet list, dropped into Drive folder)",
+      "Architect contact info per project, in Airtable Project record",
+      "WhatsApp business number (Twilio) or shared field email",
+      "Notion workspace with RFI Intake template",
+      "C95 RFI Google Doc template (we provide on day 3)",
+      "Sample of 5 historical RFIs from past projects in any format"
+    ],
+    sampleOutput: `<strong># Request for Information</strong><br/><br/>
+<strong>Project:</strong> C95-2402 Hollywood Condo Full Gut<br/>
+<strong>RFI Number:</strong> 2402-014<br/>
+<strong>Date:</strong> 2026-04-22<br/>
+<strong>From:</strong> Levi Ezagui, Construction 95<br/>
+<strong>To:</strong> Daniela Reyes, Reyes &amp; Sons Architects<br/><br/>
+<strong>## Drawing References</strong><br/>
+A-301, Detail 4 (Bath 2 wet wall) ; M-201, Note 7<br/><br/>
+<strong>## Specification References</strong><br/>
+Section 22 13 16 — Sanitary Waste &amp; Vent Piping<br/><br/>
+<strong>## Question</strong><br/>
+Detail 4/A-301 calls for the bath 2 wet wall to be 2x6 framing to accommodate the 3-inch waste vent. Note 7/M-201 references a 2-inch vent for the same fixture group. Which controls?<br/><br/>
+<strong>## Suggested Resolution</strong><br/>
+Recommend the 3-inch vent and 2x6 framing per A-301. The 2-inch vent in M-201 appears to be a holdover from an earlier revision. We are framed open at this location and can proceed Monday with confirmation.<br/><br/>
+<strong>## Required Response Date</strong><br/>
+2026-04-29<br/><br/>
+Levi Ezagui · Construction 95`,
+    hoursSaved: "Roughly 6 hours per week across all active projects, mostly recovered from PM administrative time at $85/hour. More important: average RFI turnaround dropped from 4-6 days to 2.1 days, eliminating most schedule float burns.",
+    tier: "Core Build · Highest-impact build for any GC running multiple jobs",
+    deployment: [
+      { day: 0,  title: "Kickoff",                     subtasks: ["Confirm WhatsApp as primary field-input channel", "Identify the field super and PM operators", "Map drawing-set storage convention"],                tools: ["Google Meet"],                                 output: "Kickoff brief signed, channels confirmed" },
+      { day: 1,  title: "Intake form",                 subtasks: ["Pull architect contact list for active projects", "Document current RFI handling pain points", "Confirm AIA G716 as target output format"],         tools: ["Notion form"],                                 output: "Architect contact roster, format confirmed" },
+      { day: 2,  title: "Historical RFIs and drawings",subtasks: ["Collect 5 historical RFIs across project types", "Pull current drawing indexes for each active project", "Identify trade vocabulary edge cases"],     tools: ["Drive", "Airtable"],                           output: "5 labeled RFI samples and indexed drawing sets" },
+      { day: 3,  title: "Twilio and template setup",   subtasks: ["Provision dedicated Twilio WhatsApp number", "Build C95 RFI Google Doc template with markdown anchors", "Style review with Levi"],                  tools: ["Twilio", "Google Docs"],                       output: "Live WhatsApp number and approved doc template" },
+      { day: 4,  title: "Make scenario skeleton",      subtasks: ["Create C95-RFI-Engine scenario with 3 triggers", "Wire Whisper for voice transcription", "Add CO Detector branch logic"],                              tools: ["Make.com", "OpenAI Whisper"],                  output: "Scenario routes voice / form / email correctly" },
+      { day: 5,  title: "CO Detector accuracy test",   subtasks: ["Test 10 mixed RFI/CO inputs", "Measure false-positive and false-negative rates", "Tune the detector prompt to >95%"],                                 tools: ["Anthropic Console"],                           output: "CO Detector at 95%+ on test set" },
+      { day: 6,  title: "RFI Drafter accuracy test",   subtasks: ["Run 5 real field-style inputs through drafter", "Score drawing-reference accuracy", "Validate the 5-business-day response date math"],               tools: ["Anthropic Console"],                           output: "Drafter producing AIA-grade RFIs at v2" },
+      { day: 7,  title: "Mid-build review",            subtasks: ["Levi reviews 5 generated RFIs", "Confirm voice and signature block", "Approve the architect-facing email template"],                                  tools: ["Google Meet"],                                 output: "Voice and signature locked" },
+      { day: 8,  title: "Scheduled follow-up flow",    subtasks: ["Build the daily 7am scan scenario", "Wire follow-up drafter with Slack approval gate", "Test on 3 mock open RFIs"],                                  tools: ["Make.com", "Slack"],                           output: "Follow-up flow drafts and queues for approval" },
+      { day: 9,  title: "Airtable RFI Log",            subtasks: ["Build RFI Log table with status pipeline", "Add per-project filtered views", "Wire dedup logic on project + question hash"],                          tools: ["Airtable"],                                    output: "RFI Log with live views per active project" },
+      { day: 10, title: "SOP and field training",      subtasks: ["Write field-team-facing SOP for voice memos", "Record 3-minute field training video", "Build a printable wallet card for the super"],                tools: ["Notion", "Loom"],                              output: "Field SOP, training video, wallet cards" },
+      { day: 11, title: "Train operator and field",    subtasks: ["Train Levi on office-side approval flow", "Run live session with the field super", "Practice with one real WhatsApp memo"],                          tools: ["Google Meet", "WhatsApp"],                     output: "Field super sends first real RFI memo correctly" },
+      { day: 12, title: "Soft launch on one project",  subtasks: ["Route only Hollywood Condo project for 48h", "Watch first 3 live RFIs land in architect inboxes", "Collect feedback from architect"],                tools: ["Make.com monitor"],                            output: "3 live RFIs sent, all acknowledged within 24h" },
+      { day: 13, title: "Tune on real RFIs",           subtasks: ["Adjust drafter on real misses", "Add custom Whisper vocab for trade terms", "Patch dedup edge cases"],                                                  tools: ["Anthropic Console"],                           output: "v3 drafter with field-tested vocab" },
+      { day: 14, title: "Roll to all projects",        subtasks: ["Add remaining 4 active projects", "Lock baseline: turnaround days and follow-up rate", "Schedule quarterly review"],                                  tools: ["Notion dashboard"],                            output: "All active projects routed, baseline locked" }
+    ],
+    failures: [
+      "<strong>Field input is too vague to draft a clean RFI:</strong> The CO Detector flags it. The system kicks back to Levi with a request for one specific drawing reference before proceeding.",
+      "<strong>Whisper mistranscribes trade vocabulary:</strong> Add a custom vocabulary list (rebar, shoring, PVC, EMT, lath, scratch coat, brown coat, soffit, fascia, header, lintel, joist) to the transcription step.",
+      "<strong>Architect ignores follow-up:</strong> After 2 failed follow-ups, escalate to Levi for a phone call. The system tracks but does not pester.",
+      "<strong>Same RFI gets entered twice from different channels:</strong> Add a dedup check on Airtable (project + first 100 chars of question) before creating a new record."
+    ],
+    upsell: "Pairs naturally with #5 Submittal Log (next quarter), #9 Change Order Drafting, and #6 Daily Field Reports."
+  },
+
+  // =====================================================
+  // #8 AP INVOICE EXTRACTION
+  // =====================================================
+  8: {
+    n: 8,
+    name: "Subcontractor Invoice Extraction & Job-Cost Coding",
+    valueProp: "Every subcontractor invoice that hits the AP inbox is parsed, matched to a job, suggested with a cost code, and presented in a one-click review queue. AP processing time drops 80%.",
+    pain: `${CONFIG.client.displayName} is small, but the AP volume is not. Roughly ${CONFIG.kpis.apItemsThisMonth} subcontractor and supplier invoices come in every month across active jobs. Before this automation, that meant Mendel or his bookkeeper opening each PDF, eyeballing vendor name, invoice number, date, line items, and totals, then mapping to the right project and the right cost code in QuickBooks. Roughly 12 hours a week. At admin loaded rates of $${CONFIG.loadedRates.admin}/hour, that is $${(CONFIG.loadedRates.admin*12*52).toLocaleString()} per year of pure data entry. Worse, the job-cost reports were always 2 to 3 weeks behind reality, which made mid-project margin calls impossible.`,
+    trigger: "New email with attachment to ap@construction95.com, or new file dropped into Drive folder /C95/AP-Inbox/.",
+    architecture: `[ Gmail ap@construction95.com / Drive AP-Inbox ]
+        ↓ trigger
+[ Make.com scenario "C95-AP-Extract" ]
+        ↓
+[ Claude vision · Invoice Parser ]
+   • Extracts: vendor, invoice #, date, due, line items, totals
+   • Matches: job from PO/project name
+   • Suggests: cost code from C95 chart
+   • Flags: duplicate, missing PO, off-budget
+        ↓
+[ Airtable AP Inbox ]   ←  one record per invoice
+        ↓ Mendel reviews & approves (1-click)
+[ QuickBooks Online sync ] ←  Zapier QBO module
+[ Gmail confirmation ]     ←  to vendor "received"
+[ Lien tracker (#10) ]     ←  cross-reference for waiver`,
+    steps: [
+      "<strong>Make.com scenario name:</strong> C95-AP-Extract. Two triggers: Gmail (ap@construction95.com with attachment) and Drive (new file in /AP-Inbox/).",
+      "<strong>Filter:</strong> Continue only if attachment is PDF, JPG, or PNG and file size < 20 MB. Otherwise log to error queue.",
+      "<strong>Anthropic Claude module · Step 1 (Invoice Parser, vision):</strong> Use the Anthropic Create Message module with vision input. Pass the PDF as a base64 image (use Make's Drive Get File + base64 encoder if needed). Paste the Invoice Parser prompt.",
+      "<strong>Airtable · Search Projects:</strong> Match the invoice's job_reference field against active project names and PO numbers. If no match, mark for human review.",
+      "<strong>Anthropic Claude module · Step 2 (Cost Code Mapper):</strong> Pass the line items plus the C95 cost code chart (stored as a Notion page, fetched via Notion module). Claude suggests a cost code per line.",
+      "<strong>Anomaly check (Make Filter):</strong> Flag if total > $5,000 AND no PO match, OR if invoice number duplicates an existing record in last 90 days, OR if line items contain markup terminology suggesting it should be a CO.",
+      "<strong>Airtable · Create Record:</strong> Base 'C95 Operations', table 'AP Inbox'. Map all extracted fields plus 'review_status' = 'Pending Review' and a link to the original PDF in Drive.",
+      "<strong>Slack · Create Message:</strong> Channel #ap-c95. Daily digest at 8am with the count and a link to the Airtable view 'AP - Pending Review'.",
+      "<strong>Human approval step:</strong> Mendel opens Airtable on phone or laptop, reviews each invoice, edits if needed, hits 'Approve'. Status flips to 'Approved'.",
+      "<strong>QuickBooks Online sync:</strong> A second scenario (C95-AP-to-QBO) watches Airtable for status='Approved'. On hit, creates the bill in QBO via the QuickBooks Online module. Maps vendor, invoice #, date, line items, cost code, project (QBO Class).",
+      "<strong>Vendor confirmation:</strong> Gmail send module replies to the vendor: 'Invoice {{number}} received and queued for payment per terms.'",
+      "<strong>Cross-link to lien tracker:</strong> Last step pings the C95-Lien-Tracker scenario with the project + vendor + invoice amount, so the lien waiver workflow knows to expect a conditional waiver on next pay run."
+    ],
+    prompts: [
+      {
+        title: "Invoice Parser Prompt (vision)",
+        body: `You are an accounts payable specialist for Construction 95, a Florida general contractor. Read the attached invoice (PDF or image) and extract every field with high accuracy.
+
+Return ONLY valid JSON in the schema below. Do not produce prose. If a field is not legible or not present, return null. Do not infer.
+
+Schema:
+{
+  "vendor_name": string,
+  "vendor_address": string,
+  "vendor_phone": string,
+  "invoice_number": string,
+  "invoice_date": ISO 8601 date,
+  "due_date": ISO 8601 date,
+  "po_reference": string,
+  "project_reference": string,
+  "line_items": [
+    {
+      "description": string,
+      "quantity": number,
+      "unit": string,
+      "unit_price": number,
+      "extended": number
+    }
+  ],
+  "subtotal": number,
+  "tax": number,
+  "total": number,
+  "payment_terms": string,
+  "notes": string
+}
+
+Rules:
+- All amounts as numbers, not strings. No dollar signs.
+- Dates as ISO format only.
+- If a line item is unclear, copy it verbatim into description and leave quantity/price as null.
+- Do not invent values. Null is correct.
+- Do not include any commentary outside the JSON.`
+      },
+      {
+        title: "Cost Code Mapper Prompt",
+        body: `You are a job-cost accountant for Construction 95. Given the invoice line items below and the firm's cost code chart, suggest the correct cost code for each line.
+
+Line items:
+{{line_items}}
+
+C95 Cost Code Chart:
+{{cost_code_chart}}
+
+Return JSON:
+{
+  "mappings": [
+    {
+      "line_index": number,
+      "description": string,
+      "suggested_cost_code": string,
+      "confidence": "high" | "medium" | "low",
+      "reasoning": string (one short sentence)
+    }
+  ]
+}
+
+Rules:
+- Use only codes from the provided chart. Do not invent.
+- "low" confidence is fine and expected. Mendel will adjust low-confidence items in review.
+- If the line is overhead, markup, or something that should not be coded to a job, return suggested_cost_code = "REVIEW: not job-cost".`
+      }
+    ],
+    inputs: [
+      "Read access to ap@construction95.com (forwarded from any other AP addresses)",
+      "Drive folder /C95/AP-Inbox/ shared with the Make connection",
+      "QuickBooks Online API connection (read/write Bills)",
+      "C95 cost code chart in Notion or Sheet (we help build if it does not exist)",
+      "30 historical invoices for prompt tuning",
+      "List of active jobs with PO numbers and project references"
+    ],
+    sampleOutput: `<strong>Vendor:</strong> Sunshine Plumbing Supply<br/>
+<strong>Invoice #:</strong> SPS-44192<br/>
+<strong>Date:</strong> 2026-04-19 · Due 2026-05-19<br/>
+<strong>Project match:</strong> C95-2402 Hollywood Condo Full Gut (matched on PO #C95-2402-PL-003)<br/><br/>
+<strong>Line items (3):</strong><br/>
+1. PVC Schedule 40 4" — 220 LF @ $4.85 = $1,067.00 — code <span style="color:var(--gold-bright)">15-2120</span> (high)<br/>
+2. PVC fittings assorted — 1 lot = $284.50 — code <span style="color:var(--gold-bright)">15-2120</span> (high)<br/>
+3. Delivery surcharge — $75.00 — code <span style="color:var(--gold-bright)">15-9100</span> (medium)<br/><br/>
+<strong>Subtotal:</strong> $1,426.50 · <strong>Tax:</strong> $99.86 · <strong>Total:</strong> $1,526.36<br/>
+<strong>Status:</strong> Pending Mendel approval · <strong>Anomalies:</strong> none<br/>
+<strong>Lien implication:</strong> Conditional waiver expected on next pay run for $1,526.36`,
+    hoursSaved: `Roughly 10 hours per week recovered from data entry. At $${CONFIG.loadedRates.admin}/hour that is $${(CONFIG.loadedRates.admin*10).toLocaleString()}/week or $${(CONFIG.loadedRates.admin*10*52).toLocaleString()}/year. Job-cost reports now lag reality by 24 hours instead of 2-3 weeks, which is the bigger win for margin management.`,
+    tier: "Core Build · Foundational for any GC with subcontractor volume",
+    deployment: [
+      { day: 0,  title: "Kickoff",                         subtasks: ["Confirm ap@construction95.com is canonical AP inbox", "Identify Mendel as approval operator", "Map QBO chart of accounts"],                            tools: ["Google Meet"],                           output: "Kickoff brief signed, AP flow mapped" },
+      { day: 1,  title: "QBO API connection",              subtasks: ["Connect QuickBooks Online via Make module", "Verify read/write Bills permission", "Pull existing vendor list"],                                       tools: ["QuickBooks Online", "Make.com"],         output: "QBO connection verified, vendor list synced" },
+      { day: 2,  title: "Collect historical invoices",     subtasks: ["Pull 30 invoices across vendor categories", "Cover materials, subs, equipment, services", "Tag each by job and cost code if known"],                  tools: ["Drive"],                                 output: "30 labeled invoices ready for prompt tuning" },
+      { day: 3,  title: "Build C95 cost code chart",       subtasks: ["Audit Mendel's existing cost code mental model", "Build the formal chart in Notion", "Add aliases per vendor for common items"],                       tools: ["Notion"],                                output: "Cost code chart live in Notion with aliases" },
+      { day: 4,  title: "Vision parser scenario",          subtasks: ["Create C95-AP-Extract scenario", "Wire Gmail and Drive triggers", "Add Anthropic vision module for PDF parsing"],                                       tools: ["Make.com", "Anthropic Console"],         output: "Scenario parsing PDFs end to end with mocks" },
+      { day: 5,  title: "Parser accuracy test",            subtasks: ["Run all 30 historical invoices", "Score field-by-field accuracy on 12 fields", "Identify problem vendors with poor scans"],                            tools: ["Airtable scoring base"],                 output: "Parser hitting 92% on first pass" },
+      { day: 6,  title: "Tune parser to 95%+",             subtasks: ["Add few-shot examples for tricky vendors", "Build vendor alias lookup table", "Patch line-item edge cases"],                                            tools: ["Anthropic Console", "Airtable"],         output: "Parser at 95%+ field accuracy" },
+      { day: 7,  title: "Mid-build review with Mendel",    subtasks: ["Walk Mendel through 5 parsed invoices", "Validate cost-code mappings live", "Approve anomaly detection thresholds"],                                    tools: ["Google Meet"],                           output: "Mendel approves mappings and thresholds" },
+      { day: 8,  title: "Anomaly detection and Slack",     subtasks: ["Add anomaly rules: missing PO, duplicate, off-budget", "Wire #ap-c95 daily 8am digest", "Test with mock anomalies"],                                    tools: ["Make.com", "Slack"],                     output: "Daily digest landing in Slack with mock data" },
+      { day: 9,  title: "QBO sync scenario",               subtasks: ["Build C95-AP-to-QBO companion scenario", "Map vendor / invoice / line items / cost codes", "Test with 3 approved invoices end to end"],                tools: ["Make.com", "QuickBooks Online"],         output: "QBO bills landing correctly from approvals" },
+      { day: 10, title: "SOP and approval workflow",       subtasks: ["Write 1-page approval SOP", "Build the Airtable approval view for mobile", "Document how to bulk-approve clean invoices"],                              tools: ["Notion", "Airtable"],                    output: "Approval SOP and mobile-friendly view live" },
+      { day: 11, title: "Train Mendel as approver",        subtasks: ["Walk Mendel through the approval queue on phone", "Practice with 5 mixed-quality invoices", "Confirm he can run unattended"],                          tools: ["Google Meet"],                           output: "Mendel certified as approver, runs solo" },
+      { day: 12, title: "Soft launch",                     subtasks: ["Route real inbound invoices for 24h", "Watch parser accuracy on live mail", "Watch QBO sync for any drift"],                                            tools: ["Make.com monitor"],                      output: "Live invoices flowing through cleanly" },
+      { day: 13, title: "Tune cost code chart",            subtasks: ["Update chart based on real misses", "Add 5 new aliases learned in production", "Patch one edge case in vendor matching"],                              tools: ["Notion", "Airtable"],                    output: "Chart v2 deployed with production learnings" },
+      { day: 14, title: "Handoff and KPI lock",            subtasks: ["Lock baseline: parse accuracy and time-to-approve", "Schedule weekly Slack KPI roll-up", "Hand off to Mendel"],                                          tools: ["Notion dashboard"],                      output: "Live system, baseline locked, weekly roll-up scheduled" }
+    ],
+    failures: [
+      "<strong>Vision parse misses fields on poorly scanned invoices:</strong> Add a 'flag-for-rescan' status. The system asks the vendor for a clean PDF.",
+      "<strong>Vendor name inconsistent across invoices (Sunshine Plumbing vs Sunshine Plbg vs SPS):</strong> Build a vendor alias table in Airtable. Claude consults it on every parse.",
+      "<strong>QBO sync fails:</strong> Auto-retry 3 times, then queue for manual entry with Slack alert.",
+      "<strong>Duplicate invoice detected:</strong> Halt before QBO push. Slack to Mendel for human call."
+    ],
+    upsell: "Pairs with #10 Lien Waiver Tracker (this quarter, already running) and #20 Cost Database (next quarter)."
+  },
+
+  // =====================================================
+  // #10 LIEN & NTO TRACKER
+  // =====================================================
+  10: {
+    n: 10,
+    name: "Lien Waiver & Florida NTO Deadline Tracker",
+    valueProp: "Every Florida statutory deadline is calculated, watched, and surfaced before it expires. Every conditional and unconditional waiver is drafted on demand using the statutory form language. Lien rights stop being a thing the firm hopes it remembered.",
+    pain: `Florida lien law is the single most expensive thing a small Florida contractor can mess up. Miss the 45-day Notice to Owner and you lose lien rights on that project, full stop. Miss the 90-day Claim of Lien and you lose lien rights, full stop. ${CONFIG.client.displayName} operates entirely in Broward and Miami-Dade where these dates are sacred and the courts do not forgive late filings. Before this automation, NTO and Claim-of-Lien tracking lived in a spreadsheet that nobody updated past project kickoff. The risk was not theoretical.`,
+    trigger: "New project record created in Airtable (or new project setup form submitted), plus a daily scheduled check at 6am for upcoming deadlines.",
+    architecture: `[ Airtable · new Project record ]
+        ↓ trigger
+[ Make.com scenario "C95-Lien-Setup" ]
+        ↓
+[ Claude · Florida Date Calculator ]
+   • Computes: NTO deadline, Claim deadline, enforcement window
+   • Determines: lienor type, NTO required?
+        ↓
+[ Airtable · Lien Tracker base ]
+   • One record per project with all key dates
+        ↓ Calendar event creation (Google Calendar)
+   • NTO due (-45 days from first work)
+   • Claim of Lien due (-90 days from last work)
+   • SOA response window (-30 days)
+   • Enforcement deadline (-1 year from recording)
+
+[ Daily 6am scheduled scan ]
+        ↓
+[ Claude · NTO/Waiver Drafter ]
+   • Drafts statutory NTO using FL 713.06 form
+   • Drafts conditional progress waivers per pay run
+   • Drafts unconditional progress waivers post-payment
+   • Drafts conditional final waivers
+   • Drafts unconditional final waivers
+        ↓ HUMAN GATE
+[ Attorney/Sworn Agent review ]
+        ↓
+[ DocuSign for signing ]
+        ↓
+[ Certified mail vendor or recorder portal ]`,
+    steps: [
+      "<strong>Make.com scenario 1 — C95-Lien-Setup:</strong> Trigger on Airtable new Project record. Pull project facts: first_work_date, last_work_date (null at kickoff), county, owner, GC if any, lienor type, bonded boolean.",
+      "<strong>Anthropic Claude module · Date Calculator:</strong> Run the Florida Date Calculator prompt. Get back JSON with all key statutory dates and warnings.",
+      "<strong>Airtable · Update Project record:</strong> Write back nto_deadline, claim_deadline, enforcement_deadline, soa_response_days, warnings array.",
+      "<strong>Google Calendar · Create Events:</strong> Create 4 events on the C95 Lien calendar: NTO due, Claim of Lien due, Enforcement window opens, Enforcement window closes. Each titled with project ID and lienor type.",
+      "<strong>Make.com scenario 2 — C95-NTO-Drafter:</strong> Trigger 14 days before nto_deadline (calendar-based). Run the NTO Drafter prompt with project facts. Produce a Florida-statutory NTO form pre-populated.",
+      "<strong>HUMAN GATE — attorney review required:</strong> The drafted NTO is emailed to a Slack channel #lien-review with @ tag to Mendel and the firm's construction attorney. Status='Pending Attorney Review'. Nothing sends.",
+      "<strong>On attorney approval:</strong> Status flips to 'Approved'. DocuSign module sends to Mendel for signature. Then Make pushes to certified mail vendor (e.g., Click2Mail) for service to all required parties (owner, lender, GC if separate from owner).",
+      "<strong>Make.com scenario 3 — C95-Waiver-Drafter:</strong> On pay-run trigger (manual or invoice-paid), Claude drafts the appropriate waiver type using statutory form language. NEVER alters the statutory wording.",
+      "<strong>HUMAN GATE — sworn agent signs:</strong> All waivers go to DocuSign for Mendel as licensed sworn agent.",
+      "<strong>Daily 6am scan:</strong> Scenario C95-Lien-Daily. Reads Airtable Lien Tracker. For any deadline within next 14 days, draft a Slack alert to #lien-watch with project, deadline, days remaining, recommended action. For 7 days or less, also SMS Mendel.",
+      "<strong>Updates to last_work_date:</strong> When a project's status flips to 'Work Complete' in Airtable, the scenario re-runs the date calculator with the actual last_work_date and updates the Claim of Lien deadline."
+    ],
+    prompts: [
+      {
+        title: "Florida Date Calculator Prompt",
+        body: `You are a Florida construction lien specialist. Given the project facts below, calculate every key statutory deadline under Florida Statute Chapter 713. Return JSON only.
+
+Project facts:
+- First date of furnishing labor or materials: {{first_work_date}}
+- Last date of furnishing labor or materials: {{last_work_date}}  (null if work not yet complete)
+- Lienor type: {{subcontractor | sub_subcontractor | material_supplier | direct_contractor}}
+- Notice of Commencement recorded date: {{noc_date}}
+- Bonded job (713.23): {{true | false}}
+- County of project: {{county}}
+
+Output schema:
+{
+  "nto_required": boolean,
+  "nto_deadline": ISO date,
+  "claim_of_lien_deadline": ISO date or null,
+  "service_of_lien_deadline_after_recording": ISO date,
+  "enforcement_deadline_default": ISO date,
+  "sworn_statement_response_window_days": 30,
+  "applicable_statute_sections": [list of section numbers],
+  "warnings": [list of risk flags as strings]
+}
+
+Calculation rules:
+- NTO deadline = first_work_date + 45 days. Direct contractors do not need to serve NTO.
+- Claim of Lien deadline = last_work_date + 90 days. If last_work_date is null, return null and add warning.
+- Service of lien on owner = recording date + 15 days.
+- Enforcement default = recording date + 1 year. If Notice of Contest served, 60 days. If show cause, 20 days.
+- Sworn Statement of Account response = 30 days from receipt of demand.
+
+Required warnings:
+- If lienor_type is direct_contractor: "NTO not required for direct contractors per 713.06(2)(a)."
+- If bonded is true: "Project is bonded under 713.23. Lien rights are replaced by a Notice of Nonpayment and a claim against the bond. Switch to bond claim workflow."
+- If first_work_date is more than 45 days ago and NTO has not been served: "URGENT: NTO already past due. Lien rights may be lost."
+- Always include: "Statutory deadlines are strictly enforced. Consult Florida construction counsel before relying on these dates for legal action."`
+      },
+      {
+        title: "NTO Drafter Prompt",
+        body: `You are drafting a Notice to Owner under Florida Statute 713.06 for a Florida subcontractor or supplier. Use the statutory form language EXACTLY as required by 713.06(2)(c). Do not paraphrase the statutory portions.
+
+Project facts:
+- Owner name: {{owner_name}}
+- Owner address: {{owner_address}}
+- Property description: {{property_legal_description}}
+- Property address: {{property_address}}
+- General contractor (if applicable): {{gc_name}}
+- Lender (if any): {{lender_name}}
+- Lienor (Construction 95): Construction 95 LLC, {{c95_address}}
+- License: {{c95_license}}
+- Description of services or materials furnished: {{services_description}}
+- First date of furnishing: {{first_work_date}}
+
+Output the complete NTO using the statutory form. Include:
+1. Header: "NOTICE TO OWNER / NOTICE TO CONTRACTOR"
+2. The statutory warning paragraph EXACTLY as written in 713.06(2)(c).
+3. Identification of all parties.
+4. Description of services or materials.
+5. Dates.
+6. Signature block for Mendel Ezagui as authorized agent.
+7. Notarization block.
+8. Certificate of Service section listing the parties who will receive the notice and method.
+
+Output as a clean text document ready for Mendel to print, sign, notarize, and serve via certified mail.
+
+Critical rules:
+- Do NOT alter the statutory warning language. It must be verbatim per 713.06(2)(c).
+- This document MUST be reviewed by the firm's Florida construction attorney before service.
+- Append at the bottom: "DRAFT FOR ATTORNEY REVIEW. Do not serve until reviewed and approved by Florida construction counsel."`
+      },
+      {
+        title: "Conditional Progress Waiver Drafter Prompt",
+        body: `You are drafting a Conditional Waiver and Release Upon Progress Payment under Florida Statute 713.20(2). Use the statutory form language EXACTLY.
+
+Facts:
+- Lienor: Construction 95 LLC
+- Owner: {{owner_name}}
+- Property: {{property_address}} / {{legal_description}}
+- Through date: {{through_date}}
+- Amount: \${{amount}}
+- Check number (if known): {{check_number}}
+- Maker of check: {{check_maker}}
+
+Output the complete waiver per the statutory form in 713.20(2). Do NOT alter the form language. Append signature and notarization blocks.
+
+Critical rules:
+- The form language is statutory. Reproduce it exactly. Do not modernize or condense.
+- Append: "Sworn agent Mendel Ezagui must sign. This waiver is conditional on actual receipt of the payment referenced. Do not deliver to the payor until the check has cleared."`
+      }
+    ],
+    inputs: [
+      "List of all active and recently active projects with first_work_date, last_work_date, county, owner, lender",
+      "Construction 95's licensed sworn agent identity (Mendel Ezagui)",
+      "Florida construction attorney contact for the human-gate review step",
+      "DocuSign account or PandaDoc account",
+      "Certified mail vendor account (Click2Mail or similar) — optional, can be manual at first",
+      "Statutory form templates for the four Florida waiver types (we provide on day 3)",
+      "Notice of Commencement record for each property"
+    ],
+    sampleOutput: `<strong>Project:</strong> C95-2403 Sunrise Commercial Buildout<br/>
+<strong>County:</strong> Broward · <strong>Lienor type:</strong> Direct contractor<br/><br/>
+<strong>Calculated deadlines:</strong><br/>
+NTO required: <span style="color:var(--gold-bright)">No (direct contractor exemption per 713.06(2)(a))</span><br/>
+First work: 2026-04-22 · Last work: TBD<br/>
+Claim of Lien deadline: <span style="color:var(--rust-soft)">TBD — recalculates when work completes</span><br/>
+Enforcement deadline (post-recording): recording + 1 year<br/>
+SOA response window: 30 days from receipt<br/><br/>
+<strong>WARNINGS</strong><br/>
+• Project is bonded under 713.23. Lien rights replaced by Notice of Nonpayment + bond claim. Switch to bond claim workflow when triggered.<br/>
+• Statutory deadlines are strictly enforced. Consult Florida construction counsel before relying on these dates for legal action.`,
+    hoursSaved: "Roughly 2 hours per week saved on manual deadline tracking, but the real number here is risk-adjusted. One missed NTO on a $400K commercial project is a $400K loss. The automation makes that loss roughly impossible.",
+    tier: "Core Build · License-to-operate automation for any Florida sub or GC",
+    deployment: [
+      { day: 0,  title: "Kickoff with attorney intro",    subtasks: ["Kickoff with Mendel as licensed sworn agent", "Introduce VRL-recommended construction attorney", "Confirm attorney as the human-gate reviewer"],         tools: ["Google Meet"],                       output: "Kickoff signed, attorney engagement set" },
+      { day: 1,  title: "Pull NOC records",               subtasks: ["Pull Notice of Commencement for all active properties", "Verify owner names match contracts", "Identify any bonded vs unbonded jobs"],                  tools: ["Broward Clerk portal", "Drive"],     output: "NOC records loaded, bonded jobs flagged" },
+      { day: 2,  title: "Statutory form templates",       subtasks: ["Build NTO template per 713.06 in Google Docs", "Build all 4 waiver templates per 713.20", "Reproduce statutory language verbatim"],                       tools: ["Google Docs"],                       output: "5 statutory templates drafted, awaiting attorney review" },
+      { day: 3,  title: "Date calculator scenario",       subtasks: ["Build C95-Lien-Setup scenario", "Wire Anthropic Date Calculator prompt", "Add Airtable Lien Tracker base schema"],                                       tools: ["Make.com", "Airtable"],              output: "Date calculator producing correct dates on test cases" },
+      { day: 4,  title: "Test against historical jobs",   subtasks: ["Run 5 past projects with known correct dates", "Verify NTO + Claim of Lien math", "Verify direct contractor and bonded edge cases"],                    tools: ["Airtable test base"],                output: "Calculator at 100% on the 5-project test set" },
+      { day: 5,  title: "Daily 6am scan scenario",        subtasks: ["Build C95-Lien-Daily scheduled scenario", "Wire Slack #lien-watch alerts", "Add Twilio SMS to Mendel for sub-7-day windows"],                            tools: ["Make.com", "Slack", "Twilio"],       output: "Daily scan operating on test calendar" },
+      { day: 6,  title: "NTO drafter with attorney gate", subtasks: ["Build NTO drafter scenario at -14 days", "Wire #lien-review Slack channel for attorney", "Add hold-for-approval logic before any send"],                  tools: ["Make.com", "Slack"],                 output: "NTO drafter producing forms and pausing for review" },
+      { day: 7,  title: "Mid-build attorney review",      subtasks: ["Attorney reviews all 5 statutory templates", "Approve or redline statutory form language", "Sign off on the human-gate workflow design"],               tools: ["Google Meet", "DocuSign"],           output: "Attorney signs off on templates and gate flow" },
+      { day: 8,  title: "Waiver drafter scenarios",       subtasks: ["Build the 4 waiver drafters (cond/uncond × progress/final)", "Wire DocuSign for sworn-agent signing", "Add post-clear conditional release"],            tools: ["Make.com", "DocuSign"],              output: "All 4 waiver drafters operating end to end" },
+      { day: 9,  title: "DocuSign and certified mail",    subtasks: ["Wire DocuSign for Mendel's sworn-agent signature", "Connect Click2Mail for certified mail dispatch", "Test with one mock NTO end to end"],                tools: ["DocuSign", "Click2Mail"],            output: "End-to-end mock NTO sent via certified mail" },
+      { day: 10, title: "SOP and human-gate doc",         subtasks: ["Write SOP with the human-gate workflow front and center", "Document attorney escalation paths", "Build a 'when to call counsel' decision tree"],          tools: ["Notion"],                            output: "SOP doc with attorney escalation tree" },
+      { day: 11, title: "Attorney review of templates",   subtasks: ["Final attorney sign-off on all 5 statutory templates", "Capture any redlines from attorney", "Lock template versions in Drive"],                          tools: ["DocuSign", "Drive"],                 output: "Attorney countersigning final template set" },
+      { day: 12, title: "Soft launch with new project",   subtasks: ["Add the next new project to the tracker", "Verify all dates calculate correctly", "Watch the daily scan for 48h"],                                       tools: ["Airtable", "Make.com"],              output: "First live project tracking statutory dates" },
+      { day: 13, title: "Backfill all active projects",   subtasks: ["Add the remaining 4 active projects", "Verify each project's deadlines", "Address any flagged warnings from calculator"],                                tools: ["Airtable"],                          output: "All 5 active projects in the tracker" },
+      { day: 14, title: "Handoff",                        subtasks: ["Final attorney sign-off on every form template", "Train Mendel and Levi on the daily Slack flow", "Lock the system and schedule quarterly attorney check"], tools: ["Notion dashboard"],                  output: "System live, attorney engaged, quarterly cadence locked" }
+    ],
+    failures: [
+      "<strong>Last work date drifts (project resumes after a pause):</strong> The Florida courts have nuanced doctrine on what constitutes resumption vs new work. The system flags any project where last_work_date has been set then new work logged, and routes to attorney review.",
+      "<strong>Bonded vs unbonded misclassified:</strong> System hard-fails the lien path on bonded projects and re-routes to bond claim drafter. Mendel must confirm bonded status before any project enters the tracker.",
+      "<strong>Owner name in NOC differs from contract:</strong> System flags. Manual reconciliation required before NTO drafts.",
+      "<strong>Multi-property projects:</strong> Each property gets its own tracker record. Cross-link in Airtable."
+    ],
+    upsell: "Pairs with #15 Subcontractor COI Tracker (next quarter) and #18 Contract Risk Review."
+  }
+
+};
+
+</script>
+
+
+<!-- ============================================================ -->
+<!-- DOCUMENT LIBRARY SAMPLES                                      -->
+<!-- ============================================================ -->
+<script>
+
+const DOCUMENT_SAMPLES = [
+  {
+    title: "RFI 2402-014",
+    meta: "Generated · April 22 · Hollywood Condo",
+    automationN: 4,
+    body: `
+      <h4>Request for Information</h4>
+      <div class="field-row"><span class="label">Project</span><span>C95-2402 Hollywood Condo Full Gut</span></div>
+      <div class="field-row"><span class="label">RFI Number</span><span>2402-014</span></div>
+      <div class="field-row"><span class="label">Date</span><span>April 22, 2026</span></div>
+      <div class="field-row"><span class="label">From</span><span>Levi Ezagui, Construction 95</span></div>
+      <div class="field-row"><span class="label">To</span><span>Daniela Reyes, Reyes &amp; Sons Architects</span></div>
+      <hr/>
+      <h4>Drawing References</h4>
+      <p>A-301, Detail 4 (Bath 2 wet wall) · M-201, Note 7</p>
+      <h4>Specification References</h4>
+      <p>Section 22 13 16 — Sanitary Waste &amp; Vent Piping</p>
+      <h4>Question</h4>
+      <p>Detail 4/A-301 calls for the bath 2 wet wall to be 2x6 framing to accommodate the 3-inch waste vent. Note 7/M-201 references a 2-inch vent for the same fixture group. Which controls?</p>
+      <h4>Suggested Resolution</h4>
+      <p>Recommend the 3-inch vent and 2x6 framing per A-301. The 2-inch vent in M-201 appears to be a holdover from an earlier revision. We are framed open at this location and can proceed Monday with confirmation.</p>
+      <h4>Required Response Date</h4>
+      <p>April 29, 2026</p>
+      <p style="margin-top:14px;"><strong>Levi Ezagui</strong> · Construction 95</p>
+    `
+  },
+  {
+    title: "Lead Reply · Marcus K.",
+    meta: "Sent · April 28 · 47 sec response",
+    automationN: 1,
+    body: `
+      <h4>Re: your inquiry — Construction 95</h4>
+      <p>Hey Marcus,</p>
+      <p>Sounds like you're looking at a full master bath gut in Pembroke Pines, mid-tier finishes, ready to start in the next 30 days. We just wrapped a similar scope two miles from you, ten days door to door, kept the family in the house the whole time.</p>
+      <p>I'd want fifteen minutes on the phone to walk through your scope and your timeline before quoting anything. Reply with a time that works or text me at (347) 295-5105.</p>
+      <p style="margin-top:14px;"><strong>Levi Ezagui</strong> · Construction 95</p>
+      <hr/>
+      <div class="field-row"><span class="label">Classification</span><span>Residential / High intent</span></div>
+      <div class="field-row"><span class="label">Budget tier</span><span>$40K – $100K</span></div>
+      <div class="field-row"><span class="label">Timeline</span><span>Within 30 days</span></div>
+      <div class="field-row"><span class="label">Logged</span><span>Airtable Lead Pipeline · Status New</span></div>
+    `
+  },
+  {
+    title: "AP Invoice · Sunshine Plumbing",
+    meta: "Parsed · April 19 · Pending approval",
+    automationN: 8,
+    body: `
+      <h4>Invoice Extraction</h4>
+      <div class="field-row"><span class="label">Vendor</span><span>Sunshine Plumbing Supply</span></div>
+      <div class="field-row"><span class="label">Invoice #</span><span>SPS-44192</span></div>
+      <div class="field-row"><span class="label">Invoice date</span><span>April 19, 2026</span></div>
+      <div class="field-row"><span class="label">Due date</span><span>May 19, 2026</span></div>
+      <div class="field-row"><span class="label">PO match</span><span>C95-2402-PL-003 (high)</span></div>
+      <div class="field-row"><span class="label">Project</span><span>C95-2402 Hollywood Condo Full Gut</span></div>
+      <hr/>
+      <h4>Line items</h4>
+      <p>1. PVC Schedule 40 4" — 220 LF @ $4.85 = $1,067.00 — code 15-2120</p>
+      <p>2. PVC fittings assorted — 1 lot = $284.50 — code 15-2120</p>
+      <p>3. Delivery surcharge — $75.00 — code 15-9100</p>
+      <hr/>
+      <div class="field-row"><span class="label">Subtotal</span><span>$1,426.50</span></div>
+      <div class="field-row"><span class="label">Tax</span><span>$99.86</span></div>
+      <div class="field-row"><span class="label">Total</span><span>$1,526.36</span></div>
+      <div class="field-row"><span class="label">Anomalies</span><span>None</span></div>
+      <div class="field-row"><span class="label">Status</span><span>Pending Mendel approval</span></div>
+    `
+  },
+  {
+    title: "Conditional Progress Waiver",
+    meta: "Drafted · April 25 · Awaiting attorney review",
+    automationN: 10,
+    body: `
+      <h4>Conditional Waiver and Release Upon Progress Payment</h4>
+      <p style="font-size: 10px; color: var(--ink-soft); font-style: italic;">Per Florida Statute 713.20(2). Statutory form language reproduced verbatim.</p>
+      <hr/>
+      <div class="field-row"><span class="label">Lienor</span><span>Construction 95 LLC</span></div>
+      <div class="field-row"><span class="label">Owner</span><span>Hollywood Condo HOA, Inc.</span></div>
+      <div class="field-row"><span class="label">Property</span><span>1842 Tyler Street, Hollywood FL 33020</span></div>
+      <div class="field-row"><span class="label">Through date</span><span>April 24, 2026</span></div>
+      <div class="field-row"><span class="label">Payment amount</span><span>$28,400.00</span></div>
+      <div class="field-row"><span class="label">Check #</span><span>4471 (Maker: Hollywood Condo HOA)</span></div>
+      <hr/>
+      <p style="font-size: 10px; color: var(--rust); font-style: italic; padding: 10px; background: rgba(139,58,31,0.08); border-left: 2px solid var(--rust);">DRAFT FOR ATTORNEY REVIEW. Do not deliver until (1) reviewed and approved by Florida construction counsel and (2) the referenced check has cleared. Mendel Ezagui to sign as licensed sworn agent only after both conditions are met.</p>
+    `
+  }
+];
+
+</script>
+
+
+<!-- ============================================================ -->
+<!-- ARCHITECTURE SVG DIAGRAMS                                     -->
+<!-- ============================================================ -->
+<script>
+function renderArchSVG(text) {
+  const lines = text.split('\n');
+  let html = '<pre style="font-family: \'JetBrains Mono\', monospace; font-size: 11px; line-height: 1.6; color: var(--cream); white-space: pre; margin: 0;">';
+  lines.forEach(l => {
+    let line = l;
+    line = line.replace(/\[([^\]]+)\]/g, '<span style="color: var(--gold-bright);">[$1]</span>');
+    line = line.replace(/(↓|←|→)/g, '<span style="color: var(--rust-soft);">$1</span>');
+    line = line.replace(/(•[^•\n]*)/g, '<span style="color: var(--ink-faint);">$1</span>');
+    html += line + '\n';
+  });
+  html += '</pre>';
+  return html;
+}
+</script>
+
+
+<!-- ============================================================ -->
+<!-- RENDERING                                                     -->
+<!-- ============================================================ -->
+<script>
+
+function fmtCurrency(n) {
+  return '$' + n.toLocaleString('en-US');
+}
+function fmtDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+function daysBetween(iso1, iso2) {
+  const a = new Date(iso1).getTime(), b = new Date(iso2).getTime();
+  return Math.round((b - a) / 86400000);
+}
+function addDays(iso, days) {
+  const d = new Date(iso);
+  d.setDate(d.getDate() + days);
+  return d.toISOString().split('T')[0];
+}
+
+// ===== Hydrate sidebar =====
+function renderSidebar() {
+  const cl = CONFIG.client;
+  document.getElementById('cl-name').textContent = cl.legalName;
+  document.getElementById('cl-meta').innerHTML =
+    `${cl.trade} · ${cl.address.city}, ${cl.address.state}<br/>${cl.revenueRange} · ${cl.employeeCount} on team`;
+  document.getElementById('active-count').textContent = CONFIG.package.automationsActive.length;
+  document.getElementById('ft-operator').textContent = CONFIG.provider.operator;
+  document.getElementById('ft-email').textContent = CONFIG.provider.operatorEmail;
+  document.getElementById('ft-review').textContent = fmtDate(CONFIG.package.nextQuarterlyReview);
+}
+
+// ===== Dashboard =====
+function renderDashboard() {
+  const today = new Date();
+  document.getElementById('dash-date').textContent =
+    today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+  // KPIs — 6 cards, ordered by stakeholder importance (most consequential first)
+  const k = CONFIG.kpis;
+  const kpis = [
+    { label: 'Hours saved YTD',     value: k.hoursSavedYTD,                    unit: 'hrs',  trend: '↑ on pace · vs $0 baseline', cls: '' },
+    { label: 'Dollar value YTD',    value: '$' + (k.dollarValueSavedYTD/1000).toFixed(1) + 'K', unit: '', trend: '↑ tracking 18% above plan', cls: '' },
+    { label: 'Workflow success',    value: Math.round(k.successRate*100),      unit: '%',    trend: 'across 50+ runs', cls: '' },
+    { label: 'Lead response avg',   value: k.leadResponseAvgSec,               unit: 'sec',  trend: 'target under 60s', cls: '' },
+    { label: 'RFI turnaround',      value: k.avgRFITurnDays,                   unit: 'days', trend: '↓ from 4.2 day baseline', cls: '' },
+    { label: 'AP auto-approved',    value: Math.round(k.apReviewedAutoApproved*100), unit: '%', trend: 'one-click rate', cls: '' }
+  ];
+  document.getElementById('kpi-grid').innerHTML = kpis.map(k =>
+    `<div class="kpi">
+       <div class="kpi-label">${k.label}</div>
+       <div class="kpi-value">${k.value}<span class="unit">${k.unit}</span></div>
+       <div class="kpi-trend">${k.trend}</div>
+     </div>`
+  ).join('');
+
+  // Bundle strip
+  document.getElementById('bundle-strip').innerHTML = `
+    <div class="bundle-cell">
+      <div class="label">Engagement</div>
+      <div class="value">${CONFIG.package.tier}</div>
+    </div>
+    <div class="bundle-cell">
+      <div class="label">Quarterly Fee</div>
+      <div class="value">${fmtCurrency(CONFIG.package.quarterlyFee)}<span style="font-size:13px; color:var(--ink-faint); font-style:italic;"> · ${fmtCurrency(CONFIG.package.monthlyEffective)}/mo effective</span></div>
+    </div>
+    <div class="bundle-cell">
+      <div class="label">Live Since</div>
+      <div class="value">${fmtDate(CONFIG.package.activatedDate)}</div>
+    </div>
+  `;
+
+  // Activity feed (synthesized from real automations)
+  const feed = [
+    { time: '08:42 AM', text: '<span class="auto">RFI Engine</span> drafted RFI 2402-014 for Hollywood Condo. Sent to Reyes &amp; Sons Architects.', status: 'ok', statusText: 'Sent' },
+    { time: '08:14 AM', text: '<span class="auto">Lead Intake</span> classified inquiry from Marcus K. (Pembroke Pines). Reply sent in 47 sec.', status: 'ok', statusText: 'Replied' },
+    { time: '07:30 AM', text: '<span class="auto">Daily Lien Scan</span> checked 4 active projects. No statutory deadlines within 14 days.', status: 'ok', statusText: 'Clear' },
+    { time: 'Yesterday', text: '<span class="auto">AP Extract</span> parsed 6 invoices. 5 auto-routed to Mendel for one-click approval. 1 flagged: missing PO.', status: 'flag', statusText: '1 flag' },
+    { time: 'Yesterday', text: '<span class="auto">RFI Engine</span> follow-up sent on RFI 2401-008 (Pembroke kitchen) — 5 business days open.', status: 'ok', statusText: 'Follow-up' },
+    { time: '2 days ago', text: '<span class="auto">Lien Tracker</span> calculated dates for new project C95-2403 Sunrise Commercial Buildout. Bonded — switched to bond claim workflow.', status: 'ok', statusText: 'Setup' }
+  ];
+  document.getElementById('activity-feed').innerHTML = feed.map(f =>
+    `<div class="feed-item">
+       <div class="feed-time">${f.time}</div>
+       <div class="feed-text">${f.text}</div>
+       <div class="feed-status ${f.status}">${f.statusText}</div>
+     </div>`
+  ).join('');
+
+  // Florida deadlines
+  const today_iso = today.toISOString().split('T')[0];
+  const deadlines = [];
+  CONFIG.projects.forEach(p => {
+    if (p.firstWorkDate && p.status === 'Active' && !p.bonded) {
+      const ntoDeadline = addDays(p.firstWorkDate, 45);
+      const ntoDays = daysBetween(today_iso, ntoDeadline);
+      if (ntoDays > -30) {
+        deadlines.push({
+          project: p.name, projectId: p.id, type: 'NTO Deadline',
+          date: ntoDeadline, days: ntoDays
+        });
+      }
+    }
+    if (p.firstWorkDate && (p.status === 'Active' || p.status === 'Closeout')) {
+      const lastWork = p.status === 'Closeout' ? addDays(p.firstWorkDate, 90) : null;
+      if (lastWork) {
+        const claimDeadline = addDays(lastWork, 90);
+        const claimDays = daysBetween(today_iso, claimDeadline);
+        if (claimDays > -30) {
+          deadlines.push({
+            project: p.name, projectId: p.id, type: 'Claim of Lien',
+            date: claimDeadline, days: claimDays
+          });
+        }
+      }
+    }
+  });
+  deadlines.sort((a,b) => a.days - b.days);
+  const renderDeadline = d => {
+    const cls = d.days <= 7 ? 'days-urgent' : (d.days <= 30 ? 'days-soon' : 'days-safe');
+    const txt = d.days < 0 ? `${Math.abs(d.days)}d past` : `${d.days} days`;
+    return `<div class="deadline-row">
+       <div class="deadline-project">${d.type}<span class="small">${d.projectId} · ${d.project}</span></div>
+       <div class="deadline-date">${fmtDate(d.date)}</div>
+       <div class="deadline-days ${cls}">${txt}</div>
+     </div>`;
+  };
+  document.getElementById('deadline-list').innerHTML =
+    deadlines.slice(0,5).map(renderDeadline).join('') || '<p style="color:var(--ink-faint); font-size:12px;">No upcoming deadlines in the next 30 days.</p>';
+  document.getElementById('full-deadline-list').innerHTML =
+    deadlines.map(renderDeadline).join('') || '<p style="color:var(--ink-faint); font-size:12px;">No deadlines tracked.</p>';
+
+  // Project list
+  document.getElementById('proj-count').textContent = CONFIG.projects.length;
+  document.getElementById('project-list').innerHTML = CONFIG.projects.map(p => {
+    let statusColor;
+    if (p.status === 'Active') statusColor = 'var(--status-info)';
+    else if (p.status === 'Closeout') statusColor = 'var(--status-ontrack)';
+    else if (p.status === 'Bidding') statusColor = 'var(--status-atrisk)';
+    else statusColor = 'var(--text-faint)';
+    return `<div style="display:grid; grid-template-columns: 100px 1fr auto auto; gap:20px; padding:14px 0; border-bottom:1px solid var(--line); align-items:center; min-height:48px;">
+       <span class="mono" style="color:var(--gold);">${p.id}</span>
+       <span style="font-size:13px; color:var(--text-primary);">${p.name}<br/><span style="font-size:10px; color:var(--text-faint); letter-spacing:0.16em; text-transform:uppercase;">${p.county} · ${p.phase}</span></span>
+       <span class="mono" style="font-size:12px; color: var(--text-primary);">${fmtCurrency(p.value)}</span>
+       <span style="font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:${statusColor}; font-weight: 500;">${p.status}</span>
+     </div>`;
+  }).join('');
+}
+
+// ===== Active automations =====
+function renderActive() {
+  document.getElementById('active-quarter').textContent = `Q${Math.ceil((new Date(CONFIG.package.activatedDate).getMonth()+1)/3)} ${new Date(CONFIG.package.activatedDate).getFullYear()}`;
+  document.getElementById('active-grid').innerHTML = CONFIG.package.automationsActive.map(n => {
+    const a = AUTOMATIONS.find(x => x.n === n);
+    return `<div class="auto-card active" data-buildpack="${n}">
+       <div class="auto-num">Automation №${n}</div>
+       <div class="auto-name">${a.name}</div>
+       <div class="auto-pain">${a.pain}</div>
+       <div class="auto-tier">${a.tier} · Tap to open Build Pack</div>
+     </div>`;
+  }).join('');
+}
+
+function showBuildPack(n) {
+  const pack = BUILD_PACKS[n];
+  if (!pack) return;
+  const target = document.getElementById('buildpack-target');
+  target.innerHTML = `
+    <div class="buildpack" id="bp-${n}">
+      <div class="buildpack-header">
+        <div class="buildpack-eyebrow">Build Pack · Automation №${pack.n}</div>
+        <div class="buildpack-title">${pack.name}</div>
+        <div class="buildpack-subtitle">${pack.valueProp}</div>
+      </div>
+
+      <div class="bp-tabs">
+        <div class="bp-tab active" data-tab="overview">Overview</div>
+        <div class="bp-tab" data-tab="arch">Architecture</div>
+        <div class="bp-tab" data-tab="steps">Build Steps</div>
+        <div class="bp-tab" data-tab="prompts">Claude Prompts</div>
+        <div class="bp-tab" data-tab="deploy">Deployment</div>
+        <div class="bp-tab" data-tab="failures">Failures</div>
+      </div>
+
+      <div class="bp-tab-content active" data-content="overview">
+        <div class="bp-section">
+          <div class="bp-section-num">i.</div>
+          <div class="bp-section-title">Pain it solves</div>
+          <p>${pack.pain}</p>
+        </div>
+        <div class="bp-section">
+          <div class="bp-section-num">ii.</div>
+          <div class="bp-section-title">Trigger</div>
+          <p>${pack.trigger}</p>
+        </div>
+        <div class="bp-section">
+          <div class="bp-section-num">iii.</div>
+          <div class="bp-section-title">Hours saved &amp; ROI</div>
+          <p>${pack.hoursSaved}</p>
+        </div>
+        <div class="bp-section">
+          <div class="bp-section-num">iv.</div>
+          <div class="bp-section-title">Required inputs from client</div>
+          <ul>${pack.inputs.map(i => `<li>${i}</li>`).join('')}</ul>
+        </div>
+        <div class="bp-section">
+          <div class="bp-section-num">v.</div>
+          <div class="bp-section-title">Sample output</div>
+          <div style="background: var(--parchment); color: var(--ink); padding: 24px; font-size: 13px; line-height: 1.6;">
+            ${pack.sampleOutput}
+          </div>
+        </div>
+      </div>
+
+      <div class="bp-tab-content" data-content="arch">
+        <div class="bp-section">
+          <div class="bp-section-title">Workflow architecture</div>
+          <div class="arch-diagram">${renderArchSVG(pack.architecture)}</div>
+        </div>
+      </div>
+
+      <div class="bp-tab-content" data-content="steps">
+        <div class="bp-section">
+          <div class="bp-section-title">Step-by-step build · no code</div>
+          <ol>${pack.steps.map(s => `<li>${s}</li>`).join('')}</ol>
+        </div>
+      </div>
+
+      <div class="bp-tab-content" data-content="prompts">
+        ${pack.prompts.map(p => `
+          <div class="bp-section">
+            <div class="bp-section-title">${p.title}</div>
+            <div class="prompt-block">${escapeHtml(p.body)}</div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="bp-tab-content" data-content="deploy">
+        <div class="bp-section">
+          <div class="bp-section-title">14-day deployment timeline</div>
+          ${renderTimeline(pack.n, pack.deployment)}
+        </div>
+      </div>
+
+      <div class="bp-tab-content" data-content="failures">
+        <div class="bp-section">
+          <div class="bp-section-title">Common failure modes</div>
+          <ul>${pack.failures.map(f => `<li>${f}</li>`).join('')}</ul>
+        </div>
+        <div class="bp-section">
+          <div class="bp-section-title">Upsell path</div>
+          <p>${pack.upsell}</p>
+        </div>
+      </div>
+    </div>
+  `;
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function renderTimeline(automationN, days) {
+  const currentDay = CONFIG.package.deploymentProgress && CONFIG.package.deploymentProgress[automationN];
+  const cur = (typeof currentDay === 'number') ? currentDay : 14;
+  const total = days.length;
+  // Count completed days (day < cur means complete; day === cur means in progress unless cur === 14)
+  let complete = 0, inProgress = 0, pending = 0;
+  days.forEach(d => {
+    if (cur >= 14 && d.day <= cur) complete++;
+    else if (d.day < cur) complete++;
+    else if (d.day === cur) inProgress++;
+    else pending++;
+  });
+  const pct = Math.round((complete / total) * 100);
+  const summaryLabel = cur >= 14
+    ? `Live · all ${total} days complete`
+    : `Day ${cur} of ${total - 1} · in progress`;
+
+  const nodes = days.map(d => {
+    let status, statusLabel, marker;
+    if (cur >= 14 || d.day < cur) {
+      status = 'complete'; statusLabel = 'Complete'; marker = '✓';
+    } else if (d.day === cur) {
+      status = 'in-progress'; statusLabel = 'In Progress'; marker = '⟳';
+    } else {
+      status = 'pending'; statusLabel = 'Pending'; marker = '○';
+    }
+    const subtaskList = (d.subtasks || []).map(s => `<li>${escapeHtml(s)}</li>`).join('');
+    const toolPills = (d.tools || []).map(t => `<span class="tool-pill">${escapeHtml(t)}</span>`).join('');
+    return `
+      <li class="timeline-node ${status}" data-tl-day="${d.day}" data-tl-pack="${automationN}">
+        <div class="timeline-marker">${marker}</div>
+        <div class="timeline-summary">
+          <span class="timeline-day">Day ${d.day}</span>
+          <span class="timeline-title">${escapeHtml(d.title)}</span>
+          <span class="timeline-status">${statusLabel}</span>
+          <span class="timeline-chevron">›</span>
+        </div>
+        <div class="timeline-detail">
+          <div class="detail-row">
+            <span class="detail-label">Subtasks</span>
+            <ul class="detail-list">${subtaskList}</ul>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Tools</span>
+            <div class="tool-pills">${toolPills}</div>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Expected output</span>
+            <div class="detail-output">${escapeHtml(d.output || '')}</div>
+          </div>
+        </div>
+      </li>
+    `;
+  }).join('');
+
+  return `
+    <div class="timeline-wrap">
+      <div class="timeline-progress">
+        <div class="timeline-progress-top">
+          <div class="timeline-progress-label">${summaryLabel}</div>
+          <div class="timeline-progress-pct">${pct}%<span class="small">deployed</span></div>
+        </div>
+        <div class="timeline-bar">
+          <div class="timeline-bar-fill" style="width: ${pct}%;"></div>
+        </div>
+        <div class="timeline-summary-row">
+          <span class="timeline-summary-item"><span class="timeline-dot complete"></span><strong>${complete}</strong> complete</span>
+          <span class="timeline-summary-item"><span class="timeline-dot in-progress"></span><strong>${inProgress}</strong> in progress</span>
+          <span class="timeline-summary-item"><span class="timeline-dot pending"></span><strong>${pending}</strong> pending</span>
+        </div>
+      </div>
+      <ul class="timeline-list" style="--progress-pct: ${pct}%;">
+        ${nodes}
+      </ul>
+    </div>
+  `;
+}
+
+
+function renderCatalog() {
+  document.getElementById('catalog-grid').innerHTML = AUTOMATIONS.map(a => {
+    const isActive = CONFIG.package.automationsActive.includes(a.n);
+    const click = BUILD_PACKS[a.n] ? `data-catalog-pack="${a.n}"` : '';
+    return `<div class="catalog-item ${isActive ? 'active' : ''}" ${click}>
+       <div class="catalog-num">№ ${String(a.n).padStart(2,'0')}</div>
+       <div class="catalog-name">${a.name}</div>
+       <div class="catalog-tier">${a.tier}${isActive ? ' · ACTIVE' : ''}</div>
+     </div>`;
+  }).join('');
+}
+
+function goActiveAndShow(n) {
+  navTo('active');
+  setTimeout(() => showBuildPack(n), 50);
+}
+
+// ===== Documents =====
+function renderDocs() {
+  document.getElementById('doc-grid').innerHTML = DOCUMENT_SAMPLES.map(d => {
+    const auto = AUTOMATIONS.find(a => a.n === d.automationN);
+    return `<div class="doc-card">
+       <div class="doc-card-header">
+         <div class="doc-title">${d.title}</div>
+         <div class="doc-meta">№${d.automationN} · ${auto.name}</div>
+       </div>
+       <div class="doc-meta" style="margin-bottom:10px;">${d.meta}</div>
+       <div class="doc-body">${d.body}</div>
+     </div>`;
+  }).join('');
+}
+
+// ===== Bundles =====
+function renderBundles() {
+  document.getElementById('bundle-cards').innerHTML = BUNDLES.map(b => {
+    const items = b.items.map(n => {
+      const a = AUTOMATIONS.find(x => x.n === n);
+      return `<li style="font-size:13px; padding:6px 0; color:var(--cream);">№${n} · <span style="color:var(--gold-bright);">${a.name}</span></li>`;
+    }).join('');
+    return `<div class="card">
+       <div class="card-header">
+         <div class="card-title">${b.name}</div>
+         <div class="card-meta">Operator Package · 1 quarter</div>
+       </div>
+       <p style="font-style:italic; font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--gold-soft); margin-bottom:16px;">${b.subtitle}</p>
+       <ul style="list-style:none; padding:0;">${items}</ul>
+     </div>`;
+  }).join('');
+}
+
+// ===== Settings =====
+function renderSettings() {
+  const cl = CONFIG.client;
+  const renderField = (label, value) =>
+    `<div class="field-grid">
+       <div class="field-label">${label}</div>
+       <div class="field-value">${value === null || value === undefined ? '—' : value}</div>
+     </div>`;
+
+  document.getElementById('cfg-client').innerHTML =
+    renderField('Legal Name', cl.legalName) +
+    renderField('Display Name', cl.displayName) +
+    renderField('DBA', cl.dba) +
+    renderField('License', cl.license) +
+    renderField('Tax ID Type', cl.taxIdType) +
+    renderField('Address', `${cl.address.street}, ${cl.address.city}, ${cl.address.state} ${cl.address.zip}`) +
+    renderField('Service Area', cl.serviceArea) +
+    renderField('Trade', cl.trade) +
+    renderField('Revenue Range', cl.revenueRange) +
+    renderField('Employee Count', cl.employeeCount) +
+    renderField('Field/Office', cl.fieldOfficeSplit) +
+    renderField('Years In Business', cl.yearsInBusiness) +
+    renderField('Primary Contact', `${cl.primaryContact.name} · ${cl.primaryContact.role} · ${cl.primaryContact.email} · ${cl.primaryContact.phone}`) +
+    renderField('Operator Contact', `${cl.operatorContact.name} · ${cl.operatorContact.role} · ${cl.operatorContact.email} · ${cl.operatorContact.phone}`) +
+    renderField('Accounting', cl.accountingPlatform) +
+    renderField('PM Platform', cl.pmPlatform) +
+    renderField('File Storage', cl.fileStorage) +
+    renderField('Primary Comm', cl.primaryComm);
+
+  const pk = CONFIG.package;
+  document.getElementById('cfg-package').innerHTML =
+    renderField('Tier', pk.tier) +
+    renderField('Quarterly Fee', fmtCurrency(pk.quarterlyFee)) +
+    renderField('Monthly Effective', fmtCurrency(pk.monthlyEffective)) +
+    renderField('Activated', fmtDate(pk.activatedDate)) +
+    renderField('Next Quarterly Review', fmtDate(pk.nextQuarterlyReview)) +
+    renderField('Active Automations', pk.automationsActive.map(n => `№${n}`).join(', ')) +
+    renderField('SLA', `${pk.slaHours} hours`);
+
+  document.getElementById('cfg-projects').innerHTML = CONFIG.projects.map(p =>
+    `<div style="margin-bottom:14px; padding:12px 16px; background:rgba(245,237,224,0.04); border-left:1px solid var(--line-strong);">
+       <div style="font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--cream);">${p.name}</div>
+       <div style="font-size:11px; color:var(--ink-faint); letter-spacing:0.12em; margin-top:2px;">${p.id} · ${p.county} · ${p.phase} · ${p.status}</div>
+       <div style="font-size:11px; color:var(--gold-bright); margin-top:4px;">${fmtCurrency(p.value)} · First work ${fmtDate(p.firstWorkDate)} · ${p.bonded ? 'Bonded' : 'Unbonded'}${p.noc ? ' · NOC recorded' : ''}</div>
+     </div>`
+  ).join('');
+
+  const rates = CONFIG.loadedRates;
+  document.getElementById('cfg-rates').innerHTML =
+    renderField('Owner', `$${rates.owner}/hr`) +
+    renderField('PM / Senior Estimator', `$${rates.pm}/hr`) +
+    renderField('Estimator / Junior PM', `$${rates.estimator}/hr`) +
+    renderField('Admin / AP', `$${rates.admin}/hr`) +
+    renderField('Field Super', `$${rates.super}/hr`);
+
+  const pr = CONFIG.provider;
+  document.getElementById('cfg-provider').innerHTML =
+    renderField('Provider', pr.name) +
+    renderField('Short', pr.short) +
+    renderField('Tagline', pr.tagline) +
+    renderField('Operator', pr.operator) +
+    renderField('Operator Email', pr.operatorEmail) +
+    renderField('Slack', pr.supportSlack) +
+    renderField('Text', pr.supportText);
+}
+
+// ===== Support =====
+function renderSupport() {
+  document.getElementById('sup-slack').textContent = CONFIG.provider.supportSlack;
+  document.getElementById('sup-text').textContent = CONFIG.provider.supportText;
+  document.getElementById('sup-operator').textContent = `${CONFIG.provider.operator} · ${CONFIG.provider.operatorEmail}`;
+  document.getElementById('sup-review-date').textContent = fmtDate(CONFIG.package.nextQuarterlyReview);
+}
+
+// ===== Navigation =====
+const PAGE_TITLES = {
+  dashboard:  { crumb: 'Operator Package',  title: 'Live Operations' },
+  active:     { crumb: 'Operator Package',  title: 'Active Automations' },
+  compliance: { crumb: 'Florida · Statute 713', title: 'Lien Deadlines' },
+  documents:  { crumb: 'Output Library',    title: 'Document Samples' },
+  catalog:    { crumb: 'VRL Catalog',       title: 'Twenty-Five Automations' },
+  bundles:    { crumb: 'Roadmap',           title: 'Bundles &amp; Path Forward' },
+  setup:      { crumb: 'Account',           title: 'Setup &amp; Intake' },
+  settings:   { crumb: 'White-Label',       title: 'Settings &amp; Config' },
+  support:    { crumb: 'Service',           title: 'Support &amp; SLA' }
+};
+function navTo(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelector(`.nav-link[data-page="${page}"]`).classList.add('active');
+  document.getElementById('tb-crumb').innerHTML = PAGE_TITLES[page].crumb;
+  document.getElementById('tb-title').innerHTML = PAGE_TITLES[page].title;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function openSettings() { navTo('settings'); }
+
+// ===== Storage helpers (localStorage with graceful fallback) =====
+const STORAGE_KEY = 'c95-vrl-config-v1';
+const THEME_KEY = 'c95-vrl-theme';
+
+function safeStorageGet(key) {
+  try { return localStorage.getItem(key); }
+  catch (e) { return null; }
+}
+function safeStorageSet(key, value) {
+  try { localStorage.setItem(key, value); return true; }
+  catch (e) { return false; }
+}
+function safeStorageRemove(key) {
+  try { localStorage.removeItem(key); return true; }
+  catch (e) { return false; }
+}
+
+function loadStoredConfig() {
+  const raw = safeStorageGet(STORAGE_KEY);
+  if (!raw) return null;
+  try { return JSON.parse(raw); }
+  catch (e) { console.warn('Stored config malformed, ignoring'); return null; }
+}
+
+function saveStoredConfig(obj) {
+  return safeStorageSet(STORAGE_KEY, JSON.stringify(obj));
+}
+
+function clearStoredConfig() {
+  return safeStorageRemove(STORAGE_KEY);
+}
+
+function deepMerge(base, override) {
+  if (!override || typeof override !== 'object') return base;
+  if (Array.isArray(override)) return override;
+  const out = Array.isArray(base) ? [...base] : { ...(base || {}) };
+  Object.keys(override).forEach(k => {
+    const v = override[k];
+    if (v && typeof v === 'object' && !Array.isArray(v) && base && typeof base[k] === 'object' && !Array.isArray(base[k])) {
+      out[k] = deepMerge(base[k], v);
+    } else {
+      out[k] = v;
+    }
+  });
+  return out;
+}
+
+// On boot, hydrate CONFIG with stored overrides BEFORE first render
+function hydrateConfigFromStorage() {
+  const stored = loadStoredConfig();
+  if (!stored) return false;
+  // Apply each top-level key
+  ['client', 'package', 'projects', 'kpis', 'loadedRates'].forEach(k => {
+    if (stored[k] !== undefined) {
+      if (Array.isArray(stored[k])) CONFIG[k] = stored[k];
+      else CONFIG[k] = deepMerge(CONFIG[k], stored[k]);
+    }
+  });
+  return true;
+}
+
+// ===== Theme =====
+function applyTheme(theme) {
+  if (theme === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
+}
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  const next = current === 'light' ? 'dark' : 'light';
+  applyTheme(next);
+  safeStorageSet(THEME_KEY, next);
+}
+function loadStoredTheme() {
+  const stored = safeStorageGet(THEME_KEY);
+  if (stored === 'light' || stored === 'dark') applyTheme(stored);
+}
+
+// ===== Setup / Intake form =====
+function renderSetupAutomations() {
+  const checked = new Set(CONFIG.package.automationsActive);
+  document.getElementById('setup-automations').innerHTML = AUTOMATIONS.map(a => `
+    <label>
+      <input type="checkbox" data-setup-auto="${a.n}" ${checked.has(a.n) ? 'checked' : ''}/>
+      <span><span class="auto-num">№${String(a.n).padStart(2, '0')}</span> ${escapeHtml(a.name)}</span>
+    </label>
+  `).join('');
+}
+
+function renderSetupProjects(projectsArray) {
+  const arr = projectsArray || CONFIG.projects;
+  document.getElementById('setup-projects-list').innerHTML = arr.map((p, i) => `
+    <div class="setup-project-row" data-setup-project-row="${i}">
+      <button type="button" class="setup-project-remove" data-action="setup-remove-project" data-idx="${i}">Remove</button>
+      <div class="setup-project-grid">
+        <label>Project ID<input data-setup-proj="${i}.id" type="text" value="${escapeAttr(p.id)}" /></label>
+        <label class="full">Project name<input data-setup-proj="${i}.name" type="text" value="${escapeAttr(p.name)}" /></label>
+        <label>Contract value $<input data-setup-proj="${i}.value" type="number" min="0" value="${p.value || 0}" /></label>
+        <label>Status<select data-setup-proj="${i}.status">
+          ${['Bidding','Active','Closeout','Closed','On Hold'].map(s => `<option ${p.status===s?'selected':''}>${s}</option>`).join('')}
+        </select></label>
+        <label>Phase<input data-setup-proj="${i}.phase" type="text" value="${escapeAttr(p.phase || '')}" /></label>
+        <label>County<input data-setup-proj="${i}.county" type="text" value="${escapeAttr(p.county || '')}" /></label>
+        <label>First work date<input data-setup-proj="${i}.firstWorkDate" type="date" value="${escapeAttr(p.firstWorkDate || '')}" /></label>
+        <div class="setup-project-checkboxes">
+          <label><input type="checkbox" data-setup-proj="${i}.noc" ${p.noc ? 'checked' : ''}/>NOC recorded</label>
+          <label><input type="checkbox" data-setup-proj="${i}.bonded" ${p.bonded ? 'checked' : ''}/>Bonded</label>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function escapeAttr(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// Populate form fields from CONFIG by name attribute (dot-notation)
+function populateSetupForm() {
+  const form = document.getElementById('setup-form');
+  if (!form) return;
+  form.querySelectorAll('input[name], select[name]').forEach(el => {
+    const path = el.name.split('.');
+    let v = CONFIG;
+    for (const seg of path) {
+      if (v == null) { v = ''; break; }
+      v = v[seg];
+    }
+    if (v == null) v = '';
+    if (el.type === 'checkbox') el.checked = !!v;
+    else el.value = v;
+  });
+  renderSetupAutomations();
+  renderSetupProjects();
+}
+
+// Read form into a partial config object
+function collectSetupForm() {
+  const form = document.getElementById('setup-form');
+  const partial = {};
+  function setNested(obj, path, value) {
+    const parts = path.split('.');
+    let cur = obj;
+    for (let i = 0; i < parts.length - 1; i++) {
+      const seg = parts[i];
+      if (typeof cur[seg] !== 'object' || cur[seg] === null) cur[seg] = {};
+      cur = cur[seg];
+    }
+    cur[parts[parts.length - 1]] = value;
+  }
+  // Named fields
+  form.querySelectorAll('input[name], select[name]').forEach(el => {
+    let value;
+    if (el.type === 'number') value = el.value === '' ? null : Number(el.value);
+    else if (el.type === 'checkbox') value = el.checked;
+    else value = el.value;
+    setNested(partial, el.name, value);
+  });
+  // Active automations
+  const checked = [];
+  form.querySelectorAll('input[data-setup-auto]:checked').forEach(el => checked.push(parseInt(el.dataset.setupAuto, 10)));
+  if (!partial.package) partial.package = {};
+  partial.package.automationsActive = checked;
+  // Sync deploymentProgress: keep entries for active autos, default new ones to 14 (live)
+  const oldProg = (CONFIG.package.deploymentProgress) || {};
+  const newProg = {};
+  checked.forEach(n => { newProg[n] = (typeof oldProg[n] === 'number') ? oldProg[n] : 14; });
+  partial.package.deploymentProgress = newProg;
+  // Projects (collect all rows)
+  const rows = form.querySelectorAll('[data-setup-project-row]');
+  if (rows.length > 0) {
+    const projects = [];
+    rows.forEach(row => {
+      const idx = row.dataset.setupProjectRow;
+      const proj = { noc: false, bonded: false };
+      row.querySelectorAll('[data-setup-proj]').forEach(el => {
+        const key = el.dataset.setupProj.split('.')[1];
+        if (el.type === 'checkbox') proj[key] = el.checked;
+        else if (el.type === 'number') proj[key] = el.value === '' ? null : Number(el.value);
+        else proj[key] = el.value || null;
+      });
+      projects.push(proj);
+    });
+    partial.projects = projects;
+  }
+  return partial;
+}
+
+function setupSave() {
+  const partial = collectSetupForm();
+  const ok = saveStoredConfig(partial);
+  const banner = document.getElementById('setup-status-banner');
+  if (ok) {
+    banner.innerHTML = `<div class="setup-banner success"><strong>Saved.</strong> Reloading the dashboard with your data...</div>`;
+    setTimeout(() => location.reload(), 800);
+  } else {
+    banner.innerHTML = `<div class="setup-banner error"><strong>Could not save to browser storage.</strong> If you are viewing this file inside the Claude.ai artifact preview, browser storage is blocked there. Open the downloaded file directly in your browser and the save will work.</div>`;
+  }
+}
+
+function setupReset() {
+  if (!confirm('Reset to demo data and clear all your saved settings? This cannot be undone.')) return;
+  clearStoredConfig();
+  location.reload();
+}
+
+function setupExport() {
+  const partial = collectSetupForm();
+  // Apply over the in-memory CONFIG to produce a complete display
+  const merged = deepMerge(CONFIG, partial);
+  const text = JSON.stringify(merged, null, 2);
+  const out = document.getElementById('setup-export-output');
+  out.style.display = 'block';
+  out.innerHTML = `
+    <div class="setup-banner info" style="margin-bottom: 12px;">
+      <strong>Copy the block below</strong> into the CONFIG section at the top of this HTML file to bake the values in permanently. This is the white-label resale workflow — once embedded, the file ships with your customer's data and their browser doesn't need to remember anything.
+    </div>
+    <div class="config-export-block">${escapeHtml(text)}</div>
+  `;
+  out.scrollIntoView({ behavior: 'smooth' });
+}
+
+function setupAddProject() {
+  const form = document.getElementById('setup-form');
+  // Read current rows back into array form first
+  const rows = form.querySelectorAll('[data-setup-project-row]');
+  const existing = [];
+  rows.forEach(row => {
+    const proj = { noc: false, bonded: false };
+    row.querySelectorAll('[data-setup-proj]').forEach(el => {
+      const key = el.dataset.setupProj.split('.')[1];
+      if (el.type === 'checkbox') proj[key] = el.checked;
+      else if (el.type === 'number') proj[key] = el.value === '' ? null : Number(el.value);
+      else proj[key] = el.value || null;
+    });
+    existing.push(proj);
+  });
+  const newProj = { id: 'C95-' + (2406 + existing.length), name: 'New project', value: 0, status: 'Bidding', phase: 'Pre-award', firstWorkDate: null, county: 'Broward', noc: false, bonded: false };
+  existing.push(newProj);
+  renderSetupProjects(existing);
+}
+
+function setupRemoveProject(idx) {
+  const form = document.getElementById('setup-form');
+  const rows = form.querySelectorAll('[data-setup-project-row]');
+  const existing = [];
+  rows.forEach((row, i) => {
+    if (String(i) === String(idx)) return;
+    const proj = { noc: false, bonded: false };
+    row.querySelectorAll('[data-setup-proj]').forEach(el => {
+      const key = el.dataset.setupProj.split('.')[1];
+      if (el.type === 'checkbox') proj[key] = el.checked;
+      else if (el.type === 'number') proj[key] = el.value === '' ? null : Number(el.value);
+      else proj[key] = el.value || null;
+    });
+    existing.push(proj);
+  });
+  renderSetupProjects(existing);
+}
+
+// ===== First-time banner =====
+function renderFirstTimeBanner(isFirstTime) {
+  const c = document.getElementById('first-time-banner-container');
+  if (!c) return;
+  if (isFirstTime) {
+    c.innerHTML = `
+      <div class="first-time-banner">
+        <div class="ftb-text">You're viewing <strong>demo data</strong> for Construction 95 LLC. Customize this portal for your own firm in under five minutes.</div>
+        <button class="ftb-action" data-action="goto-setup">Run setup</button>
+      </div>
+    `;
+    const sb = document.getElementById('setup-badge');
+    if (sb) sb.style.display = 'inline-block';
+  } else {
+    c.innerHTML = '';
+  }
+}
+
+
+function init() {
+  // Apply stored theme BEFORE first paint
+  loadStoredTheme();
+  // Hydrate CONFIG from localStorage if present
+  const isFirstTime = !hydrateConfigFromStorage();
+
+  try {
+    renderSidebar();
+    renderDashboard();
+    renderActive();
+    renderDocs();
+    renderCatalog();
+    renderBundles();
+    renderSettings();
+    renderSupport();
+    populateSetupForm();
+    renderFirstTimeBanner(isFirstTime);
+  } catch (err) {
+    console.error('Render error:', err);
+  }
+
+  // Drawer state
+  const sidebar = document.querySelector('.sidebar');
+  const overlay = document.getElementById('menu-overlay');
+  const toggle = document.getElementById('menu-toggle');
+
+  function openDrawer() {
+    sidebar.classList.add('open');
+    overlay.classList.add('show');
+  }
+  function closeDrawer() {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('show');
+  }
+
+  if (toggle) toggle.addEventListener('click', e => {
+    e.stopPropagation();
+    if (sidebar.classList.contains('open')) closeDrawer(); else openDrawer();
+  });
+  if (overlay) overlay.addEventListener('click', closeDrawer);
+
+  // Single delegated click handler on the whole document
+  document.addEventListener('click', e => {
+    // Theme toggle
+    if (e.target.closest('#theme-toggle')) {
+      toggleTheme();
+      return;
+    }
+
+    // First-time banner: go to setup
+    if (e.target.closest('[data-action="goto-setup"]')) {
+      navTo('setup');
+      return;
+    }
+
+    // Setup form actions
+    if (e.target.closest('[data-action="setup-save"]'))   { setupSave();   return; }
+    if (e.target.closest('[data-action="setup-reset"]'))  { setupReset();  return; }
+    if (e.target.closest('[data-action="setup-export"]')) { setupExport(); return; }
+    if (e.target.closest('[data-action="setup-add-project"]')) { setupAddProject(); return; }
+    const removeBtn = e.target.closest('[data-action="setup-remove-project"]');
+    if (removeBtn) { setupRemoveProject(removeBtn.dataset.idx); return; }
+
+    // Nav link
+    const navLink = e.target.closest('.nav-link');
+    if (navLink && navLink.dataset.page) {
+      navTo(navLink.dataset.page);
+      closeDrawer();
+      return;
+    }
+
+    // Active-automation build pack opener
+    const autoCard = e.target.closest('.auto-card[data-buildpack]');
+    if (autoCard) {
+      showBuildPack(parseInt(autoCard.dataset.buildpack, 10));
+      return;
+    }
+
+    // Catalog item that has a build pack
+    const catalogItem = e.target.closest('.catalog-item[data-catalog-pack]');
+    if (catalogItem) {
+      const n = parseInt(catalogItem.dataset.catalogPack, 10);
+      navTo('active');
+      setTimeout(() => showBuildPack(n), 30);
+      return;
+    }
+
+    // Topbar action: open settings
+    const topAction = e.target.closest('[data-action="open-settings"]');
+    if (topAction) {
+      navTo('settings');
+      return;
+    }
+
+    // Build pack tabs (delegated, since pack is dynamically inserted)
+    const bpTab = e.target.closest('.bp-tab');
+    if (bpTab) {
+      const bp = bpTab.closest('.buildpack');
+      if (bp) {
+        bp.querySelectorAll('.bp-tab').forEach(t => t.classList.remove('active'));
+        bp.querySelectorAll('.bp-tab-content').forEach(c => c.classList.remove('active'));
+        bpTab.classList.add('active');
+        const target = bp.querySelector(`[data-content="${bpTab.dataset.tab}"]`);
+        if (target) target.classList.add('active');
+      }
+      return;
+    }
+
+    // Timeline node — toggle expanded state
+    const tlSummary = e.target.closest('.timeline-summary');
+    if (tlSummary) {
+      const node = tlSummary.closest('.timeline-node');
+      if (node) node.classList.toggle('expanded');
+      return;
+    }
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+
+</script>
+
+</body>
+</html>
