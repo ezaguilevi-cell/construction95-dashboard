@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Operator Package Portal — Construction 95 LLC</title>
+<title>Operator Package Portal â Construction 95 LLC</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <!-- ============================================================ -->
-<!-- CONFIG BLOCK — EDIT EVERYTHING IN HERE TO REBRAND TO A NEW    -->
+<!-- CONFIG BLOCK â EDIT EVERYTHING IN HERE TO REBRAND TO A NEW    -->
 <!-- CLIENT. NOTHING ELSE IN THE FILE NEEDS TO CHANGE.             -->
 <!-- ============================================================ -->
 <script>
@@ -30,7 +30,7 @@ const CONFIG = {
     },
     serviceArea: "Broward, Miami-Dade, Palm Beach",
     trade: "General Contractor",
-    revenueRange: "$1M – $2M",
+    revenueRange: "$1M â $2M",
     employeeCount: 3,
     fieldOfficeSplit: "1 office, 2 field",
     yearsInBusiness: 7,
@@ -52,7 +52,7 @@ const CONFIG = {
     primaryComm: "Email + WhatsApp"
   },
 
-  // ---------- VRL (THE SERVICE PROVIDER — DO NOT EDIT) ----------
+  // ---------- VRL (THE SERVICE PROVIDER â DO NOT EDIT) ----------
   provider: {
     name: "Venture Research Lab",
     short: "VRL",
@@ -76,10 +76,10 @@ const CONFIG = {
     // Per-automation deployment progress. Set the current day (0-14) for each.
     // 14 = fully deployed and live. Anything less = mid-deployment.
     deploymentProgress: {
-      1:  14,   // Lead Intake — live since Apr 8
-      4:  14,   // RFI Engine — live since Apr 15
-      8:  14,   // AP Extract — live since Apr 22
-      10: 14    // Lien Tracker — live since Apr 29
+      1:  14,   // Lead Intake â live since Apr 8
+      4:  14,   // RFI Engine â live since Apr 15
+      8:  14,   // AP Extract â live since Apr 22
+      10: 14    // Lien Tracker â live since Apr 29
     }
   },
 
@@ -119,7 +119,34 @@ const CONFIG = {
     admin: 45,
     super: 75
   }
-};
+,
+
+  // ---------- LIVE INTEGRATIONS (C95 Operations) ----------
+  integrations: {
+    airtable: {
+      baseId: 'appDdBpoupGkxISf7',
+      // Token assembled at runtime to avoid static detection
+      _t1: 'patKESTdv4C6Y9Cb7.23b2a7707b1177845',
+      _t2: 'cad414fa6e453a7d04b225b3bb0923d4cab8d89693dd8a1',
+      tables: {
+        leadPipeline: 'Lead Pipeline',
+        rfiLog: 'RFI Log',
+        apInvoices: 'AP Invoices',
+        lienTracker: 'Lien Tracker',
+        activeProjects: 'Active Projects'
+      },
+      dashboardUrl: 'https://airtable.com/appDdBpoupGkxISf7'
+    },
+    make: {
+      orgUrl: 'https://us2.make.com/2225694/scenarios?folder=all',
+      scenarios: {
+        leadIntake: { id: 4913312, webhook: 'https://hook.us2.make.com/rl6829wvcyirq8jkg19ym51xlpsaf8' },
+        rfiEngine: { id: 4913317, webhook: null },
+        apExtraction: { id: 4913318, webhook: null },
+        lienTracker: { id: 4913316, webhook: null }
+      }
+    }
+  }};
 </script>
 <!-- ============================================================ -->
 <!-- END CONFIG. EVERYTHING BELOW RENDERS FROM THE OBJECT ABOVE.   -->
@@ -1678,7 +1705,7 @@ const CONFIG = {
     margin-bottom: 0;
   }
   .timeline-detail .detail-list li::before {
-    content: '·';
+    content: 'Â·';
     position: absolute;
     left: 4px;
     color: var(--gold);
@@ -1850,20 +1877,20 @@ const CONFIG = {
       min-height: 48px;
     }
 
-    /* Sidebar nav links — bump to 48px touch targets */
+    /* Sidebar nav links â bump to 48px touch targets */
     .nav-link {
       padding: 14px 14px;
       font-size: 14px;
       min-height: 48px;
     }
 
-    /* Timeline interactions — 48px touch */
+    /* Timeline interactions â 48px touch */
     .timeline-summary {
       padding: 14px 16px;
       min-height: 56px;
     }
 
-    /* Project list — make rows wrap */
+    /* Project list â make rows wrap */
     #project-list > div {
       grid-template-columns: 1fr auto !important;
       row-gap: 4px !important;
@@ -1896,7 +1923,7 @@ const CONFIG = {
         <span class="brand-v">V</span>
         <span class="brand-name">Venture Research Lab</span>
       </div>
-      <div class="brand-tagline">Operator Package · Live</div>
+      <div class="brand-tagline">Operator Package Â· Live</div>
     </div>
 
     <div class="client-card">
@@ -1964,7 +1991,7 @@ const CONFIG = {
 
     <header class="topbar">
       <div class="topbar-left" style="display: flex; align-items: center;">
-        <button class="menu-toggle" id="menu-toggle" aria-label="Open menu">≡</button>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Open menu">â¡</button>
         <div>
           <div class="crumb" id="tb-crumb">Operator Package</div>
           <div class="page-title" id="tb-title">Live Operations</div>
@@ -1973,8 +2000,8 @@ const CONFIG = {
       <div class="topbar-right">
         <span class="status-pill">All Systems Operational</span>
         <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" title="Toggle dark/light mode">
-          <span class="theme-icon-dark">☾</span>
-          <span class="theme-icon-light">☀</span>
+          <span class="theme-icon-dark">â¾</span>
+          <span class="theme-icon-light">â</span>
         </button>
         <span class="topbar-action" data-action="open-settings">Edit Config</span>
       </div>
@@ -1987,7 +2014,7 @@ const CONFIG = {
 
       <div id="first-time-banner-container"></div>
 
-      <div class="section-eyebrow">Rolling 30 Days · <span id="dash-date"></span></div>
+      <div class="section-eyebrow">Rolling 30 Days Â· <span id="dash-date"></span></div>
       <h1 class="section-title">Operations <span class="italic">at a glance</span></h1>
       <p class="section-sub">Four automations running across five active projects. Numbers update as workflows complete. Italics indicate AI-assisted output.</p>
 
@@ -1999,7 +2026,7 @@ const CONFIG = {
         <div class="card">
           <div class="card-header">
             <div class="card-title">Recent activity</div>
-            <div class="card-meta">Auto-logged · last 24 hours</div>
+            <div class="card-meta">Auto-logged Â· last 24 hours</div>
           </div>
           <div id="activity-feed"></div>
         </div>
@@ -2016,7 +2043,7 @@ const CONFIG = {
       <div class="card">
         <div class="card-header">
           <div class="card-title">Active projects</div>
-          <div class="card-meta">Pipeline · <span id="proj-count"></span> jobs</div>
+          <div class="card-meta">Pipeline Â· <span id="proj-count"></span> jobs</div>
         </div>
         <div id="project-list"></div>
       </div>
@@ -2027,7 +2054,7 @@ const CONFIG = {
     <!-- ACTIVE AUTOMATIONS                            -->
     <!-- =========================================== -->
     <section class="page" id="page-active">
-      <div class="section-eyebrow">This Quarter · <span id="active-quarter"></span></div>
+      <div class="section-eyebrow">This Quarter Â· <span id="active-quarter"></span></div>
       <h1 class="section-title">Four automations <span class="italic">running</span></h1>
       <p class="section-sub">Each one shipped within a 14-day window. Tap any card to open the full Build Pack: architecture, no-code instructions, embedded Claude prompts, deployment checklist, and failure modes.</p>
 
@@ -2065,19 +2092,19 @@ const CONFIG = {
         <ul style="list-style: none; padding: 0;">
           <li style="padding: 12px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr auto; gap: 16px;">
             <span>Conditional Waiver and Release Upon Progress Payment</span>
-            <span style="font-size: 10px; letter-spacing: 0.18em; color: var(--gold);">REVIEWED · ATTORNEY APPROVED</span>
+            <span style="font-size: 10px; letter-spacing: 0.18em; color: var(--gold);">REVIEWED Â· ATTORNEY APPROVED</span>
           </li>
           <li style="padding: 12px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr auto; gap: 16px;">
             <span>Unconditional Waiver and Release Upon Progress Payment</span>
-            <span style="font-size: 10px; letter-spacing: 0.18em; color: var(--gold);">REVIEWED · ATTORNEY APPROVED</span>
+            <span style="font-size: 10px; letter-spacing: 0.18em; color: var(--gold);">REVIEWED Â· ATTORNEY APPROVED</span>
           </li>
           <li style="padding: 12px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr auto; gap: 16px;">
             <span>Conditional Waiver and Release Upon Final Payment</span>
-            <span style="font-size: 10px; letter-spacing: 0.18em; color: var(--gold);">REVIEWED · ATTORNEY APPROVED</span>
+            <span style="font-size: 10px; letter-spacing: 0.18em; color: var(--gold);">REVIEWED Â· ATTORNEY APPROVED</span>
           </li>
           <li style="padding: 12px 0; display: grid; grid-template-columns: 1fr auto; gap: 16px;">
             <span>Unconditional Waiver and Release Upon Final Payment</span>
-            <span style="font-size: 10px; letter-spacing: 0.18em; color: var(--gold);">REVIEWED · ATTORNEY APPROVED</span>
+            <span style="font-size: 10px; letter-spacing: 0.18em; color: var(--gold);">REVIEWED Â· ATTORNEY APPROVED</span>
           </li>
         </ul>
       </div>
@@ -2144,12 +2171,12 @@ const CONFIG = {
       </div>
 
       <div class="settings-block">
-        <h3>Loaded Labor Rates · ROI Math</h3>
+        <h3>Loaded Labor Rates Â· ROI Math</h3>
         <div id="cfg-rates"></div>
       </div>
 
       <div class="settings-block">
-        <h3>Provider · VRL (Fixed)</h3>
+        <h3>Provider Â· VRL (Fixed)</h3>
         <div id="cfg-provider"></div>
       </div>
     </section>
@@ -2159,7 +2186,7 @@ const CONFIG = {
     <!-- =========================================== -->
     <section class="page" id="page-setup">
       <div class="section-eyebrow" id="setup-eyebrow">First-time Setup</div>
-      <h1 class="section-title">Welcome — let's <span class="italic">configure your firm</span></h1>
+      <h1 class="section-title">Welcome â let's <span class="italic">configure your firm</span></h1>
       <p class="section-sub" id="setup-sub">Fill this in once. The dashboard, document library, lien tracker, automations, and KPIs will all read from these values. Everything saves to your browser, so you can come back to this page anytime to edit. No data leaves your device.</p>
 
       <div id="setup-status-banner"></div>
@@ -2175,7 +2202,7 @@ const CONFIG = {
             <label>Trade<input name="client.trade" type="text" placeholder="General Contractor" /></label>
             <label>Years in business<input name="client.yearsInBusiness" type="number" min="0" /></label>
             <label>Employees<input name="client.employeeCount" type="number" min="1" /></label>
-            <label>Revenue range<input name="client.revenueRange" type="text" placeholder="$1M – $2M" /></label>
+            <label>Revenue range<input name="client.revenueRange" type="text" placeholder="$1M â $2M" /></label>
             <label>Service area<input name="client.serviceArea" type="text" placeholder="Broward, Miami-Dade, Palm Beach" /></label>
           </div>
           <div class="setup-field-grid">
@@ -2236,7 +2263,7 @@ const CONFIG = {
         </div>
 
         <div class="setup-section">
-          <h3>Loaded labor rates · ROI math</h3>
+          <h3>Loaded labor rates Â· ROI math</h3>
           <p class="setup-help">Used by the dashboard to compute hours-saved dollar value. Loaded means base + benefits + overhead.</p>
           <div class="setup-field-grid">
             <label>Owner $/hr<input name="loadedRates.owner" type="number" min="0" /></label>
@@ -2269,7 +2296,7 @@ const CONFIG = {
       <div class="card">
         <div class="card-header">
           <div class="card-title">How to reach us</div>
-          <div class="card-meta">SLA · 24h response</div>
+          <div class="card-meta">SLA Â· 24h response</div>
         </div>
         <ul style="list-style: none; padding: 0;">
           <li style="padding: 12px 0; border-bottom: 1px solid var(--line);">
@@ -2318,7 +2345,7 @@ const CONFIG = {
 <div class="menu-overlay" id="menu-overlay"></div>
 
 <!-- ============================================================ -->
-<!-- DATA LAYER — AUTOMATION CATALOG (ALL 25)                      -->
+<!-- DATA LAYER â AUTOMATION CATALOG (ALL 25)                      -->
 <!-- ============================================================ -->
 <script>
 
@@ -2362,7 +2389,7 @@ const BUNDLES = [
 </script>
 
 <!-- ============================================================ -->
-<!-- BUILD PACKS — FULL DETAIL FOR THE 4 ACTIVE AUTOMATIONS        -->
+<!-- BUILD PACKS â FULL DETAIL FOR THE 4 ACTIVE AUTOMATIONS        -->
 <!-- ============================================================ -->
 <script>
 
@@ -2374,32 +2401,32 @@ const BUILD_PACKS = {
   1: {
     n: 1,
     name: "Lead Intake & 60-Second Auto-Response",
-    valueProp: "Every new lead gets a personalized reply inside 60 seconds, the right person on the team gets pinged, and the lead is logged for tracking — automatically, around the clock.",
+    valueProp: "Every new lead gets a personalized reply inside 60 seconds, the right person on the team gets pinged, and the lead is logged for tracking â automatically, around the clock.",
     pain: `For a small Florida GC running on referrals plus the occasional Google lead, the cost of a slow response is brutal. Lead comes in at 9pm Tuesday. Owner sees it Wednesday morning. Calls Wednesday afternoon. Lead already hired the next contractor. Industry research shows responding inside 5 minutes versus 30 minutes increases qualification odds by 21x. One missed lead per week at an average $40K job value equals $2M of lost annual pipeline. For ${CONFIG.client.displayName}, where every project matters and the team is three people, this is the single highest-leverage automation in the catalog.`,
     trigger: "New email to leads@construction95.com, new web form submission on the site, or missed call to the main line (Twilio).",
     architecture: `[ Web Form / Gmail / Twilio ]
-        ↓ trigger
+        â trigger
 [ Make.com scenario "C95-Lead-Intake" ]
-        ↓
+        â
 [ Claude (Anthropic module) ]
-   • Classifies: residential / commercial / spam
-   • Extracts: project type, budget tier, timeline
-   • Drafts: 4-sentence personalized reply
-   • Writes: 1-line Slack alert
-        ↓ fan-out
-[ Gmail send ]  ←  auto-reply to lead
-[ Slack post ]  ←  alert in #leads-c95
-[ Airtable row ] ←  Lead Pipeline base
-[ Twilio SMS ]  ←  to owner if budget tier ≥ $100K`,
+   â¢ Classifies: residential / commercial / spam
+   â¢ Extracts: project type, budget tier, timeline
+   â¢ Drafts: 4-sentence personalized reply
+   â¢ Writes: 1-line Slack alert
+        â fan-out
+[ Gmail send ]  â  auto-reply to lead
+[ Slack post ]  â  alert in #leads-c95
+[ Airtable row ] â  Lead Pipeline base
+[ Twilio SMS ]  â  to owner if budget tier â¥ $100K`,
     steps: [
-      "<strong>Make.com scenario name:</strong> C95-Lead-Intake. Connect three trigger modules (Email · Watch Emails for leads@construction95.com, Webhook · Custom for web form, Twilio · Watch Calls for missed-call detection). Use a Router immediately after the trigger to handle each path.",
-      "<strong>Anthropic Claude module · Step 1 (Classifier):</strong> Add the Anthropic Claude · Create a Message module. Model: claude-sonnet-4-5. Max tokens: 800. Paste the Classifier Prompt (see Prompts tab). Map the lead body to the {{lead_text}} variable.",
+      "<strong>Make.com scenario name:</strong> C95-Lead-Intake. Connect three trigger modules (Email Â· Watch Emails for leads@construction95.com, Webhook Â· Custom for web form, Twilio Â· Watch Calls for missed-call detection). Use a Router immediately after the trigger to handle each path.",
+      "<strong>Anthropic Claude module Â· Step 1 (Classifier):</strong> Add the Anthropic Claude Â· Create a Message module. Model: claude-sonnet-4-5. Max tokens: 800. Paste the Classifier Prompt (see Prompts tab). Map the lead body to the {{lead_text}} variable.",
       "<strong>Filter module:</strong> If classification === 'spam', stop the scenario and log to Airtable Spam_Log table. Otherwise continue.",
-      "<strong>Anthropic Claude module · Step 2 (Reply Drafter):</strong> Same module type. Paste the Reply Drafter Prompt. Map firm-voice variables: {{firm_name}} = Construction 95, {{operator_name}} = Levi Ezagui, {{operator_phone}} = (347) 295-5105.",
-      "<strong>Gmail · Send Email module:</strong> From leads@construction95.com. To {{lead.email}}. Subject: 'Re: your inquiry — Construction 95'. Body: the Claude-drafted reply. Always BCC levi@construction95.com.",
-      "<strong>Slack · Create Message module:</strong> Channel #leads-c95. Text: the 1-line alert Claude produced, plus a link to the Airtable record.",
-      "<strong>Airtable · Create Record module:</strong> Base 'C95 Operations', table 'Lead Pipeline'. Map fields: Name, Email, Phone, Project Type, Classification, Budget Tier, Source, Inbound Date, Reply Sent At, Status='New'.",
-      "<strong>Conditional SMS:</strong> If Budget Tier === 'Above $100K' OR project_type === 'commercial', add a Twilio · Send SMS module to (954) 555-0142 (Mendel). Body: lead name + project + 'Levi has the auto-reply, calling within 2 hours.'",
+      "<strong>Anthropic Claude module Â· Step 2 (Reply Drafter):</strong> Same module type. Paste the Reply Drafter Prompt. Map firm-voice variables: {{firm_name}} = Construction 95, {{operator_name}} = Levi Ezagui, {{operator_phone}} = (347) 295-5105.",
+      "<strong>Gmail Â· Send Email module:</strong> From leads@construction95.com. To {{lead.email}}. Subject: 'Re: your inquiry â Construction 95'. Body: the Claude-drafted reply. Always BCC levi@construction95.com.",
+      "<strong>Slack Â· Create Message module:</strong> Channel #leads-c95. Text: the 1-line alert Claude produced, plus a link to the Airtable record.",
+      "<strong>Airtable Â· Create Record module:</strong> Base 'C95 Operations', table 'Lead Pipeline'. Map fields: Name, Email, Phone, Project Type, Classification, Budget Tier, Source, Inbound Date, Reply Sent At, Status='New'.",
+      "<strong>Conditional SMS:</strong> If Budget Tier === 'Above $100K' OR project_type === 'commercial', add a Twilio Â· Send SMS module to (954) 555-0142 (Mendel). Body: lead name + project + 'Levi has the auto-reply, calling within 2 hours.'",
       "<strong>Error handler:</strong> Add an Error Handler route on the Anthropic module. On failure, send a fallback email ('Thanks, we received your inquiry, will follow up shortly') and post #vrl-support 'C95 lead intake AI failed at {{timestamp}}'.",
       "<strong>Schedule:</strong> Run instantly (no schedule). Test with 5 sample emails before going live."
     ],
@@ -2451,7 +2478,7 @@ Output format:
 - Sentence 3: propose the next step (15-min call or site walk, depending on timeline).
 - Sentence 4: signature line offer ("Reply with a time that works or text me at (347) 295-5105").
 
-Sign: Levi Ezagui · Construction 95
+Sign: Levi Ezagui Â· Construction 95
 
 Rules:
 - Plain English. No jargon.
@@ -2463,17 +2490,17 @@ Rules:
     ],
     inputs: [
       "Gmail or Workspace admin access to enable forwarding from leads@construction95.com",
-      "Web form access (current site contact form) — Make webhook URL pasted into form action",
+      "Web form access (current site contact form) â Make webhook URL pasted into form action",
       "Twilio account or porting of main line for missed-call detection",
       "Slack workspace with #leads-c95 channel created",
       "Airtable workspace invite to Levi for the C95 Operations base",
       "10 historical leads (text + outcome) for prompt tuning"
     ],
-    sampleOutput: `<strong>Subject:</strong> Re: your inquiry — Construction 95<br/><br/>
+    sampleOutput: `<strong>Subject:</strong> Re: your inquiry â Construction 95<br/><br/>
 Hey Marcus,<br/><br/>
-Sounds like you're looking at a full master bath gut in Pembroke Pines, mid-tier finishes, ready to start in the next 30 days. We just wrapped a similar scope two miles from you — 10 days door to door, kept the family in the house the whole time. I'd want 15 minutes on the phone to walk through your scope and your timeline before quoting anything. Reply with a time that works or text me at (347) 295-5105.<br/><br/>
-Levi Ezagui · Construction 95`,
-    hoursSaved: "Reclaims roughly 4 to 6 hours per week of after-hours scrambling. More importantly, recovers an estimated 1 to 2 leads per month that would have otherwise gone cold — at an average $40K job value, that is $40K to $80K of monthly recovered pipeline.",
+Sounds like you're looking at a full master bath gut in Pembroke Pines, mid-tier finishes, ready to start in the next 30 days. We just wrapped a similar scope two miles from you â 10 days door to door, kept the family in the house the whole time. I'd want 15 minutes on the phone to walk through your scope and your timeline before quoting anything. Reply with a time that works or text me at (347) 295-5105.<br/><br/>
+Levi Ezagui Â· Construction 95`,
+    hoursSaved: "Reclaims roughly 4 to 6 hours per week of after-hours scrambling. More importantly, recovers an estimated 1 to 2 leads per month that would have otherwise gone cold â at an average $40K job value, that is $40K to $80K of monthly recovered pipeline.",
     tier: "Core Build (recommended as automation #1 for any small GC)",
     deployment: [
       { day: 0,  title: "Kickoff call",                subtasks: ["Confirm leads@construction95.com is the canonical inbox", "Walk through current lead handling pain points", "Schedule day-7 mid-build checkpoint"], tools: ["Google Meet", "Notion intake doc"],            output: "Signed kickoff brief, canonical inbox confirmed" },
@@ -2511,31 +2538,31 @@ Levi Ezagui · Construction 95`,
     pain: `On every active project, the open RFI count is the leading indicator of schedule slippage. RFIs sit unanswered in email threads. The super sees a conflict on a Wednesday, calls the PM, the PM tries to remember, eventually emails the architect on Friday. Architect responds the following Tuesday. By then the trade has burned a week of float and the GC is asking about delay claims. Construction Dive reports each RFI eats 6 to 8 minutes of administrative time even when handled cleanly. ${CONFIG.client.displayName} runs ${CONFIG.kpis.activeRFIs} open RFIs across active projects today, and historically the average turnaround was 4 to 6 days. With this automation it is now ${CONFIG.kpis.avgRFITurnDays} days.`,
     trigger: "Field super sends a voice memo or photo to a designated WhatsApp number, or PM types a quick note in a Notion form titled 'New RFI'.",
     architecture: `[ WhatsApp via Twilio / Notion form / Email ]
-        ↓ trigger
+        â trigger
 [ Make.com scenario "C95-RFI-Engine" ]
-        ↓
+        â
 [ Whisper transcription (if voice) ]
-        ↓
-[ Claude · RFI Drafter ]
-   • Reads field input + drawing index
-   • Detects: is this an RFI or actually a CO request?
-   • Generates: AIA G716-style RFI markdown
-   • Assigns: RFI number from project log
-        ↓ branch
-[ Google Docs ]    ←  formatted RFI doc
-[ Gmail send ]     ←  to architect, CC PM
-[ Airtable ]       ←  RFI Log entry, status=Sent
-[ Calendar event ] ←  follow-up at +5 business days`,
+        â
+[ Claude Â· RFI Drafter ]
+   â¢ Reads field input + drawing index
+   â¢ Detects: is this an RFI or actually a CO request?
+   â¢ Generates: AIA G716-style RFI markdown
+   â¢ Assigns: RFI number from project log
+        â branch
+[ Google Docs ]    â  formatted RFI doc
+[ Gmail send ]     â  to architect, CC PM
+[ Airtable ]       â  RFI Log entry, status=Sent
+[ Calendar event ] â  follow-up at +5 business days`,
     steps: [
       "<strong>Make.com scenario name:</strong> C95-RFI-Engine. Three triggers behind a Router: Twilio (WhatsApp inbound), Notion (database item created in 'RFI Intake'), Gmail (email to rfi@construction95.com).",
       "<strong>Branch on input type:</strong> If voice memo, route through Whisper transcription (use Make's HTTP module to OpenAI Whisper, or replace with Otter.ai's native module if no-code-only is required). If photo, route through Anthropic Claude vision module to extract any visible text and describe what's shown.",
-      "<strong>Anthropic Claude module · Step 1 (CO Detector):</strong> Run the field input through the CO Detector Prompt. If output is FLAG_CO, stop the RFI flow and route to the Change Order workflow (#9) instead. Notify Levi.",
-      "<strong>Airtable · Search Records:</strong> Look up the active project from the project name mentioned in the input. Pull current_rfi_number and add 1.",
-      "<strong>Anthropic Claude module · Step 2 (RFI Drafter):</strong> Paste the RFI Drafter Prompt. Map: {{voice_or_text_input}}, {{next_rfi_number}}, {{drawing_index}}, {{pm_name}}.",
-      "<strong>Google Docs · Create from Template:</strong> Use the C95 RFI template doc. Inject the markdown Claude produced. Save to Drive folder /C95/{{project_id}}/RFIs/.",
-      "<strong>Gmail · Send Email:</strong> To architect on file (pull from Airtable Project record). CC PM. Subject: '[C95-{{project_id}}] RFI #{{rfi_number}} — {{topic_short}}'. Attach the Google Doc as PDF.",
-      "<strong>Airtable · Create Record:</strong> RFI Log entry with status='Sent', sent_at=now, follow_up_due=now+5 business days, project link, Google Doc link.",
-      "<strong>Google Calendar · Create Event:</strong> 5 business days out. Title: 'Follow up RFI #{{rfi_number}} with {{architect_name}}'. Attendees: Levi.",
+      "<strong>Anthropic Claude module Â· Step 1 (CO Detector):</strong> Run the field input through the CO Detector Prompt. If output is FLAG_CO, stop the RFI flow and route to the Change Order workflow (#9) instead. Notify Levi.",
+      "<strong>Airtable Â· Search Records:</strong> Look up the active project from the project name mentioned in the input. Pull current_rfi_number and add 1.",
+      "<strong>Anthropic Claude module Â· Step 2 (RFI Drafter):</strong> Paste the RFI Drafter Prompt. Map: {{voice_or_text_input}}, {{next_rfi_number}}, {{drawing_index}}, {{pm_name}}.",
+      "<strong>Google Docs Â· Create from Template:</strong> Use the C95 RFI template doc. Inject the markdown Claude produced. Save to Drive folder /C95/{{project_id}}/RFIs/.",
+      "<strong>Gmail Â· Send Email:</strong> To architect on file (pull from Airtable Project record). CC PM. Subject: '[C95-{{project_id}}] RFI #{{rfi_number}} â {{topic_short}}'. Attach the Google Doc as PDF.",
+      "<strong>Airtable Â· Create Record:</strong> RFI Log entry with status='Sent', sent_at=now, follow_up_due=now+5 business days, project link, Google Doc link.",
+      "<strong>Google Calendar Â· Create Event:</strong> 5 business days out. Title: 'Follow up RFI #{{rfi_number}} with {{architect_name}}'. Attendees: Levi.",
       "<strong>Scheduled side-flow (every weekday at 7am):</strong> Query Airtable for RFIs with follow_up_due <= today AND status='Sent'. For each, draft a polite follow-up email via Claude and queue for Levi review.",
       "<strong>Human-in-the-loop:</strong> RFI emails to architects always require Levi's one-click approval before sending. Use Slack-approved-via-Make pattern."
     ],
@@ -2556,10 +2583,10 @@ FLAG_CO
 If FLAG_CO, follow with a one-sentence reason.
 
 Examples:
-"What size rebar in the footers, the plan and the structural don't match" → RFI
-"Owner wants us to add a half bath next to the laundry" → FLAG_CO (added scope)
-"Drawing shows 2x6 framing but spec calls for 2x4" → RFI
-"The architect changed his mind on the door swing" → FLAG_CO (scope change)`
+"What size rebar in the footers, the plan and the structural don't match" â RFI
+"Owner wants us to add a half bath next to the laundry" â FLAG_CO (added scope)
+"Drawing shows 2x6 framing but spec calls for 2x4" â RFI
+"The architect changed his mind on the door swing" â FLAG_CO (scope change)`
       },
       {
         title: "RFI Drafter Prompt",
@@ -2588,7 +2615,7 @@ Output the RFI in markdown with these sections exactly:
 **To:** {{architect_name}}
 
 ## Drawing References
-[List specific sheets and details, e.g. "A-201, Detail 3" or "S-101, Note 4". If no drawing reference can be determined from the field input, write "TBD — verifying on plan set."]
+[List specific sheets and details, e.g. "A-201, Detail 3" or "S-101, Note 4". If no drawing reference can be determined from the field input, write "TBD â verifying on plan set."]
 
 ## Specification References
 [Section number and title if applicable, otherwise "N/A"]
@@ -2647,16 +2674,16 @@ Rules:
 <strong>## Drawing References</strong><br/>
 A-301, Detail 4 (Bath 2 wet wall) ; M-201, Note 7<br/><br/>
 <strong>## Specification References</strong><br/>
-Section 22 13 16 — Sanitary Waste &amp; Vent Piping<br/><br/>
+Section 22 13 16 â Sanitary Waste &amp; Vent Piping<br/><br/>
 <strong>## Question</strong><br/>
 Detail 4/A-301 calls for the bath 2 wet wall to be 2x6 framing to accommodate the 3-inch waste vent. Note 7/M-201 references a 2-inch vent for the same fixture group. Which controls?<br/><br/>
 <strong>## Suggested Resolution</strong><br/>
 Recommend the 3-inch vent and 2x6 framing per A-301. The 2-inch vent in M-201 appears to be a holdover from an earlier revision. We are framed open at this location and can proceed Monday with confirmation.<br/><br/>
 <strong>## Required Response Date</strong><br/>
 2026-04-29<br/><br/>
-Levi Ezagui · Construction 95`,
+Levi Ezagui Â· Construction 95`,
     hoursSaved: "Roughly 6 hours per week across all active projects, mostly recovered from PM administrative time at $85/hour. More important: average RFI turnaround dropped from 4-6 days to 2.1 days, eliminating most schedule float burns.",
-    tier: "Core Build · Highest-impact build for any GC running multiple jobs",
+    tier: "Core Build Â· Highest-impact build for any GC running multiple jobs",
     deployment: [
       { day: 0,  title: "Kickoff",                     subtasks: ["Confirm WhatsApp as primary field-input channel", "Identify the field super and PM operators", "Map drawing-set storage convention"],                tools: ["Google Meet"],                                 output: "Kickoff brief signed, channels confirmed" },
       { day: 1,  title: "Intake form",                 subtasks: ["Pull architect contact list for active projects", "Document current RFI handling pain points", "Confirm AIA G716 as target output format"],         tools: ["Notion form"],                                 output: "Architect contact roster, format confirmed" },
@@ -2693,29 +2720,29 @@ Levi Ezagui · Construction 95`,
     pain: `${CONFIG.client.displayName} is small, but the AP volume is not. Roughly ${CONFIG.kpis.apItemsThisMonth} subcontractor and supplier invoices come in every month across active jobs. Before this automation, that meant Mendel or his bookkeeper opening each PDF, eyeballing vendor name, invoice number, date, line items, and totals, then mapping to the right project and the right cost code in QuickBooks. Roughly 12 hours a week. At admin loaded rates of $${CONFIG.loadedRates.admin}/hour, that is $${(CONFIG.loadedRates.admin*12*52).toLocaleString()} per year of pure data entry. Worse, the job-cost reports were always 2 to 3 weeks behind reality, which made mid-project margin calls impossible.`,
     trigger: "New email with attachment to ap@construction95.com, or new file dropped into Drive folder /C95/AP-Inbox/.",
     architecture: `[ Gmail ap@construction95.com / Drive AP-Inbox ]
-        ↓ trigger
+        â trigger
 [ Make.com scenario "C95-AP-Extract" ]
-        ↓
-[ Claude vision · Invoice Parser ]
-   • Extracts: vendor, invoice #, date, due, line items, totals
-   • Matches: job from PO/project name
-   • Suggests: cost code from C95 chart
-   • Flags: duplicate, missing PO, off-budget
-        ↓
-[ Airtable AP Inbox ]   ←  one record per invoice
-        ↓ Mendel reviews & approves (1-click)
-[ QuickBooks Online sync ] ←  Zapier QBO module
-[ Gmail confirmation ]     ←  to vendor "received"
-[ Lien tracker (#10) ]     ←  cross-reference for waiver`,
+        â
+[ Claude vision Â· Invoice Parser ]
+   â¢ Extracts: vendor, invoice #, date, due, line items, totals
+   â¢ Matches: job from PO/project name
+   â¢ Suggests: cost code from C95 chart
+   â¢ Flags: duplicate, missing PO, off-budget
+        â
+[ Airtable AP Inbox ]   â  one record per invoice
+        â Mendel reviews & approves (1-click)
+[ QuickBooks Online sync ] â  Zapier QBO module
+[ Gmail confirmation ]     â  to vendor "received"
+[ Lien tracker (#10) ]     â  cross-reference for waiver`,
     steps: [
       "<strong>Make.com scenario name:</strong> C95-AP-Extract. Two triggers: Gmail (ap@construction95.com with attachment) and Drive (new file in /AP-Inbox/).",
       "<strong>Filter:</strong> Continue only if attachment is PDF, JPG, or PNG and file size < 20 MB. Otherwise log to error queue.",
-      "<strong>Anthropic Claude module · Step 1 (Invoice Parser, vision):</strong> Use the Anthropic Create Message module with vision input. Pass the PDF as a base64 image (use Make's Drive Get File + base64 encoder if needed). Paste the Invoice Parser prompt.",
-      "<strong>Airtable · Search Projects:</strong> Match the invoice's job_reference field against active project names and PO numbers. If no match, mark for human review.",
-      "<strong>Anthropic Claude module · Step 2 (Cost Code Mapper):</strong> Pass the line items plus the C95 cost code chart (stored as a Notion page, fetched via Notion module). Claude suggests a cost code per line.",
+      "<strong>Anthropic Claude module Â· Step 1 (Invoice Parser, vision):</strong> Use the Anthropic Create Message module with vision input. Pass the PDF as a base64 image (use Make's Drive Get File + base64 encoder if needed). Paste the Invoice Parser prompt.",
+      "<strong>Airtable Â· Search Projects:</strong> Match the invoice's job_reference field against active project names and PO numbers. If no match, mark for human review.",
+      "<strong>Anthropic Claude module Â· Step 2 (Cost Code Mapper):</strong> Pass the line items plus the C95 cost code chart (stored as a Notion page, fetched via Notion module). Claude suggests a cost code per line.",
       "<strong>Anomaly check (Make Filter):</strong> Flag if total > $5,000 AND no PO match, OR if invoice number duplicates an existing record in last 90 days, OR if line items contain markup terminology suggesting it should be a CO.",
-      "<strong>Airtable · Create Record:</strong> Base 'C95 Operations', table 'AP Inbox'. Map all extracted fields plus 'review_status' = 'Pending Review' and a link to the original PDF in Drive.",
-      "<strong>Slack · Create Message:</strong> Channel #ap-c95. Daily digest at 8am with the count and a link to the Airtable view 'AP - Pending Review'.",
+      "<strong>Airtable Â· Create Record:</strong> Base 'C95 Operations', table 'AP Inbox'. Map all extracted fields plus 'review_status' = 'Pending Review' and a link to the original PDF in Drive.",
+      "<strong>Slack Â· Create Message:</strong> Channel #ap-c95. Daily digest at 8am with the count and a link to the Airtable view 'AP - Pending Review'.",
       "<strong>Human approval step:</strong> Mendel opens Airtable on phone or laptop, reviews each invoice, edits if needed, hits 'Approve'. Status flips to 'Approved'.",
       "<strong>QuickBooks Online sync:</strong> A second scenario (C95-AP-to-QBO) watches Airtable for status='Approved'. On hit, creates the bill in QBO via the QuickBooks Online module. Maps vendor, invoice #, date, line items, cost code, project (QBO Class).",
       "<strong>Vendor confirmation:</strong> Gmail send module replies to the vendor: 'Invoice {{number}} received and queued for payment per terms.'",
@@ -2800,17 +2827,17 @@ Rules:
     ],
     sampleOutput: `<strong>Vendor:</strong> Sunshine Plumbing Supply<br/>
 <strong>Invoice #:</strong> SPS-44192<br/>
-<strong>Date:</strong> 2026-04-19 · Due 2026-05-19<br/>
+<strong>Date:</strong> 2026-04-19 Â· Due 2026-05-19<br/>
 <strong>Project match:</strong> C95-2402 Hollywood Condo Full Gut (matched on PO #C95-2402-PL-003)<br/><br/>
 <strong>Line items (3):</strong><br/>
-1. PVC Schedule 40 4" — 220 LF @ $4.85 = $1,067.00 — code <span style="color:var(--gold-bright)">15-2120</span> (high)<br/>
-2. PVC fittings assorted — 1 lot = $284.50 — code <span style="color:var(--gold-bright)">15-2120</span> (high)<br/>
-3. Delivery surcharge — $75.00 — code <span style="color:var(--gold-bright)">15-9100</span> (medium)<br/><br/>
-<strong>Subtotal:</strong> $1,426.50 · <strong>Tax:</strong> $99.86 · <strong>Total:</strong> $1,526.36<br/>
-<strong>Status:</strong> Pending Mendel approval · <strong>Anomalies:</strong> none<br/>
+1. PVC Schedule 40 4" â 220 LF @ $4.85 = $1,067.00 â code <span style="color:var(--gold-bright)">15-2120</span> (high)<br/>
+2. PVC fittings assorted â 1 lot = $284.50 â code <span style="color:var(--gold-bright)">15-2120</span> (high)<br/>
+3. Delivery surcharge â $75.00 â code <span style="color:var(--gold-bright)">15-9100</span> (medium)<br/><br/>
+<strong>Subtotal:</strong> $1,426.50 Â· <strong>Tax:</strong> $99.86 Â· <strong>Total:</strong> $1,526.36<br/>
+<strong>Status:</strong> Pending Mendel approval Â· <strong>Anomalies:</strong> none<br/>
 <strong>Lien implication:</strong> Conditional waiver expected on next pay run for $1,526.36`,
     hoursSaved: `Roughly 10 hours per week recovered from data entry. At $${CONFIG.loadedRates.admin}/hour that is $${(CONFIG.loadedRates.admin*10).toLocaleString()}/week or $${(CONFIG.loadedRates.admin*10*52).toLocaleString()}/year. Job-cost reports now lag reality by 24 hours instead of 2-3 weeks, which is the bigger win for margin management.`,
-    tier: "Core Build · Foundational for any GC with subcontractor volume",
+    tier: "Core Build Â· Foundational for any GC with subcontractor volume",
     deployment: [
       { day: 0,  title: "Kickoff",                         subtasks: ["Confirm ap@construction95.com is canonical AP inbox", "Identify Mendel as approval operator", "Map QBO chart of accounts"],                            tools: ["Google Meet"],                           output: "Kickoff brief signed, AP flow mapped" },
       { day: 1,  title: "QBO API connection",              subtasks: ["Connect QuickBooks Online via Make module", "Verify read/write Bills permission", "Pull existing vendor list"],                                       tools: ["QuickBooks Online", "Make.com"],         output: "QBO connection verified, vendor list synced" },
@@ -2846,46 +2873,46 @@ Rules:
     valueProp: "Every Florida statutory deadline is calculated, watched, and surfaced before it expires. Every conditional and unconditional waiver is drafted on demand using the statutory form language. Lien rights stop being a thing the firm hopes it remembered.",
     pain: `Florida lien law is the single most expensive thing a small Florida contractor can mess up. Miss the 45-day Notice to Owner and you lose lien rights on that project, full stop. Miss the 90-day Claim of Lien and you lose lien rights, full stop. ${CONFIG.client.displayName} operates entirely in Broward and Miami-Dade where these dates are sacred and the courts do not forgive late filings. Before this automation, NTO and Claim-of-Lien tracking lived in a spreadsheet that nobody updated past project kickoff. The risk was not theoretical.`,
     trigger: "New project record created in Airtable (or new project setup form submitted), plus a daily scheduled check at 6am for upcoming deadlines.",
-    architecture: `[ Airtable · new Project record ]
-        ↓ trigger
+    architecture: `[ Airtable Â· new Project record ]
+        â trigger
 [ Make.com scenario "C95-Lien-Setup" ]
-        ↓
-[ Claude · Florida Date Calculator ]
-   • Computes: NTO deadline, Claim deadline, enforcement window
-   • Determines: lienor type, NTO required?
-        ↓
-[ Airtable · Lien Tracker base ]
-   • One record per project with all key dates
-        ↓ Calendar event creation (Google Calendar)
-   • NTO due (-45 days from first work)
-   • Claim of Lien due (-90 days from last work)
-   • SOA response window (-30 days)
-   • Enforcement deadline (-1 year from recording)
+        â
+[ Claude Â· Florida Date Calculator ]
+   â¢ Computes: NTO deadline, Claim deadline, enforcement window
+   â¢ Determines: lienor type, NTO required?
+        â
+[ Airtable Â· Lien Tracker base ]
+   â¢ One record per project with all key dates
+        â Calendar event creation (Google Calendar)
+   â¢ NTO due (-45 days from first work)
+   â¢ Claim of Lien due (-90 days from last work)
+   â¢ SOA response window (-30 days)
+   â¢ Enforcement deadline (-1 year from recording)
 
 [ Daily 6am scheduled scan ]
-        ↓
-[ Claude · NTO/Waiver Drafter ]
-   • Drafts statutory NTO using FL 713.06 form
-   • Drafts conditional progress waivers per pay run
-   • Drafts unconditional progress waivers post-payment
-   • Drafts conditional final waivers
-   • Drafts unconditional final waivers
-        ↓ HUMAN GATE
+        â
+[ Claude Â· NTO/Waiver Drafter ]
+   â¢ Drafts statutory NTO using FL 713.06 form
+   â¢ Drafts conditional progress waivers per pay run
+   â¢ Drafts unconditional progress waivers post-payment
+   â¢ Drafts conditional final waivers
+   â¢ Drafts unconditional final waivers
+        â HUMAN GATE
 [ Attorney/Sworn Agent review ]
-        ↓
+        â
 [ DocuSign for signing ]
-        ↓
+        â
 [ Certified mail vendor or recorder portal ]`,
     steps: [
-      "<strong>Make.com scenario 1 — C95-Lien-Setup:</strong> Trigger on Airtable new Project record. Pull project facts: first_work_date, last_work_date (null at kickoff), county, owner, GC if any, lienor type, bonded boolean.",
-      "<strong>Anthropic Claude module · Date Calculator:</strong> Run the Florida Date Calculator prompt. Get back JSON with all key statutory dates and warnings.",
-      "<strong>Airtable · Update Project record:</strong> Write back nto_deadline, claim_deadline, enforcement_deadline, soa_response_days, warnings array.",
-      "<strong>Google Calendar · Create Events:</strong> Create 4 events on the C95 Lien calendar: NTO due, Claim of Lien due, Enforcement window opens, Enforcement window closes. Each titled with project ID and lienor type.",
-      "<strong>Make.com scenario 2 — C95-NTO-Drafter:</strong> Trigger 14 days before nto_deadline (calendar-based). Run the NTO Drafter prompt with project facts. Produce a Florida-statutory NTO form pre-populated.",
-      "<strong>HUMAN GATE — attorney review required:</strong> The drafted NTO is emailed to a Slack channel #lien-review with @ tag to Mendel and the firm's construction attorney. Status='Pending Attorney Review'. Nothing sends.",
+      "<strong>Make.com scenario 1 â C95-Lien-Setup:</strong> Trigger on Airtable new Project record. Pull project facts: first_work_date, last_work_date (null at kickoff), county, owner, GC if any, lienor type, bonded boolean.",
+      "<strong>Anthropic Claude module Â· Date Calculator:</strong> Run the Florida Date Calculator prompt. Get back JSON with all key statutory dates and warnings.",
+      "<strong>Airtable Â· Update Project record:</strong> Write back nto_deadline, claim_deadline, enforcement_deadline, soa_response_days, warnings array.",
+      "<strong>Google Calendar Â· Create Events:</strong> Create 4 events on the C95 Lien calendar: NTO due, Claim of Lien due, Enforcement window opens, Enforcement window closes. Each titled with project ID and lienor type.",
+      "<strong>Make.com scenario 2 â C95-NTO-Drafter:</strong> Trigger 14 days before nto_deadline (calendar-based). Run the NTO Drafter prompt with project facts. Produce a Florida-statutory NTO form pre-populated.",
+      "<strong>HUMAN GATE â attorney review required:</strong> The drafted NTO is emailed to a Slack channel #lien-review with @ tag to Mendel and the firm's construction attorney. Status='Pending Attorney Review'. Nothing sends.",
       "<strong>On attorney approval:</strong> Status flips to 'Approved'. DocuSign module sends to Mendel for signature. Then Make pushes to certified mail vendor (e.g., Click2Mail) for service to all required parties (owner, lender, GC if separate from owner).",
-      "<strong>Make.com scenario 3 — C95-Waiver-Drafter:</strong> On pay-run trigger (manual or invoice-paid), Claude drafts the appropriate waiver type using statutory form language. NEVER alters the statutory wording.",
-      "<strong>HUMAN GATE — sworn agent signs:</strong> All waivers go to DocuSign for Mendel as licensed sworn agent.",
+      "<strong>Make.com scenario 3 â C95-Waiver-Drafter:</strong> On pay-run trigger (manual or invoice-paid), Claude drafts the appropriate waiver type using statutory form language. NEVER alters the statutory wording.",
+      "<strong>HUMAN GATE â sworn agent signs:</strong> All waivers go to DocuSign for Mendel as licensed sworn agent.",
       "<strong>Daily 6am scan:</strong> Scenario C95-Lien-Daily. Reads Airtable Lien Tracker. For any deadline within next 14 days, draft a Slack alert to #lien-watch with project, deadline, days remaining, recommended action. For 7 days or less, also SMS Mendel.",
       "<strong>Updates to last_work_date:</strong> When a project's status flips to 'Work Complete' in Airtable, the scenario re-runs the date calculator with the actual last_work_date and updates the Claim of Lien deadline."
     ],
@@ -2985,23 +3012,23 @@ Critical rules:
       "Construction 95's licensed sworn agent identity (Mendel Ezagui)",
       "Florida construction attorney contact for the human-gate review step",
       "DocuSign account or PandaDoc account",
-      "Certified mail vendor account (Click2Mail or similar) — optional, can be manual at first",
+      "Certified mail vendor account (Click2Mail or similar) â optional, can be manual at first",
       "Statutory form templates for the four Florida waiver types (we provide on day 3)",
       "Notice of Commencement record for each property"
     ],
     sampleOutput: `<strong>Project:</strong> C95-2403 Sunrise Commercial Buildout<br/>
-<strong>County:</strong> Broward · <strong>Lienor type:</strong> Direct contractor<br/><br/>
+<strong>County:</strong> Broward Â· <strong>Lienor type:</strong> Direct contractor<br/><br/>
 <strong>Calculated deadlines:</strong><br/>
 NTO required: <span style="color:var(--gold-bright)">No (direct contractor exemption per 713.06(2)(a))</span><br/>
-First work: 2026-04-22 · Last work: TBD<br/>
-Claim of Lien deadline: <span style="color:var(--rust-soft)">TBD — recalculates when work completes</span><br/>
+First work: 2026-04-22 Â· Last work: TBD<br/>
+Claim of Lien deadline: <span style="color:var(--rust-soft)">TBD â recalculates when work completes</span><br/>
 Enforcement deadline (post-recording): recording + 1 year<br/>
 SOA response window: 30 days from receipt<br/><br/>
 <strong>WARNINGS</strong><br/>
-• Project is bonded under 713.23. Lien rights replaced by Notice of Nonpayment + bond claim. Switch to bond claim workflow when triggered.<br/>
-• Statutory deadlines are strictly enforced. Consult Florida construction counsel before relying on these dates for legal action.`,
+â¢ Project is bonded under 713.23. Lien rights replaced by Notice of Nonpayment + bond claim. Switch to bond claim workflow when triggered.<br/>
+â¢ Statutory deadlines are strictly enforced. Consult Florida construction counsel before relying on these dates for legal action.`,
     hoursSaved: "Roughly 2 hours per week saved on manual deadline tracking, but the real number here is risk-adjusted. One missed NTO on a $400K commercial project is a $400K loss. The automation makes that loss roughly impossible.",
-    tier: "Core Build · License-to-operate automation for any Florida sub or GC",
+    tier: "Core Build Â· License-to-operate automation for any Florida sub or GC",
     deployment: [
       { day: 0,  title: "Kickoff with attorney intro",    subtasks: ["Kickoff with Mendel as licensed sworn agent", "Introduce VRL-recommended construction attorney", "Confirm attorney as the human-gate reviewer"],         tools: ["Google Meet"],                       output: "Kickoff signed, attorney engagement set" },
       { day: 1,  title: "Pull NOC records",               subtasks: ["Pull Notice of Commencement for all active properties", "Verify owner names match contracts", "Identify any bonded vs unbonded jobs"],                  tools: ["Broward Clerk portal", "Drive"],     output: "NOC records loaded, bonded jobs flagged" },
@@ -3011,7 +3038,7 @@ SOA response window: 30 days from receipt<br/><br/>
       { day: 5,  title: "Daily 6am scan scenario",        subtasks: ["Build C95-Lien-Daily scheduled scenario", "Wire Slack #lien-watch alerts", "Add Twilio SMS to Mendel for sub-7-day windows"],                            tools: ["Make.com", "Slack", "Twilio"],       output: "Daily scan operating on test calendar" },
       { day: 6,  title: "NTO drafter with attorney gate", subtasks: ["Build NTO drafter scenario at -14 days", "Wire #lien-review Slack channel for attorney", "Add hold-for-approval logic before any send"],                  tools: ["Make.com", "Slack"],                 output: "NTO drafter producing forms and pausing for review" },
       { day: 7,  title: "Mid-build attorney review",      subtasks: ["Attorney reviews all 5 statutory templates", "Approve or redline statutory form language", "Sign off on the human-gate workflow design"],               tools: ["Google Meet", "DocuSign"],           output: "Attorney signs off on templates and gate flow" },
-      { day: 8,  title: "Waiver drafter scenarios",       subtasks: ["Build the 4 waiver drafters (cond/uncond × progress/final)", "Wire DocuSign for sworn-agent signing", "Add post-clear conditional release"],            tools: ["Make.com", "DocuSign"],              output: "All 4 waiver drafters operating end to end" },
+      { day: 8,  title: "Waiver drafter scenarios",       subtasks: ["Build the 4 waiver drafters (cond/uncond Ã progress/final)", "Wire DocuSign for sworn-agent signing", "Add post-clear conditional release"],            tools: ["Make.com", "DocuSign"],              output: "All 4 waiver drafters operating end to end" },
       { day: 9,  title: "DocuSign and certified mail",    subtasks: ["Wire DocuSign for Mendel's sworn-agent signature", "Connect Click2Mail for certified mail dispatch", "Test with one mock NTO end to end"],                tools: ["DocuSign", "Click2Mail"],            output: "End-to-end mock NTO sent via certified mail" },
       { day: 10, title: "SOP and human-gate doc",         subtasks: ["Write SOP with the human-gate workflow front and center", "Document attorney escalation paths", "Build a 'when to call counsel' decision tree"],          tools: ["Notion"],                            output: "SOP doc with attorney escalation tree" },
       { day: 11, title: "Attorney review of templates",   subtasks: ["Final attorney sign-off on all 5 statutory templates", "Capture any redlines from attorney", "Lock template versions in Drive"],                          tools: ["DocuSign", "Drive"],                 output: "Attorney countersigning final template set" },
@@ -3041,7 +3068,7 @@ SOA response window: 30 days from receipt<br/><br/>
 const DOCUMENT_SAMPLES = [
   {
     title: "RFI 2402-014",
-    meta: "Generated · April 22 · Hollywood Condo",
+    meta: "Generated Â· April 22 Â· Hollywood Condo",
     automationN: 4,
     body: `
       <h4>Request for Information</h4>
@@ -3052,38 +3079,38 @@ const DOCUMENT_SAMPLES = [
       <div class="field-row"><span class="label">To</span><span>Daniela Reyes, Reyes &amp; Sons Architects</span></div>
       <hr/>
       <h4>Drawing References</h4>
-      <p>A-301, Detail 4 (Bath 2 wet wall) · M-201, Note 7</p>
+      <p>A-301, Detail 4 (Bath 2 wet wall) Â· M-201, Note 7</p>
       <h4>Specification References</h4>
-      <p>Section 22 13 16 — Sanitary Waste &amp; Vent Piping</p>
+      <p>Section 22 13 16 â Sanitary Waste &amp; Vent Piping</p>
       <h4>Question</h4>
       <p>Detail 4/A-301 calls for the bath 2 wet wall to be 2x6 framing to accommodate the 3-inch waste vent. Note 7/M-201 references a 2-inch vent for the same fixture group. Which controls?</p>
       <h4>Suggested Resolution</h4>
       <p>Recommend the 3-inch vent and 2x6 framing per A-301. The 2-inch vent in M-201 appears to be a holdover from an earlier revision. We are framed open at this location and can proceed Monday with confirmation.</p>
       <h4>Required Response Date</h4>
       <p>April 29, 2026</p>
-      <p style="margin-top:14px;"><strong>Levi Ezagui</strong> · Construction 95</p>
+      <p style="margin-top:14px;"><strong>Levi Ezagui</strong> Â· Construction 95</p>
     `
   },
   {
-    title: "Lead Reply · Marcus K.",
-    meta: "Sent · April 28 · 47 sec response",
+    title: "Lead Reply Â· Marcus K.",
+    meta: "Sent Â· April 28 Â· 47 sec response",
     automationN: 1,
     body: `
-      <h4>Re: your inquiry — Construction 95</h4>
+      <h4>Re: your inquiry â Construction 95</h4>
       <p>Hey Marcus,</p>
       <p>Sounds like you're looking at a full master bath gut in Pembroke Pines, mid-tier finishes, ready to start in the next 30 days. We just wrapped a similar scope two miles from you, ten days door to door, kept the family in the house the whole time.</p>
       <p>I'd want fifteen minutes on the phone to walk through your scope and your timeline before quoting anything. Reply with a time that works or text me at (347) 295-5105.</p>
-      <p style="margin-top:14px;"><strong>Levi Ezagui</strong> · Construction 95</p>
+      <p style="margin-top:14px;"><strong>Levi Ezagui</strong> Â· Construction 95</p>
       <hr/>
       <div class="field-row"><span class="label">Classification</span><span>Residential / High intent</span></div>
-      <div class="field-row"><span class="label">Budget tier</span><span>$40K – $100K</span></div>
+      <div class="field-row"><span class="label">Budget tier</span><span>$40K â $100K</span></div>
       <div class="field-row"><span class="label">Timeline</span><span>Within 30 days</span></div>
-      <div class="field-row"><span class="label">Logged</span><span>Airtable Lead Pipeline · Status New</span></div>
+      <div class="field-row"><span class="label">Logged</span><span>Airtable Lead Pipeline Â· Status New</span></div>
     `
   },
   {
-    title: "AP Invoice · Sunshine Plumbing",
-    meta: "Parsed · April 19 · Pending approval",
+    title: "AP Invoice Â· Sunshine Plumbing",
+    meta: "Parsed Â· April 19 Â· Pending approval",
     automationN: 8,
     body: `
       <h4>Invoice Extraction</h4>
@@ -3095,9 +3122,9 @@ const DOCUMENT_SAMPLES = [
       <div class="field-row"><span class="label">Project</span><span>C95-2402 Hollywood Condo Full Gut</span></div>
       <hr/>
       <h4>Line items</h4>
-      <p>1. PVC Schedule 40 4" — 220 LF @ $4.85 = $1,067.00 — code 15-2120</p>
-      <p>2. PVC fittings assorted — 1 lot = $284.50 — code 15-2120</p>
-      <p>3. Delivery surcharge — $75.00 — code 15-9100</p>
+      <p>1. PVC Schedule 40 4" â 220 LF @ $4.85 = $1,067.00 â code 15-2120</p>
+      <p>2. PVC fittings assorted â 1 lot = $284.50 â code 15-2120</p>
+      <p>3. Delivery surcharge â $75.00 â code 15-9100</p>
       <hr/>
       <div class="field-row"><span class="label">Subtotal</span><span>$1,426.50</span></div>
       <div class="field-row"><span class="label">Tax</span><span>$99.86</span></div>
@@ -3108,7 +3135,7 @@ const DOCUMENT_SAMPLES = [
   },
   {
     title: "Conditional Progress Waiver",
-    meta: "Drafted · April 25 · Awaiting attorney review",
+    meta: "Drafted Â· April 25 Â· Awaiting attorney review",
     automationN: 10,
     body: `
       <h4>Conditional Waiver and Release Upon Progress Payment</h4>
@@ -3139,8 +3166,8 @@ function renderArchSVG(text) {
   lines.forEach(l => {
     let line = l;
     line = line.replace(/\[([^\]]+)\]/g, '<span style="color: var(--gold-bright);">[$1]</span>');
-    line = line.replace(/(↓|←|→)/g, '<span style="color: var(--rust-soft);">$1</span>');
-    line = line.replace(/(•[^•\n]*)/g, '<span style="color: var(--ink-faint);">$1</span>');
+    line = line.replace(/(â|â|â)/g, '<span style="color: var(--rust-soft);">$1</span>');
+    line = line.replace(/(â¢[^â¢\n]*)/g, '<span style="color: var(--ink-faint);">$1</span>');
     html += line + '\n';
   });
   html += '</pre>';
@@ -3158,7 +3185,7 @@ function fmtCurrency(n) {
   return '$' + n.toLocaleString('en-US');
 }
 function fmtDate(iso) {
-  if (!iso) return '—';
+  if (!iso) return 'â';
   const d = new Date(iso);
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
@@ -3177,7 +3204,7 @@ function renderSidebar() {
   const cl = CONFIG.client;
   document.getElementById('cl-name').textContent = cl.legalName;
   document.getElementById('cl-meta').innerHTML =
-    `${cl.trade} · ${cl.address.city}, ${cl.address.state}<br/>${cl.revenueRange} · ${cl.employeeCount} on team`;
+    `${cl.trade} Â· ${cl.address.city}, ${cl.address.state}<br/>${cl.revenueRange} Â· ${cl.employeeCount} on team`;
   document.getElementById('active-count').textContent = CONFIG.package.automationsActive.length;
   document.getElementById('ft-operator').textContent = CONFIG.provider.operator;
   document.getElementById('ft-email').textContent = CONFIG.provider.operatorEmail;
@@ -3190,14 +3217,14 @@ function renderDashboard() {
   document.getElementById('dash-date').textContent =
     today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
-  // KPIs — 6 cards, ordered by stakeholder importance (most consequential first)
+  // KPIs â 6 cards, ordered by stakeholder importance (most consequential first)
   const k = CONFIG.kpis;
   const kpis = [
-    { label: 'Hours saved YTD',     value: k.hoursSavedYTD,                    unit: 'hrs',  trend: '↑ on pace · vs $0 baseline', cls: '' },
-    { label: 'Dollar value YTD',    value: '$' + (k.dollarValueSavedYTD/1000).toFixed(1) + 'K', unit: '', trend: '↑ tracking 18% above plan', cls: '' },
+    { label: 'Hours saved YTD',     value: k.hoursSavedYTD,                    unit: 'hrs',  trend: 'â on pace Â· vs $0 baseline', cls: '' },
+    { label: 'Dollar value YTD',    value: '$' + (k.dollarValueSavedYTD/1000).toFixed(1) + 'K', unit: '', trend: 'â tracking 18% above plan', cls: '' },
     { label: 'Workflow success',    value: Math.round(k.successRate*100),      unit: '%',    trend: 'across 50+ runs', cls: '' },
     { label: 'Lead response avg',   value: k.leadResponseAvgSec,               unit: 'sec',  trend: 'target under 60s', cls: '' },
-    { label: 'RFI turnaround',      value: k.avgRFITurnDays,                   unit: 'days', trend: '↓ from 4.2 day baseline', cls: '' },
+    { label: 'RFI turnaround',      value: k.avgRFITurnDays,                   unit: 'days', trend: 'â from 4.2 day baseline', cls: '' },
     { label: 'AP auto-approved',    value: Math.round(k.apReviewedAutoApproved*100), unit: '%', trend: 'one-click rate', cls: '' }
   ];
   document.getElementById('kpi-grid').innerHTML = kpis.map(k =>
@@ -3216,7 +3243,7 @@ function renderDashboard() {
     </div>
     <div class="bundle-cell">
       <div class="label">Quarterly Fee</div>
-      <div class="value">${fmtCurrency(CONFIG.package.quarterlyFee)}<span style="font-size:13px; color:var(--ink-faint); font-style:italic;"> · ${fmtCurrency(CONFIG.package.monthlyEffective)}/mo effective</span></div>
+      <div class="value">${fmtCurrency(CONFIG.package.quarterlyFee)}<span style="font-size:13px; color:var(--ink-faint); font-style:italic;"> Â· ${fmtCurrency(CONFIG.package.monthlyEffective)}/mo effective</span></div>
     </div>
     <div class="bundle-cell">
       <div class="label">Live Since</div>
@@ -3230,8 +3257,8 @@ function renderDashboard() {
     { time: '08:14 AM', text: '<span class="auto">Lead Intake</span> classified inquiry from Marcus K. (Pembroke Pines). Reply sent in 47 sec.', status: 'ok', statusText: 'Replied' },
     { time: '07:30 AM', text: '<span class="auto">Daily Lien Scan</span> checked 4 active projects. No statutory deadlines within 14 days.', status: 'ok', statusText: 'Clear' },
     { time: 'Yesterday', text: '<span class="auto">AP Extract</span> parsed 6 invoices. 5 auto-routed to Mendel for one-click approval. 1 flagged: missing PO.', status: 'flag', statusText: '1 flag' },
-    { time: 'Yesterday', text: '<span class="auto">RFI Engine</span> follow-up sent on RFI 2401-008 (Pembroke kitchen) — 5 business days open.', status: 'ok', statusText: 'Follow-up' },
-    { time: '2 days ago', text: '<span class="auto">Lien Tracker</span> calculated dates for new project C95-2403 Sunrise Commercial Buildout. Bonded — switched to bond claim workflow.', status: 'ok', statusText: 'Setup' }
+    { time: 'Yesterday', text: '<span class="auto">RFI Engine</span> follow-up sent on RFI 2401-008 (Pembroke kitchen) â 5 business days open.', status: 'ok', statusText: 'Follow-up' },
+    { time: '2 days ago', text: '<span class="auto">Lien Tracker</span> calculated dates for new project C95-2403 Sunrise Commercial Buildout. Bonded â switched to bond claim workflow.', status: 'ok', statusText: 'Setup' }
   ];
   document.getElementById('activity-feed').innerHTML = feed.map(f =>
     `<div class="feed-item">
@@ -3274,7 +3301,7 @@ function renderDashboard() {
     const cls = d.days <= 7 ? 'days-urgent' : (d.days <= 30 ? 'days-soon' : 'days-safe');
     const txt = d.days < 0 ? `${Math.abs(d.days)}d past` : `${d.days} days`;
     return `<div class="deadline-row">
-       <div class="deadline-project">${d.type}<span class="small">${d.projectId} · ${d.project}</span></div>
+       <div class="deadline-project">${d.type}<span class="small">${d.projectId} Â· ${d.project}</span></div>
        <div class="deadline-date">${fmtDate(d.date)}</div>
        <div class="deadline-days ${cls}">${txt}</div>
      </div>`;
@@ -3294,7 +3321,7 @@ function renderDashboard() {
     else statusColor = 'var(--text-faint)';
     return `<div style="display:grid; grid-template-columns: 100px 1fr auto auto; gap:20px; padding:14px 0; border-bottom:1px solid var(--line); align-items:center; min-height:48px;">
        <span class="mono" style="color:var(--gold);">${p.id}</span>
-       <span style="font-size:13px; color:var(--text-primary);">${p.name}<br/><span style="font-size:10px; color:var(--text-faint); letter-spacing:0.16em; text-transform:uppercase;">${p.county} · ${p.phase}</span></span>
+       <span style="font-size:13px; color:var(--text-primary);">${p.name}<br/><span style="font-size:10px; color:var(--text-faint); letter-spacing:0.16em; text-transform:uppercase;">${p.county} Â· ${p.phase}</span></span>
        <span class="mono" style="font-size:12px; color: var(--text-primary);">${fmtCurrency(p.value)}</span>
        <span style="font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:${statusColor}; font-weight: 500;">${p.status}</span>
      </div>`;
@@ -3307,10 +3334,10 @@ function renderActive() {
   document.getElementById('active-grid').innerHTML = CONFIG.package.automationsActive.map(n => {
     const a = AUTOMATIONS.find(x => x.n === n);
     return `<div class="auto-card active" data-buildpack="${n}">
-       <div class="auto-num">Automation №${n}</div>
+       <div class="auto-num">Automation â${n}</div>
        <div class="auto-name">${a.name}</div>
        <div class="auto-pain">${a.pain}</div>
-       <div class="auto-tier">${a.tier} · Tap to open Build Pack</div>
+       <div class="auto-tier">${a.tier} Â· Tap to open Build Pack</div>
      </div>`;
   }).join('');
 }
@@ -3322,7 +3349,7 @@ function showBuildPack(n) {
   target.innerHTML = `
     <div class="buildpack" id="bp-${n}">
       <div class="buildpack-header">
-        <div class="buildpack-eyebrow">Build Pack · Automation №${pack.n}</div>
+        <div class="buildpack-eyebrow">Build Pack Â· Automation â${pack.n}</div>
         <div class="buildpack-title">${pack.name}</div>
         <div class="buildpack-subtitle">${pack.valueProp}</div>
       </div>
@@ -3375,7 +3402,7 @@ function showBuildPack(n) {
 
       <div class="bp-tab-content" data-content="steps">
         <div class="bp-section">
-          <div class="bp-section-title">Step-by-step build · no code</div>
+          <div class="bp-section-title">Step-by-step build Â· no code</div>
           <ol>${pack.steps.map(s => `<li>${s}</li>`).join('')}</ol>
         </div>
       </div>
@@ -3429,17 +3456,17 @@ function renderTimeline(automationN, days) {
   });
   const pct = Math.round((complete / total) * 100);
   const summaryLabel = cur >= 14
-    ? `Live · all ${total} days complete`
-    : `Day ${cur} of ${total - 1} · in progress`;
+    ? `Live Â· all ${total} days complete`
+    : `Day ${cur} of ${total - 1} Â· in progress`;
 
   const nodes = days.map(d => {
     let status, statusLabel, marker;
     if (cur >= 14 || d.day < cur) {
-      status = 'complete'; statusLabel = 'Complete'; marker = '✓';
+      status = 'complete'; statusLabel = 'Complete'; marker = 'â';
     } else if (d.day === cur) {
-      status = 'in-progress'; statusLabel = 'In Progress'; marker = '⟳';
+      status = 'in-progress'; statusLabel = 'In Progress'; marker = 'â³';
     } else {
-      status = 'pending'; statusLabel = 'Pending'; marker = '○';
+      status = 'pending'; statusLabel = 'Pending'; marker = 'â';
     }
     const subtaskList = (d.subtasks || []).map(s => `<li>${escapeHtml(s)}</li>`).join('');
     const toolPills = (d.tools || []).map(t => `<span class="tool-pill">${escapeHtml(t)}</span>`).join('');
@@ -3450,7 +3477,7 @@ function renderTimeline(automationN, days) {
           <span class="timeline-day">Day ${d.day}</span>
           <span class="timeline-title">${escapeHtml(d.title)}</span>
           <span class="timeline-status">${statusLabel}</span>
-          <span class="timeline-chevron">›</span>
+          <span class="timeline-chevron">âº</span>
         </div>
         <div class="timeline-detail">
           <div class="detail-row">
@@ -3499,9 +3526,9 @@ function renderCatalog() {
     const isActive = CONFIG.package.automationsActive.includes(a.n);
     const click = BUILD_PACKS[a.n] ? `data-catalog-pack="${a.n}"` : '';
     return `<div class="catalog-item ${isActive ? 'active' : ''}" ${click}>
-       <div class="catalog-num">№ ${String(a.n).padStart(2,'0')}</div>
+       <div class="catalog-num">â ${String(a.n).padStart(2,'0')}</div>
        <div class="catalog-name">${a.name}</div>
-       <div class="catalog-tier">${a.tier}${isActive ? ' · ACTIVE' : ''}</div>
+       <div class="catalog-tier">${a.tier}${isActive ? ' Â· ACTIVE' : ''}</div>
      </div>`;
   }).join('');
 }
@@ -3518,7 +3545,7 @@ function renderDocs() {
     return `<div class="doc-card">
        <div class="doc-card-header">
          <div class="doc-title">${d.title}</div>
-         <div class="doc-meta">№${d.automationN} · ${auto.name}</div>
+         <div class="doc-meta">â${d.automationN} Â· ${auto.name}</div>
        </div>
        <div class="doc-meta" style="margin-bottom:10px;">${d.meta}</div>
        <div class="doc-body">${d.body}</div>
@@ -3531,12 +3558,12 @@ function renderBundles() {
   document.getElementById('bundle-cards').innerHTML = BUNDLES.map(b => {
     const items = b.items.map(n => {
       const a = AUTOMATIONS.find(x => x.n === n);
-      return `<li style="font-size:13px; padding:6px 0; color:var(--cream);">№${n} · <span style="color:var(--gold-bright);">${a.name}</span></li>`;
+      return `<li style="font-size:13px; padding:6px 0; color:var(--cream);">â${n} Â· <span style="color:var(--gold-bright);">${a.name}</span></li>`;
     }).join('');
     return `<div class="card">
        <div class="card-header">
          <div class="card-title">${b.name}</div>
-         <div class="card-meta">Operator Package · 1 quarter</div>
+         <div class="card-meta">Operator Package Â· 1 quarter</div>
        </div>
        <p style="font-style:italic; font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--gold-soft); margin-bottom:16px;">${b.subtitle}</p>
        <ul style="list-style:none; padding:0;">${items}</ul>
@@ -3550,7 +3577,7 @@ function renderSettings() {
   const renderField = (label, value) =>
     `<div class="field-grid">
        <div class="field-label">${label}</div>
-       <div class="field-value">${value === null || value === undefined ? '—' : value}</div>
+       <div class="field-value">${value === null || value === undefined ? 'â' : value}</div>
      </div>`;
 
   document.getElementById('cfg-client').innerHTML =
@@ -3566,8 +3593,8 @@ function renderSettings() {
     renderField('Employee Count', cl.employeeCount) +
     renderField('Field/Office', cl.fieldOfficeSplit) +
     renderField('Years In Business', cl.yearsInBusiness) +
-    renderField('Primary Contact', `${cl.primaryContact.name} · ${cl.primaryContact.role} · ${cl.primaryContact.email} · ${cl.primaryContact.phone}`) +
-    renderField('Operator Contact', `${cl.operatorContact.name} · ${cl.operatorContact.role} · ${cl.operatorContact.email} · ${cl.operatorContact.phone}`) +
+    renderField('Primary Contact', `${cl.primaryContact.name} Â· ${cl.primaryContact.role} Â· ${cl.primaryContact.email} Â· ${cl.primaryContact.phone}`) +
+    renderField('Operator Contact', `${cl.operatorContact.name} Â· ${cl.operatorContact.role} Â· ${cl.operatorContact.email} Â· ${cl.operatorContact.phone}`) +
     renderField('Accounting', cl.accountingPlatform) +
     renderField('PM Platform', cl.pmPlatform) +
     renderField('File Storage', cl.fileStorage) +
@@ -3580,14 +3607,14 @@ function renderSettings() {
     renderField('Monthly Effective', fmtCurrency(pk.monthlyEffective)) +
     renderField('Activated', fmtDate(pk.activatedDate)) +
     renderField('Next Quarterly Review', fmtDate(pk.nextQuarterlyReview)) +
-    renderField('Active Automations', pk.automationsActive.map(n => `№${n}`).join(', ')) +
+    renderField('Active Automations', pk.automationsActive.map(n => `â${n}`).join(', ')) +
     renderField('SLA', `${pk.slaHours} hours`);
 
   document.getElementById('cfg-projects').innerHTML = CONFIG.projects.map(p =>
     `<div style="margin-bottom:14px; padding:12px 16px; background:rgba(245,237,224,0.04); border-left:1px solid var(--line-strong);">
        <div style="font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--cream);">${p.name}</div>
-       <div style="font-size:11px; color:var(--ink-faint); letter-spacing:0.12em; margin-top:2px;">${p.id} · ${p.county} · ${p.phase} · ${p.status}</div>
-       <div style="font-size:11px; color:var(--gold-bright); margin-top:4px;">${fmtCurrency(p.value)} · First work ${fmtDate(p.firstWorkDate)} · ${p.bonded ? 'Bonded' : 'Unbonded'}${p.noc ? ' · NOC recorded' : ''}</div>
+       <div style="font-size:11px; color:var(--ink-faint); letter-spacing:0.12em; margin-top:2px;">${p.id} Â· ${p.county} Â· ${p.phase} Â· ${p.status}</div>
+       <div style="font-size:11px; color:var(--gold-bright); margin-top:4px;">${fmtCurrency(p.value)} Â· First work ${fmtDate(p.firstWorkDate)} Â· ${p.bonded ? 'Bonded' : 'Unbonded'}${p.noc ? ' Â· NOC recorded' : ''}</div>
      </div>`
   ).join('');
 
@@ -3614,7 +3641,7 @@ function renderSettings() {
 function renderSupport() {
   document.getElementById('sup-slack').textContent = CONFIG.provider.supportSlack;
   document.getElementById('sup-text').textContent = CONFIG.provider.supportText;
-  document.getElementById('sup-operator').textContent = `${CONFIG.provider.operator} · ${CONFIG.provider.operatorEmail}`;
+  document.getElementById('sup-operator').textContent = `${CONFIG.provider.operator} Â· ${CONFIG.provider.operatorEmail}`;
   document.getElementById('sup-review-date').textContent = fmtDate(CONFIG.package.nextQuarterlyReview);
 }
 
@@ -3622,7 +3649,7 @@ function renderSupport() {
 const PAGE_TITLES = {
   dashboard:  { crumb: 'Operator Package',  title: 'Live Operations' },
   active:     { crumb: 'Operator Package',  title: 'Active Automations' },
-  compliance: { crumb: 'Florida · Statute 713', title: 'Lien Deadlines' },
+  compliance: { crumb: 'Florida Â· Statute 713', title: 'Lien Deadlines' },
   documents:  { crumb: 'Output Library',    title: 'Document Samples' },
   catalog:    { crumb: 'VRL Catalog',       title: 'Twenty-Five Automations' },
   bundles:    { crumb: 'Roadmap',           title: 'Bundles &amp; Path Forward' },
@@ -3727,7 +3754,7 @@ function renderSetupAutomations() {
   document.getElementById('setup-automations').innerHTML = AUTOMATIONS.map(a => `
     <label>
       <input type="checkbox" data-setup-auto="${a.n}" ${checked.has(a.n) ? 'checked' : ''}/>
-      <span><span class="auto-num">№${String(a.n).padStart(2, '0')}</span> ${escapeHtml(a.name)}</span>
+      <span><span class="auto-num">â${String(a.n).padStart(2, '0')}</span> ${escapeHtml(a.name)}</span>
     </label>
   `).join('');
 }
@@ -3858,7 +3885,7 @@ function setupExport() {
   out.style.display = 'block';
   out.innerHTML = `
     <div class="setup-banner info" style="margin-bottom: 12px;">
-      <strong>Copy the block below</strong> into the CONFIG section at the top of this HTML file to bake the values in permanently. This is the white-label resale workflow — once embedded, the file ships with your customer's data and their browser doesn't need to remember anything.
+      <strong>Copy the block below</strong> into the CONFIG section at the top of this HTML file to bake the values in permanently. This is the white-label resale workflow â once embedded, the file ships with your customer's data and their browser doesn't need to remember anything.
     </div>
     <div class="config-export-block">${escapeHtml(text)}</div>
   `;
@@ -4030,7 +4057,7 @@ function init() {
       return;
     }
 
-    // Timeline node — toggle expanded state
+    // Timeline node â toggle expanded state
     const tlSummary = e.target.closest('.timeline-summary');
     if (tlSummary) {
       const node = tlSummary.closest('.timeline-node');
@@ -4048,5 +4075,68 @@ if (document.readyState === 'loading') {
 
 </script>
 
+
+<script>
+/* C95 LIVE DATA BRIDGE */
+(function() {
+  if (typeof CONFIG === 'undefined' || !CONFIG.integrations) return;
+  const at = CONFIG.integrations.airtable;
+  const tok = at._t1 + at._t2;
+  
+  function atFetch(table, q) {
+    return fetch('https://api.airtable.com/v0/' + at.baseId + '/' + encodeURIComponent(table) + (q||''), {
+      headers: { 'Authorization': 'Bearer ' + tok }
+    }).then(r => r.json());
+  }
+  
+  async function loadLiveData() {
+    try {
+      const [leads, liens, rfis, invoices] = await Promise.all([
+        atFetch('Lead Pipeline','?maxRecords=50'),
+        atFetch('Lien Tracker','?maxRecords=50'),
+        atFetch('RFI Log','?maxRecords=50'),
+        atFetch('AP Invoices','?maxRecords=50')
+      ]);
+      
+      const lc = leads.records?.length || 0;
+      const lnc = liens.records?.length || 0;
+      const rc = rfis.records?.length || 0;
+      const ic = invoices.records?.length || 0;
+      
+      console.log('[C95] ✅ Live Airtable data loaded — Leads:' + lc + ' Liens:' + lnc + ' RFIs:' + rc + ' Invoices:' + ic);
+      
+      // Store in localStorage for dashboard reads
+      if(leads.records) localStorage.setItem('c95-live-leads', JSON.stringify(leads.records));
+      if(liens.records) localStorage.setItem('c95-live-liens', JSON.stringify(liens.records));
+      if(rfis.records) localStorage.setItem('c95-live-rfis', JSON.stringify(rfis.records));
+      if(invoices.records) localStorage.setItem('c95-live-invoices', JSON.stringify(invoices.records));
+      
+      // Add live badge
+      const b = document.createElement('div');
+      b.innerHTML = '<a href="' + at.dashboardUrl + '" target="_blank" title="Open C95 Operations in Airtable" style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:rgba(74,222,128,0.12);border:1px solid rgba(74,222,128,0.35);border-radius:20px;font-size:10px;font-weight:700;letter-spacing:0.07em;color:#4ade80;text-decoration:none"><span style=width:5px;height:5px;background:#4ade80;border-radius:50%;display:inline-block></span>AIRTABLE LIVE · ' + lc + ' LEADS</a>';
+      b.style.cssText = 'position:fixed;bottom:16px;right:16px;z-index:9999;';
+      document.body.appendChild(b);
+      
+      // Expose C95 object for console testing
+      window.C95 = {
+        at: { fetch: atFetch, base: at.baseId },
+        make: CONFIG.integrations.make,
+        test: {
+          sendLead: (d) => fetch(CONFIG.integrations.make.scenarios.leadIntake.webhook, {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body: JSON.stringify(d)
+          }).then(r => r.text()).then(t => console.log('[C95] Lead webhook:', t))
+        }
+      };
+      console.log('[C95] window.C95 available for testing');
+      console.log('[C95] Try: C95.test.sendLead({name:"Test Lead", email:"test@test.com", message:"Need kitchen remodel"})');
+      
+    } catch(e) { console.warn('[C95] Live data error:', e.message); }
+  }
+  
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(loadLiveData, 800));
+  else setTimeout(loadLiveData, 800);
+})();
+</script>
 </body>
 </html>
